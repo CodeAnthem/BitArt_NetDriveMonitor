@@ -10,15 +10,12 @@ namespace UI_Console
 		private static void Main(string[] args)
 		{
 			var monitor = new NTMonitor();
-			var test = monitor.NDHelper.IsDriveAlreadyMapped("C:");
-			Console.WriteLine("Hello World! " + test);
 
-			Console.WriteLine();
-			Console.WriteLine("Mapping Drive now..");
-			Console.ReadLine();
-			var drive = new NetDriveModel("H:", "dp-nas10", "home");
-			var result = monitor.NDHelper.Add(drive);
-			Console.WriteLine("Connection: " + result);
+			var drives = monitor.DataStore.Get();
+			foreach (var d in drives)
+			{
+				Console.WriteLine($"Drive: {d.Letter} {d.Server} {d.Share} - {d.VPNServer}");
+			}
 
 			Console.ReadLine();
 		}
