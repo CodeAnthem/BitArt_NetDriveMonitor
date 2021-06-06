@@ -10,12 +10,14 @@ namespace NetDriveMonitor
 	public class NTMonitor
 	{
 		public IDatastore DataStore { get; set; }
+		public WatchdogMonitor Monitor { get; set; }
 		public NetDriveHelper NDHelper { get; set; }
 
 		public NTMonitor()
 		{
 			NDHelper = new NetDriveHelper();
 			DataStore = new DataStoreDummy();
+			Monitor = new WatchdogMonitor();
 		}
 	}
 }
