@@ -1,7 +1,5 @@
 ﻿using NetDriveMonitor;
-using NetDriveMonitor.models;
 using System;
-using System.Threading;
 
 namespace UI_Console
 {

@@ -1,8 +1,5 @@
 ﻿using NetDriveMonitor.interfaces;
-using NetDriveMonitor.models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NetDriveMonitor.helpers
 {
@@ -21,11 +18,6 @@ namespace NetDriveMonitor.helpers
 				System.Diagnostics.Process.Start("net.exe", $@"use {drive.Letter}: \\{drive.Server}\{drive.Share}").WaitForExit();
 				return true;
 			}
-
-			//System.Diagnostics.Process.Start("net.exe", @"use K: \\my.server.com\Websites\Mail / user:MyDomain\admin MySuperSecretPassword").WaitForExit();
-			//Utility.NetworkDrive.MapNetworkDrive("R", @"\\unc\path");
-			//var dirs = Directory.GetDirectories("R:"); // got many nice directories...
-			//Utility.NetworkDrive.DisconnectNetworkDrive("R", true);
 		}
 
 		public bool Remove(INetDrive drive)
@@ -39,7 +31,6 @@ namespace NetDriveMonitor.helpers
 			}
 			else
 			{
-				//System.Diagnostics.Process.Start("net.exe", $"use /delete {fixedLetter}:").WaitForExit();
 				return false;
 			}
 		}

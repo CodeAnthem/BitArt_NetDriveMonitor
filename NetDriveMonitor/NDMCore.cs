@@ -1,10 +1,6 @@
-﻿using NetDriveMonitor.helpers;
+﻿using NetDriveMonitor.components;
 using NetDriveMonitor.interfaces;
-using NetDriveMonitor.components;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using NetDriveMonitor.models;
 
 namespace NetDriveMonitor
 {
