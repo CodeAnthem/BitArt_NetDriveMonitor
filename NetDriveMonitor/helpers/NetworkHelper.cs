@@ -16,16 +16,11 @@ namespace NetDriveMonitor.helpers
 			{
 				pinger = new Ping();
 
-				// Create a buffer
-				string data = "";
-				byte[] buffer = Encoding.ASCII.GetBytes(data);
-
 				PingReply reply = pinger.Send(nameOrAddress, 200);
 				pingable = reply.Status == IPStatus.Success;
 			}
-			catch (PingException)
+			catch (Exception e)
 			{
-				// Discard PingExceptions and return false;
 			}
 			finally
 			{

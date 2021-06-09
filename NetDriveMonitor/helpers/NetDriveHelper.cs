@@ -8,7 +8,7 @@ namespace NetDriveMonitor.helpers
 {
 	public class NetDriveHelper
 	{
-		public bool Add(NetDriveModel drive)
+		public bool Add(INetDrive drive)
 		{
 			drive.Letter = FixDriveLetter(drive.Letter); // make sure drive letter is only one char
 
@@ -28,11 +28,23 @@ namespace NetDriveMonitor.helpers
 			//Utility.NetworkDrive.DisconnectNetworkDrive("R", true);
 		}
 
-		public void Remove()
+		public bool Remove(INetDrive drive)
 		{
+			var fixedLetter = FixDriveLetter(drive.Letter); // make sure drive letter is only one char
+
+			if (IsDriveAlreadyMapped(drive.Letter))
+			{
+				System.Diagnostics.Process.Start("net.exe", $"use /delete {fixedLetter}:").WaitForExit();
+				return true;
+			}
+			else
+			{
+				//System.Diagnostics.Process.Start("net.exe", $"use /delete {fixedLetter}:").WaitForExit();
+				return false;
+			}
 		}
 
-		public bool IsDriveAlreadyMapped(string letter)
+		private bool IsDriveAlreadyMapped(string letter)
 		{
 			if (letter.Length > 1)
 			{

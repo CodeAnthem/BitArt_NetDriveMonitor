@@ -5,24 +5,17 @@ using System.Threading;
 
 namespace UI_Console
 {
-	internal class Program
+	internal static class Program
 	{
 		private static void Main(string[] args)
 		{
-			var monitor = new NTMonitor();
-			var drives = monitor.DataStore.Get();
+			var core = new NDMCore();
+			core.Start(); // start monitor watch dog
 
-			int amountOfDrives = monitor.Monitor.ReadDrives(drives);
-			Console.WriteLine("Drives found: " + amountOfDrives);
-
-			monitor.Monitor.CheckDrives();
-			Console.Read();
-
-			//foreach (var d in drives)
-			//{
-			//	Console.WriteLine($"Drive: {d.Letter} {d.Server} {d.Share} - {d.VPNServer}");
-			//}
-
+			Console.WriteLine("\n");
+			Console.WriteLine("-------------------------------------");
+			Console.WriteLine("done - press any key to exit");
+			Console.WriteLine("-------------------------------------");
 			Console.ReadLine();
 		}
 	}

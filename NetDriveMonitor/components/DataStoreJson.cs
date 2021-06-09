@@ -8,12 +8,12 @@ namespace NetDriveMonitor.components
 {
 	public class DataStoreJson : IDatastore
 	{
-		public List<NetDriveModel> Get()
+		public List<INetDrive> Get()
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool Save(List<NetDriveModel> drives)
+		public bool Save(List<INetDrive> netDrives)
 		{
 			throw new NotImplementedException();
 		}

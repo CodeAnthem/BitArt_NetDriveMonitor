@@ -8,20 +8,21 @@ namespace NetDriveMonitor.components
 {
 	public class DataStoreDummy : IDatastore
 	{
-		public List<NetDriveModel> Get()
+		public bool Save(List<INetDrive> netDrives)
 		{
-			var driveList = new List<NetDriveModel>();
-
-			driveList.Add(new NetDriveModel("H:", "dp-nas10", "10.8.0.1", "home"));
-			driveList.Add(new NetDriveModel("M:", "dp-nas10", "10.8.0.1", "music"));
-			driveList.Add(new NetDriveModel("V:", "dp-nas10", "10.8.0.1", "video"));
-
-			return driveList;
+			throw new NotImplementedException();
 		}
 
-		public bool Save(List<NetDriveModel> drives)
+		public List<INetDrive> Get()
 		{
-			return true;
+			var driveList = new List<INetDrive>
+			{
+				new NetDriveModel("H:", "dp-nas10", "home"),
+				new NetDriveModel("M:", "dp-nas10", "music"),
+				new NetDriveModel("V:", "dp-nas10", "video")
+			};
+
+			return driveList;
 		}
 	}
 }

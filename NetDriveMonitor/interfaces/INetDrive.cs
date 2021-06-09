@@ -8,7 +8,6 @@ namespace NetDriveMonitor.interfaces
 	{
 		public string Letter { get; set; }
 		public string Server { get; set; }
-		public string VPNServer { get; set; }
 		public string Share { get; set; }
 	}
 }

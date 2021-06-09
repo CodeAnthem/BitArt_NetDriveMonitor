@@ -7,8 +7,8 @@ namespace NetDriveMonitor.interfaces
 {
 	public interface IDatastore
 	{
-		public List<NetDriveModel> Get();
+		public List<INetDrive> Get();
 
-		public bool Save(List<NetDriveModel> drives);
+		public bool Save(List<INetDrive> netDrives);
 	}
 }
