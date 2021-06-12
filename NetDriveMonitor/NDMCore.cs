@@ -1,6 +1,7 @@
 ﻿using NetDriveMonitor.components;
 using NetDriveMonitor.interfaces;
 using System;
+using System.IO;
 
 namespace NetDriveMonitor
 {
@@ -9,23 +10,12 @@ namespace NetDriveMonitor
 		public IDatastore DataStore { get; set; }
 		public WatchdogMonitor Monitor { get; set; }
 
+		private string _saveFilePath = @$"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}\Save\drives.json";
+
 		public NDMCore()
 		{
-			DataStore = new DataStoreDummy();
+			DataStore = new DataStoreJson(_saveFilePath);
 			Monitor = new WatchdogMonitor();
-		}
-
-		public void Start()
-		{
-			// get data of datastore (json or dummy data)
-			var drives = DataStore.Get();
-			Console.WriteLine("Drives found: " + drives.Count);
-
-			Monitor.StartMonitoring(drives);
-		}
-
-		public void Stop()
-		{
 		}
 	}
 }

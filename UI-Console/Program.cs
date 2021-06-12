@@ -8,7 +8,20 @@ namespace UI_Console
 		private static void Main(string[] args)
 		{
 			var core = new NDMCore();
-			core.Start(); // start monitor watch dog
+
+			// get drives
+			var drives = core.DataStore.Get();
+			if (drives?.Count > 0)
+			{
+				Console.WriteLine("Drives found: " + drives?.Count);
+			}
+			else
+			{
+				Console.WriteLine("Drives found: none");
+			}
+
+			//core.DataStore.Save(drives); // save test
+			//Monitor.StartMonitoring(drives);
 
 			Console.WriteLine("\n");
 			Console.WriteLine("-------------------------------------");
