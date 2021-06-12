@@ -15,7 +15,7 @@ namespace NetDriveMonitor.helpers
 			}
 			else
 			{
-				System.Diagnostics.Process.Start("net.exe", $@"use {drive.Letter}: \\{drive.Server}\{drive.Share}").WaitForExit();
+				System.Diagnostics.Process.Start("net.exe", $@"use {drive.Letter}: \\{drive.HostName}\{drive.Share}").WaitForExit();
 				return true;
 			}
 		}
@@ -35,7 +35,12 @@ namespace NetDriveMonitor.helpers
 			}
 		}
 
-		private bool IsDriveAlreadyMapped(string letter)
+		public void RemoveAll()
+		{
+			System.Diagnostics.Process.Start("net.exe", "use /delete *").WaitForExit();
+		}
+
+		public bool IsDriveAlreadyMapped(string letter)
 		{
 			if (letter.Length > 1)
 			{

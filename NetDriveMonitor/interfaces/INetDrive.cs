@@ -1,9 +1,8 @@
 ﻿namespace NetDriveMonitor.interfaces
 {
-	public interface INetDrive
+	public interface INetDrive : IHost
 	{
 		public string Letter { get; set; }
-		public string Server { get; set; }
 		public string Share { get; set; }
 	}
 }

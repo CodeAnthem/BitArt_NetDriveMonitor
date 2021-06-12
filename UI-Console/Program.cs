@@ -1,5 +1,7 @@
 ﻿using NetDriveMonitor;
+using NetDriveMonitor.interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace UI_Console
 {
@@ -8,26 +10,14 @@ namespace UI_Console
 		private static void Main(string[] args)
 		{
 			var core = new NDMCore();
+			var cmd = new ConsoleCmds(core);
 
-			// get drives
-			var drives = core.DataStore.Get();
-			if (drives?.Count > 0)
-			{
-				Console.WriteLine("Drives found: " + drives?.Count);
-			}
-			else
-			{
-				Console.WriteLine("Drives found: none");
-			}
+			var netDrives = cmd.GetData();
+			//cmd.SaveData(netDrives);
+			cmd.ReadDrives(netDrives);
+			cmd.Start();
 
-			//core.DataStore.Save(drives); // save test
-			//Monitor.StartMonitoring(drives);
-
-			Console.WriteLine("\n");
-			Console.WriteLine("-------------------------------------");
-			Console.WriteLine("done - press any key to exit");
-			Console.WriteLine("-------------------------------------");
-			Console.ReadLine();
+			cmd.Quit();
 		}
 	}
 }

@@ -14,13 +14,16 @@ namespace NetDriveMonitor.components
 
 		public FileInfo _saveFile;
 
+		private bool _useDummyIfEmpty;
+
 		#endregion Public Fields
 
 		#region Public Constructors
 
-		public DataStoreJson(string saveFilePath)
+		public DataStoreJson(string saveFilePath, bool useDummyIfEmpty = false)
 		{
 			_saveFile = new FileInfo(saveFilePath);
+			_useDummyIfEmpty = useDummyIfEmpty;
 		}
 
 		#endregion Public Constructors
@@ -29,8 +32,6 @@ namespace NetDriveMonitor.components
 
 		public List<INetDrive> Get()
 		{
-			//return GetDummyDrives(); // testing stuff
-
 			if (_saveFile.Exists && _saveFile.Length > 0)
 			{
 				// json import
@@ -43,6 +44,10 @@ namespace NetDriveMonitor.components
 			}
 			else
 			{
+				if (_useDummyIfEmpty)
+				{
+					return GetDummyDrives(); // testing stuff
+				}
 				return null;
 			}
 		}
@@ -74,10 +79,8 @@ namespace NetDriveMonitor.components
 		{
 			return new List<INetDrive>
 			{
-				new NetDriveModel("H:", "dp-nas10", "home"),
-				new NetDriveModel("M:", "dp-nas10", "music"),
-				new NetDriveModel("V:", "dp-nas10", "video"),
-				new NetDriveModel("Q:", "dp-gamlap", "_share")
+				new NetDriveModel("H:", "home", "dp-nas10"),
+				new NetDriveModel("V:", "video", "dp-nas10")
 			};
 		}
 

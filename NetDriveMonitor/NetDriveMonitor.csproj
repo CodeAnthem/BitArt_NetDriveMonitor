@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="components\WatchdogMonitor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="components\WatchdogMonitor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 

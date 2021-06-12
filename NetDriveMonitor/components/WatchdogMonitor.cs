@@ -3,7 +3,6 @@ using NetDriveMonitor.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Timer = System.Timers.Timer;
 
 namespace NetDriveMonitor.components
 {
@@ -11,8 +10,6 @@ namespace NetDriveMonitor.components
 	{
 		#region Private Fields
 
-		private readonly Timer _timer;
-		private readonly bool _isRunning;
 		private readonly List<INetDrive> _netDrivesList;
 		private readonly Dictionary<string, bool> _serverList;
 		private NetDriveHelper _ndHelper;
@@ -23,12 +20,6 @@ namespace NetDriveMonitor.components
 
 		public WatchdogMonitor()
 		{
-			_timer = new Timer();
-			_timer.Interval = 1000;
-			_timer.Elapsed += OnTimerElapsed;
-			_timer.AutoReset = true;
-			_timer.Enabled = false;
-
 			_netDrivesList = new List<INetDrive>();
 			_serverList = new Dictionary<string, bool>();
 
@@ -41,23 +32,10 @@ namespace NetDriveMonitor.components
 
 		public void StartMonitoring(List<INetDrive> netDrives)
 		{
-			if (!_isRunning)
-			{
-				// read drives
-				int amountOfRequiredServers = ReadDrives(netDrives);
-				Console.WriteLine("Server found: " + amountOfRequiredServers);
-
-				// start timer
-				_timer.Enabled = true;
-			}
 		}
 
 		public void Stop()
 		{
-			if (_isRunning)
-			{
-				_timer.Enabled = false;
-			}
 		}
 
 		#endregion Public Methods

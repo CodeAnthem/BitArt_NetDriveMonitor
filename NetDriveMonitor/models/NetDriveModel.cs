@@ -4,25 +4,19 @@ namespace NetDriveMonitor.models
 {
 	public class NetDriveModel : INetDrive
 	{
+		public NetDriveModel(string letter, string share, string hostName)
+		{
+			Letter = letter;
+			Share = share;
+			HostName = hostName;
+		}
+
 		#region Public Properties
 
 		public string Letter { get; set; }
-
-		public string Server { get; set; }
-
 		public string Share { get; set; }
+		public string HostName { get; set; }
 
 		#endregion Public Properties
-
-		#region Public Constructors
-
-		public NetDriveModel(string letter, string server, string share)
-		{
-			Letter = letter;
-			Server = server;
-			Share = share;
-		}
-
-		#endregion Public Constructors
 	}
 }
