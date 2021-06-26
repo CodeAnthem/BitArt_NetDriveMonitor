@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BitArt_Helpers\BitArt_Network_Helpers\BitArt_Network_Helpers.csproj" />
     <ProjectReference Include="..\NetDriveMonitor\NetDriveMonitor.csproj" />
   </ItemGroup>
 

@@ -43,33 +43,33 @@ namespace UI_Console
 			}
 		}
 
-		public void ReadDrives(List<INetDrive> netDrives)
+		public void Start()
 		{
-			if (netDrives?.Count > 0)
+			bool state = _core.Start();
+			if (state)
 			{
-				//TODO: for each
-				_core.ReadDrives(netDrives);
-				Console.WriteLine("Read {0} drives", netDrives.Count);
+				Console.WriteLine("Started");
 			}
 			else
 			{
-				Console.WriteLine("Read 0 drives, driveList was empty");
+				Console.WriteLine("Already running");
 			}
 		}
 
-		public void Start()
+		public void Stop()
 		{
-			_core.HostWatcher.Start();
-			Console.WriteLine("Started");
+			bool state = _core.Stop();
+			if (state)
+			{
+				Console.WriteLine("Stopped");
+			}
+			else
+			{
+				Console.WriteLine("Already stopped");
+			}
 		}
 
-		public void Stoped()
-		{
-			_core.HostWatcher.Stop();
-			Console.WriteLine("Stoped");
-		}
-
-		public void Quit()
+		public void HoldAndQuit()
 		{
 			Console.WriteLine("\n");
 			Console.WriteLine("-------------------------------------");

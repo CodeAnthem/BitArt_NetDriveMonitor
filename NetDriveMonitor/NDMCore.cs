@@ -16,6 +16,8 @@ namespace NetDriveMonitor
 		private readonly string _saveFilePath = $"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}" +
 												@"\Save\drives.json";
 
+		public bool IsRunning { get; set; } // global app state
+
 		public NDMCore()
 		{
 			DataStore = new DataStoreJson(_saveFilePath, true);
@@ -25,17 +27,48 @@ namespace NetDriveMonitor
 			HostWatcher.OnHostChanged += Mapper.CheckDrive;
 		}
 
-		public void ReadDrives(List<INetDrive> driveList)
+		public bool Start()
 		{
-			if (driveList?.Count > 0)
+			if (!IsRunning)
 			{
-				foreach (var drive in driveList)
+				// start app
+				var netDrives = DataStore.Get(); // get data
+
+				HostWatcher.Clear(); // clear host watcher
+				Mapper.Clear(); // clear mapper drives
+
+				// if drive list not empty
+				if (netDrives?.Count > 0)
 				{
-					HostWatcher.Clear();
-					HostWatcher.AddHost(drive); // add hosts to host watcher
-					Mapper.Clear();
-					Mapper.AddDrive(drive); // add drives to mapper
+					foreach (var drive in netDrives)
+					{
+						HostWatcher.AddHost(drive); // add hosts to host watcher
+						Mapper.AddDrive(drive); // add drives to mapper
+					}
 				}
+
+				HostWatcher.Start();
+
+				return true;
+			}
+			else
+			{
+				HostWatcher.Stop();
+				// app already running
+				//DataStore.Save();
+				return false;
+			}
+		}
+
+		public bool Stop()
+		{
+			if (IsRunning)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
 			}
 		}
 	}

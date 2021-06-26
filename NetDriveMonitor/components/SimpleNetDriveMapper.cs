@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using NetDriveMonitor.helpers;
 using NetDriveMonitor.interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,45 @@ namespace NetDriveMonitor.components
 	public class SimpleNetDriveMapper
 	{
 		private Dictionary<string, List<INetDrive>> _driveDict;
+		private NetDriveHelper _ndHelper;
 
 		public SimpleNetDriveMapper()
 		{
 			_driveDict = new Dictionary<string, List<INetDrive>>();
+			_ndHelper = new NetDriveHelper();
 		}
 
 		public void CheckDrive(string hostName, bool state)
 		{
+			// get list of affected drives
+			var changedDrivesList = _driveDict[hostName].ToList();
+
+			if (changedDrivesList?.Count > 0)
+			{
+				foreach (var drive in changedDrivesList)
+				{
+					if (state)
+					{
+						// connect drive
+						bool wasSuccess = _ndHelper.Add(drive);
+						if (wasSuccess)
+						{
+							Console.WriteLine(@$"Drive connected: {drive.Letter} \\{drive.HostName}\{drive.Share}");
+						}
+					}
+					else
+					{
+						// disconnect drive
+						bool wasSuccess = _ndHelper.Remove(drive);
+						if (wasSuccess)
+						{
+							Console.WriteLine(@$"Drive disconnected: {drive.Letter} \\{drive.HostName}\{drive.Share}");
+						}
+					}
+				}
+			}
+
+			Console.WriteLine("Checking {0} drives", changedDrivesList.Count);
 		}
 
 		internal bool AddDrive(INetDrive drive)
@@ -43,8 +75,6 @@ namespace NetDriveMonitor.components
 								$" - Share: '{drive.Share}'";
 
 				throw new NullReferenceException(error, e);
-				Debug.WriteLine(error);
-				return false;
 			}
 		}
 

@@ -69,8 +69,6 @@ namespace NetDriveMonitor.components
 
 		private void OnTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
 		{
-			Debug.WriteLine("Pinging {0} hosts", _hostsList.Count);
-
 			foreach (var host in _hostsList)
 			{
 				NetworkHelper.PingHostAsync(host.Key, (bool state) =>
