@@ -20,9 +20,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI-Console", "UI-Console\UI
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "helpers", "helpers", "{623EEF13-C36D-4083-9BBB-02374F89D428}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitArt_Network_Helpers", "..\BitArt_Helpers\BitArt_Network_Helpers\BitArt_Network_Helpers.csproj", "{E51B7F69-7969-44BD-AF7B-A36425D99F32}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BitArt_Network_Helpers", "..\BitArt_MyHelpers_Shared\BitArt_Network_Helpers\BitArt_Network_Helpers.shproj", "{5E4C1237-2A21-4289-A37D-3FBD22308A21}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BitArt_Netdrive_Helpers", "..\BitArt_MyHelpers_Shared\BitArt_Netdrive_Helpers\BitArt_Netdrive_Helpers.shproj", "{2AF484CD-0F11-47FD-8265-BD04D8A004E2}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\BitArt_MyHelpers_Shared\BitArt_Netdrive_Helpers\BitArt_Netdrive_Helpers.projitems*{0b067e9a-e283-470d-8659-c630cf4cbbf4}*SharedItemsImports = 5
+		..\BitArt_MyHelpers_Shared\BitArt_Network_Helpers\BitArt_Network_Helpers.projitems*{0b067e9a-e283-470d-8659-c630cf4cbbf4}*SharedItemsImports = 5
+		..\BitArt_MyHelpers_Shared\BitArt_Netdrive_Helpers\BitArt_Netdrive_Helpers.projitems*{2af484cd-0f11-47fd-8265-bd04d8a004e2}*SharedItemsImports = 13
+		..\BitArt_MyHelpers_Shared\BitArt_Network_Helpers\BitArt_Network_Helpers.projitems*{5e4c1237-2a21-4289-a37d-3fbd22308a21}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -40,10 +48,6 @@ Global
 		{0B067E9A-E283-470D-8659-C630CF4CBBF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B067E9A-E283-470D-8659-C630CF4CBBF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B067E9A-E283-470D-8659-C630CF4CBBF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E51B7F69-7969-44BD-AF7B-A36425D99F32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E51B7F69-7969-44BD-AF7B-A36425D99F32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E51B7F69-7969-44BD-AF7B-A36425D99F32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E51B7F69-7969-44BD-AF7B-A36425D99F32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,7 +59,8 @@ Global
 		{FAD78AAD-CE9A-4EAB-BFC7-166516CBB817} = {E0605F78-F3CD-4FEE-A50D-BA3074D5989D}
 		{0B067E9A-E283-470D-8659-C630CF4CBBF4} = {E0605F78-F3CD-4FEE-A50D-BA3074D5989D}
 		{623EEF13-C36D-4083-9BBB-02374F89D428} = {5E3D6BA0-CD93-4541-B51E-30DB73AB6C24}
-		{E51B7F69-7969-44BD-AF7B-A36425D99F32} = {623EEF13-C36D-4083-9BBB-02374F89D428}
+		{5E4C1237-2A21-4289-A37D-3FBD22308A21} = {623EEF13-C36D-4083-9BBB-02374F89D428}
+		{2AF484CD-0F11-47FD-8265-BD04D8A004E2} = {623EEF13-C36D-4083-9BBB-02374F89D428}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8971A2B6-0669-4408-9271-392B1F23495E}
