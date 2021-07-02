@@ -1,7 +1,6 @@
 ﻿using NetDriveMonitor.interfaces;
 using NetDriveMonitor.models;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

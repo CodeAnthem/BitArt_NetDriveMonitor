@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="_old\**" />
+    <EmbeddedResource Remove="_old\**" />
+    <None Remove="_old\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="components\WatchdogMonitor.cs" />
   </ItemGroup>
 

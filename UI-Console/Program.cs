@@ -1,10 +1,6 @@
-﻿using BitArt_Netdrive_Helpers.tests;
-using BitArt_Network_Helpers;
-using NetDriveMonitor;
-using NetDriveMonitor.interfaces;
+﻿using BitArt_Netdrive_Helpers;
+using BitArt_Netdrive_Helpers.tests;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace UI_Console
 {
@@ -13,14 +9,24 @@ namespace UI_Console
 		private static void Main(string[] args)
 		{
 			// ------------------------------------
-			Console.WriteLine("Tests: Started.\n");
-			// ------------------------------------
-
 			//var core = new NDMCore();
 			//var cmd = new ConsoleCmds(core);
 
 			//cmd.Start(); // start the tool
 			//cmd.HoldAndQuit(); // hold screen
+			// ------------------------------------
+
+			// ------------------------------------
+			Console.WriteLine("Tests: Started.\n");
+			//// ------------------------------------
+
+			//foreach (var drive in listdrives)
+			//{
+			//	Test(drive);
+			//}
+			//var drives = NetdriveGenerator.GetDummyData();
+
+			// ------------------------------------
 
 			// ------------------------------------
 			// Testing Net drive mapper
@@ -43,17 +49,23 @@ namespace UI_Console
 			// ------------------------------------
 			var drives = NetdriveGenerator.GetDummyData();
 			var test = new NetdriveMapperTest(drives);
-			test.AddDrives();
-			test.RemoveDrives();
-			test.AddDrives();
-			test.RemoveAll();
-			// ------------------------------------
+			//test.AddDrives();
+			test.GetAllNetworkDrives();
+			//test.RemoveDrives();
+			//test.AddDrives();
+			//test.RemoveAll();
+			//// ------------------------------------
 
-			// ------------------------------------
+			//// ------------------------------------
 			Console.WriteLine("Tests: Completed.");
-			Console.WriteLine("\nPress any key to continue!\n");
+			Console.WriteLine("\nPress any key to exit!\n");
 			Console.ReadLine();
 			// ------------------------------------
+		}
+
+		private static void Test(INetdriveDummy netdrive)
+		{
+			Console.WriteLine(netdrive.ToString());
 		}
 
 		private static void HostUpdated(string hostName, bool state)
