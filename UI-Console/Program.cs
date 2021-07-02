@@ -50,7 +50,8 @@ namespace UI_Console
 			var drives = NetdriveGenerator.GetDummyData();
 			var test = new NetdriveMapperTest(drives);
 			//test.AddDrives();
-			test.GetAllNetworkDrives();
+			//[Benchmark]
+			test.GetAllNetworkDrivesViaNetCMD_Test();
 			//test.RemoveDrives();
 			//test.AddDrives();
 			//test.RemoveAll();
@@ -59,7 +60,7 @@ namespace UI_Console
 			//// ------------------------------------
 			Console.WriteLine("Tests: Completed.");
 			Console.WriteLine("\nPress any key to exit!\n");
-			Console.ReadLine();
+			Console.ReadKey();
 			// ------------------------------------
 		}
 
