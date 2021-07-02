@@ -16,16 +16,9 @@ namespace UI_Console
 			//cmd.HoldAndQuit(); // hold screen
 			// ------------------------------------
 
+			// DEBUG
 			// ------------------------------------
 			Console.WriteLine("Tests: Started.\n");
-			//// ------------------------------------
-
-			//foreach (var drive in listdrives)
-			//{
-			//	Test(drive);
-			//}
-			//var drives = NetdriveGenerator.GetDummyData();
-
 			// ------------------------------------
 
 			// ------------------------------------
@@ -49,24 +42,22 @@ namespace UI_Console
 			// ------------------------------------
 			var drives = NetdriveGenerator.GetDummyData();
 			var test = new NetdriveMapperTest(drives);
+
 			//test.AddDrives();
+
 			//[Benchmark]
 			test.GetAllNetworkDrivesViaNetCMD_Test();
+
 			//test.RemoveDrives();
 			//test.AddDrives();
 			//test.RemoveAll();
-			//// ------------------------------------
+			// ------------------------------------
 
-			//// ------------------------------------
+			// ------------------------------------
 			Console.WriteLine("Tests: Completed.");
 			Console.WriteLine("\nPress any key to exit!\n");
 			Console.ReadKey();
 			// ------------------------------------
-		}
-
-		private static void Test(INetdriveDummy netdrive)
-		{
-			Console.WriteLine(netdrive.ToString());
 		}
 
 		private static void HostUpdated(string hostName, bool state)
