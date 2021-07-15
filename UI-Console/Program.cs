@@ -45,7 +45,6 @@ namespace UI_Console
 
 			//test.AddDrives();
 
-			//[Benchmark]
 			test.GetAllNetworkDrivesViaNetCMD_Test();
 
 			//test.RemoveDrives();
