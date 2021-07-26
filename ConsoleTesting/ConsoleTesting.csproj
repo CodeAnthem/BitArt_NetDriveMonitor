@@ -3,7 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>UI_Console</RootNamespace>
   </PropertyGroup>
+
+  <Import Project="..\..\averon420\BitArt_MyHelpers_Shared\BitArt_Netdrive_Helpers\BitArt_Netdrive_Helpers.projitems" Label="Shared" />
 
 </Project>
