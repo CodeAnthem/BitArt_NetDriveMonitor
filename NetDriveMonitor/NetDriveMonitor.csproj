@@ -22,4 +22,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
+  <Import Project="..\..\averon420\BitArt_MyHelpers_Shared\BitArt_Netdrive_Helpers\BitArt_Netdrive_Helpers.projitems" Label="Shared" />
+
+  <Import Project="..\..\averon420\BitArt_MyHelpers_Shared\BitArt_Network_Helpers\BitArt_Network_Helpers.projitems" Label="Shared" />
+
 </Project>

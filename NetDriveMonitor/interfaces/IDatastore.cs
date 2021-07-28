@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using NetDriveMonitor.models;
+using System.Collections.Generic;
 
 namespace NetDriveMonitor.interfaces
 {
 	public interface IDatastore
 	{
-		public List<INetDrive> Get();
+		public List<NetDriveMonitorModel> Get();
 
-		public bool Save(List<INetDrive> netDrives);
+		public bool Save(List<NetDriveMonitorModel> netDrives);
 	}
 }

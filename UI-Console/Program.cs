@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetDriveMonitor;
+using System;
 
 namespace UI_Console
 {
@@ -6,7 +7,13 @@ namespace UI_Console
 	{
 		private static void Main(string[] args)
 		{
-			Console.WriteLine("Hello World!");
+			Console.WriteLine("Monitor Test");
+
+			var ndm = new NDMCore();
+			ndm.Start();
+
+			Console.WriteLine("Monitor Test Done");
+			Console.ReadKey();
 		}
 	}
 }

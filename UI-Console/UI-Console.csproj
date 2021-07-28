@@ -6,4 +6,8 @@
     <RootNamespace>UI_Console</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NetDriveMonitor\NetDriveMonitor.csproj" />
+  </ItemGroup>
+
 </Project>

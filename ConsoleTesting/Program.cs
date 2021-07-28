@@ -12,7 +12,7 @@ namespace ConsoleTesting
 			// ------------------------------------
 			var ndb = new NetdriveBuddyTest();
 			ndb.NetdriveList = NetdriveGenerator.GetDummyData().ToList();
-			ndb.SkipReadKey = true;
+			ndb.SkipReadKey = false;
 			ndb.GetAllTest();
 			ndb.RemoveAllTest();
 			ndb.AddTest();

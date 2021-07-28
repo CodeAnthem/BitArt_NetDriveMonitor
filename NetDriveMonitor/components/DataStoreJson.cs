@@ -29,29 +29,24 @@ namespace NetDriveMonitor.components
 
 		#region Public Methods
 
-		public List<INetDrive> Get()
+		public List<NetDriveMonitorModel> Get()
 		{
 			if (_saveFile.Exists && _saveFile.Length > 0)
 			{
 				// json import
 				string jsonString = File.ReadAllText(_saveFile.FullName);
-
-				List<NetDriveModel> netDriveModels;
-				netDriveModels = JsonConvert.DeserializeObject<List<NetDriveModel>>(jsonString);
-
-				return netDriveModels.ToList<INetDrive>();
+				var netDriveModels = JsonConvert.DeserializeObject<List<NetDriveMonitorModel>>(jsonString);
+				return netDriveModels.ToList<NetDriveMonitorModel>();
 			}
-			else
+
+			if (_useDummyIfEmpty)
 			{
-				if (_useDummyIfEmpty)
-				{
-					return GetDummyDrives(); // testing stuff
-				}
-				return null;
+				return GetDummyDrives(); // testing stuff
 			}
+			return null;
 		}
 
-		public bool Save(List<INetDrive> netDrives)
+		public bool Save(List<NetDriveMonitorModel> netDrives)
 		{
 			if (netDrives?.Count > 0)
 			{
@@ -74,12 +69,12 @@ namespace NetDriveMonitor.components
 
 		#region Private Methods
 
-		private List<INetDrive> GetDummyDrives()
+		private List<NetDriveMonitorModel> GetDummyDrives()
 		{
-			return new List<INetDrive>
+			return new List<NetDriveMonitorModel>
 			{
-				new NetDriveModel("H:", "home", "dp-nas10"),
-				new NetDriveModel("V:", "video", "dp-nas10")
+				new NetDriveMonitorModel("H:", "dp-nas10", "home", true),
+				new NetDriveMonitorModel("V:", "dp-nas10", "video")
 			};
 		}
 

@@ -24,14 +24,16 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BitArt_Network_Helpers", ".
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2BB5ED0D-C5AC-4FA0-A2CE-D1065AF964D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTesting", "ConsoleTesting\ConsoleTesting.csproj", "{872B8FEB-74B6-483E-BD43-75630AE1D25D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTesting", "ConsoleTesting\ConsoleTesting.csproj", "{872B8FEB-74B6-483E-BD43-75630AE1D25D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI-Console", "UI-Console\UI-Console.csproj", "{05E6444A-A532-454E-AF18-ED786BFC0792}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI-Console", "UI-Console\UI-Console.csproj", "{05E6444A-A532-454E-AF18-ED786BFC0792}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\averon420\BitArt_MyHelpers_Shared\BitArt_Netdrive_Helpers\BitArt_Netdrive_Helpers.projitems*{2af484cd-0f11-47fd-8265-bd04d8a004e2}*SharedItemsImports = 13
 		..\averon420\BitArt_MyHelpers_Shared\BitArt_Network_Helpers\BitArt_Network_Helpers.projitems*{5e4c1237-2a21-4289-a37d-3fbd22308a21}*SharedItemsImports = 13
+		..\averon420\BitArt_MyHelpers_Shared\BitArt_Netdrive_Helpers\BitArt_Netdrive_Helpers.projitems*{7add3241-2d92-4508-bc8b-6bd714316b2b}*SharedItemsImports = 5
+		..\averon420\BitArt_MyHelpers_Shared\BitArt_Network_Helpers\BitArt_Network_Helpers.projitems*{7add3241-2d92-4508-bc8b-6bd714316b2b}*SharedItemsImports = 5
 		..\averon420\BitArt_MyHelpers_Shared\BitArt_Netdrive_Helpers\BitArt_Netdrive_Helpers.projitems*{872b8feb-74b6-483e-bd43-75630ae1d25d}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
