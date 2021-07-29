@@ -1,5 +1,6 @@
 ﻿using BitArt_Netdrive_Helpers;
 using BitArt_Netdrive_Helpers.interfaces;
+using BitArt_Netdrive_Helpers.models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,7 @@ namespace ConsoleTesting
 {
 	public class NetdriveBuddyTest : TestBase
 	{
-		public List<INetdrive> NetdriveList { get; set; } = new List<INetdrive>();
+		public List<NetDriveBuddyModel> NetdriveList { get; set; } = new List<NetDriveBuddyModel>();
 		private static readonly NetdriveBuddy _ndBuddy = new NetdriveBuddy();
 
 		public void AddTest()

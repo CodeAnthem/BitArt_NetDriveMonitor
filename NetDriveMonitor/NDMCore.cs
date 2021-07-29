@@ -1,6 +1,7 @@
 ﻿using BitArt_Netdrive_Helpers;
 using BitArt_Netdrive_Helpers.enums;
 using BitArt_Netdrive_Helpers.interfaces;
+using BitArt_Netdrive_Helpers.models;
 using BitArt_Network_Helpers;
 using NetDriveMonitor.components;
 using NetDriveMonitor.interfaces;
@@ -65,7 +66,7 @@ namespace NetDriveMonitor
 					HostMonitor.AddHost(drive.HostName);
 				}
 			}
-			Debug.WriteLine($"[Net Drive Monitor] Registred {HostMonitor.HostCount} registred drives on host monitor");
+			Debug.WriteLine($"[Net Drive Monitor] Registered {HostMonitor.HostCount} drives on host monitor");
 		}
 
 		private void RemoveUnavailibleDrives()
@@ -87,17 +88,16 @@ namespace NetDriveMonitor
 					}
 				}
 			}
-			Debug.WriteLine($"[Net Drive Monitor] Removed {removedDrivesCounter} unavailible drives");
+			Debug.WriteLine($"[Net Drive Monitor] Removed {removedDrivesCounter} unavailable drives");
 		}
 
 		private NetdriveStatus GetStatus(NetDriveMonitorModel drive)
 		{
 			var currentDrives = NDBuddy.GetAll();
-			var foundDrive = currentDrives.FirstOrDefault(d => d.Letter == drive.Letter && d.HostName == drive.HostName && d.Share == drive.Share);
+			//var foundDrive = currentDrives.FirstOrDefault(d => d.Letter == drive.Letter && d.HostName == drive.HostName && d.Share == drive.Share);
+			var foundDrive = currentDrives.FirstOrDefault(d => d == drive); //	adjusted operators on model
 			drive.Status = foundDrive == null ? NetdriveStatus.NotFound : foundDrive.Status;
 			return drive.Status;
-			//return (foundDrive?.Status) ?? NetdriveStatus.Unknown;
-			//return foundDrive == null ? NetdriveStatus.Unknown : foundDrive.Status;
 		}
 
 		public bool Stop()

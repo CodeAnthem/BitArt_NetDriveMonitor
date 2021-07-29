@@ -1,14 +1,11 @@
-﻿using BitArt_Netdrive_Helpers.interfaces;
-using BitArt_Netdrive_Helpers.models;
-using System;
+﻿using BitArt_Netdrive_Helpers.models;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ConsoleTesting
 {
-	public class NetdriveGenerator
+	public static class NetdriveGenerator
 	{
-		public static IEnumerable<INetdrive> GetDummyData()
+		public static IEnumerable<NetDriveBuddyModel> GetDummyData()
 		{
 			return new List<NetDriveBuddyModel>
 			{
