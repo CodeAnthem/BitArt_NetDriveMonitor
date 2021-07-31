@@ -16,20 +16,48 @@ namespace NetDriveMonitor
 {
 	public class NDMCore : NDMBase
 	{
+		#region Public Properties
+
 		public bool IsRunning { get; set; } // global app state
-		public IDatastore DataStore { get; set; }
+		public DataAccess DA { get; }
 		public HostMonitor HostMonitor { get; set; } = new HostMonitor();
 		public NetdriveBuddy NDBuddy { get; set; } = new NetdriveBuddy();
+		private readonly string _applicationPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+		private readonly string _JsonConfigFileForDrives = @"\Save\drives.json";
+
+		#endregion Public Properties
+
+		#region Private Fields
 
 		private readonly string _saveFilePath = $"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}" +
-												@"\Save\drives.json";
+													@"\Save\drives.json";
+
+		#endregion Private Fields
+
+		#region Public Constructors
+
+		public NDMCore()
+		{
+			var dataAccessJson = new DataAccessJson(_applicationPath + _JsonConfigFileForDrives);
+			DA = new DataAccess(dataAccessJson, true);
+
+			HostMonitor.NotifyOnChangesOnly = false;
+			HostMonitor.NotifyOnFirstPing = true;
+			HostMonitor.OnHostChanged += CheckDrivesOfHost;
+		}
+
+		#endregion Public Constructors
+
+		#region Public Methods
 
 		public bool Start()
 		{
 			if (!IsRunning)
 			{
 				// start app
-				GetData();
+				ClearCache();
+				LoadDrivesFromConfig();
+
 				RemoveUnavailibleDrives();
 				RegisterDrives();
 
@@ -46,18 +74,30 @@ namespace NetDriveMonitor
 			}
 		}
 
-		private void GetData()
+		private void LoadDrivesFromConfig()
 		{
-			ConfiguredDriveList.Clear();
-			ConfiguredDriveList = DataStore.Get();
+			ConfiguredDriveList = DA.GetDrives().ToList();
 			Debug.WriteLine($"[Net Drive Monitor] Loaded {ConfiguredDriveList.Count} configured drives");
 		}
 
+		public bool Stop()
+		{
+			if (IsRunning)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		#endregion Public Methods
+
+		#region Private Methods
+
 		private void RegisterDrives()
 		{
-			HostMonitor.Clear(); // clear HostMonitor cache
-			RegistredDriveDict.Clear();
-
 			foreach (var drive in ConfiguredDriveList)
 			{
 				if (drive.AutoReconnect)
@@ -67,6 +107,14 @@ namespace NetDriveMonitor
 				}
 			}
 			Debug.WriteLine($"[Net Drive Monitor] Registered {HostMonitor.HostCount} drives on host monitor");
+		}
+
+		private void ClearCache()
+		{
+			HostMonitor.Clear(); // clear HostMonitor cache
+			RegistredDriveDict.Clear();
+			ConfiguredDriveList.Clear();
+			Debug.WriteLine($"[Net Drive Monitor] Cleared Cache");
 		}
 
 		private void RemoveUnavailibleDrives()
@@ -100,26 +148,6 @@ namespace NetDriveMonitor
 			return drive.Status;
 		}
 
-		public bool Stop()
-		{
-			if (IsRunning)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		public NDMCore()
-		{
-			DataStore = new DataStoreJson(_saveFilePath, true);
-			HostMonitor.NotifyOnChangesOnly = false;
-			HostMonitor.NotifyOnFirstPing = true;
-			HostMonitor.OnHostChanged += CheckDrivesOfHost;
-		}
-
 		private void CheckDrivesOfHost(string hostName, bool state)
 		{
 			Debug.WriteLine($"[Net Drive Monitor] Host Update: (host: {hostName} - isOnline: {state}");
@@ -143,5 +171,7 @@ namespace NetDriveMonitor
 				}
 			}
 		}
+
+		#endregion Private Methods
 	}
 }
