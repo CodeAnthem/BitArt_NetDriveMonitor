@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using System.Windows;
+using UI_WPF.controls;
 using UI_WPF.viewmodels;
 using UI_WPF.views;
 
@@ -10,7 +11,7 @@ namespace UI_WPF
 	/// </summary>
 	public partial class App : Application
 	{
-		private readonly IContainer _container;
+		private readonly IContainer _container = ContainerConfig.Configure();
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
@@ -22,11 +23,6 @@ namespace UI_WPF
 				view.Show();
 				base.OnStartup(e);
 			}
-		}
-
-		public App()
-		{
-			_container = ContainerConfig.Configure();
 		}
 	}
 }

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace UI_WPF.viewmodels
 {
-	public class ViewModelBase
+	public class ViewModelBase : ObservableObject
 	{
 		//TODO: add inpc
 	}

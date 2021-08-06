@@ -6,10 +6,19 @@
     <RootNamespace>UI_WPF</RootNamespace>
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
+    <ApplicationIcon>assets\icons\icons8-laufwerk-c-48.ico</ApplicationIcon>
+    <AssemblyName>Net Drive Monitor</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.2.0" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.7" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="4.8.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.1.0" />
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Resource Include="assets\fonts\TarponMotel.ttf" />
+  </ItemGroup>
 </Project>
