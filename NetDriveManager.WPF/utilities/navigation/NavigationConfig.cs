@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NetDriveManager.WPF.controls;
 using NetDriveManager.WPF.viewModels;
+using NetDriveManager.WPF.views;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -41,6 +42,11 @@ namespace NetDriveManager.WPF.utilities.navigation
 				() => _serviceProvider.GetRequiredService<HeaderControl>(),
 				() => _serviceProvider.GetRequiredService<HeaderControlViewModel>()
 				);
+
+			_navigationService.Add(nameof(SettingsWindow),
+				() => _serviceProvider.GetRequiredService<SettingsWindow>(),
+				() => _serviceProvider.GetRequiredService<SettingsViewModel>()
+				 );
 		}
 
 		#endregion Public Methods

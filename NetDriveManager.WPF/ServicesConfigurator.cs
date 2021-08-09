@@ -2,6 +2,7 @@
 using NetDriveManager.WPF.controls;
 using NetDriveManager.WPF.utilities.navigation;
 using NetDriveManager.WPF.viewModels;
+using NetDriveManager.WPF.views;
 
 namespace NetDriveManager.WPF
 {
@@ -21,10 +22,12 @@ namespace NetDriveManager.WPF
 			// View Models
 			serviceCollection.AddSingleton<MainWindowViewModel>();
 			serviceCollection.AddSingleton<HeaderControlViewModel>();
+			serviceCollection.AddSingleton<SettingsViewModel>();
 
 			// Windows & Views
 			serviceCollection.AddTransient<MainWindow>();
 			serviceCollection.AddTransient<HeaderControl>();
+			serviceCollection.AddTransient<SettingsWindow>();
 
 			return serviceCollection;
 		}
