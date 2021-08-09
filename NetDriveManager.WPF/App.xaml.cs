@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using NetDriveManager.WPF.utilities.navigation;
-using NetDriveManager.WPF.viewModels;
+using NetDriveManager.WPF.utilities.navigation.config;
+using NetDriveManager.WPF.utilities.navigation.services;
 using System.Windows;
 
 namespace NetDriveManager.WPF
@@ -23,9 +23,9 @@ namespace NetDriveManager.WPF
 		{
 			using (var scope = Ioc.Default.CreateScope())
 			{
-				var navConfig = scope.ServiceProvider.GetRequiredService<INavigationConfig>();
+				var navConfig = scope.ServiceProvider.GetRequiredService<NavigationConfig>();
 				var nav = scope.ServiceProvider.GetRequiredService<INavigationService>();
-				await nav.ShowAsync(nameof(MainWindow));
+				await nav.ShowWindowAsync(nameof(MainWindow));
 				base.OnStartup(e);
 			}
 		}
