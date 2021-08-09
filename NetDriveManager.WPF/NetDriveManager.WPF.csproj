@@ -10,5 +10,4 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.2" />
   </ItemGroup>
-
 </Project>

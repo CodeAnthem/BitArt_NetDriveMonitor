@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using NetDriveManager.WPF.services;
+using NetDriveManager.WPF.controls;
+using NetDriveManager.WPF.utilities.navigation;
 using NetDriveManager.WPF.viewModels;
 
 namespace NetDriveManager.WPF
@@ -11,20 +12,19 @@ namespace NetDriveManager.WPF
 			var serviceCollection = new ServiceCollection();
 
 			// Navigation
-			serviceCollection.AddSingleton<INavigationService>(sc =>
+			serviceCollection.AddSingleton<INavigationService>(new NavigationService());
+			serviceCollection.AddSingleton<INavigationConfig>(sc =>
 			{
-				var navigationService = new NavigationService(sc);
-				NavigationConfiguration.Configure(navigationService);
-
-				return navigationService;
+				return new NavigationConfig(sc, sc.GetRequiredService<INavigationService>());
 			});
 
 			// View Models
-			serviceCollection.AddSingleton<ViewModelLocator>();
 			serviceCollection.AddSingleton<MainWindowViewModel>();
+			serviceCollection.AddSingleton<HeaderControlViewModel>();
 
 			// Windows & Views
 			serviceCollection.AddTransient<MainWindow>();
+			serviceCollection.AddTransient<HeaderControl>();
 
 			return serviceCollection;
 		}

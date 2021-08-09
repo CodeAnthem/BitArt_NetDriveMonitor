@@ -28,7 +28,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTesting", "ConsoleTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI-Console", "UI-Console\UI-Console.csproj", "{05E6444A-A532-454E-AF18-ED786BFC0792}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetDriveManager.WPF", "NetDriveManager.WPF\NetDriveManager.WPF.csproj", "{47C26E8F-052B-46E7-93C5-E55E87CDC3E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetDriveManager.WPF", "NetDriveManager.WPF\NetDriveManager.WPF.csproj", "{47C26E8F-052B-46E7-93C5-E55E87CDC3E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24778162-F135-43A3-95EB-A31D53327DAE}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

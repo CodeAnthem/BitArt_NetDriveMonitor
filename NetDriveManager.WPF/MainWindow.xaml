@@ -5,11 +5,13 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="clr-namespace:NetDriveManager.WPF"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:viewmodels="clr-namespace:NetDriveManager.WPF.viewModels"
+	d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
 	Title="MainWindow"
 	Width="800" Height="450"
-	DataContext="{Binding Source={StaticResource Locator}, Path=MainWindowViewModel}"
 	mc:Ignorable="d">
-	<Grid>
+	<StackPanel>
 		<TextBlock Text="{Binding TestProp}" />
-	</Grid>
+		<ContentControl Content="{Binding MainContent}" />
+	</StackPanel>
 </Window>
