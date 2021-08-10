@@ -1,12 +1,11 @@
 ﻿using NetDriveManager.WPF.viewModels;
 using System;
-using System.Windows;
 
 namespace NetDriveManager.WPF.utilities.navigation.models
 {
-	public class WindowNavigationDataModel
+	public class NavigationDataModel : INavigationDataModel
 	{
-		public WindowNavigationDataModel(string name, Func<Window> createViewFunc, Func<ViewModelBase> createViewModelFunc)
+		public NavigationDataModel(string name, Func<object> createViewFunc, Func<ViewModelBase> createViewModelFunc)
 		{
 			Name = name;
 			CreateViewFunc = createViewFunc;
@@ -14,7 +13,7 @@ namespace NetDriveManager.WPF.utilities.navigation.models
 		}
 
 		public string Name { get; }
-		public Func<Window> CreateViewFunc { get; }
+		public Func<object> CreateViewFunc { get; }
 		public Func<ViewModelBase> CreateViewModelFunc { get; }
 	}
 }

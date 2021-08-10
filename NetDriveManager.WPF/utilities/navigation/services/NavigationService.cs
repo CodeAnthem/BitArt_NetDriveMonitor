@@ -2,6 +2,7 @@
 using NetDriveManager.WPF.viewModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,9 +19,8 @@ namespace NetDriveManager.WPF.utilities.navigation.services
 			_navStore = navStore;
 		}
 
-		#region Window handling
-
-		public async Task<Window> GetWindowWithDataContextAsync(string name, object parameter = null) => await CreateWindowWithDataContext(name, parameter);
+		public async Task<Window> GetWindowWithDataContextAsync(string name, object parameter = null) =>
+			await CreateWindowWithDataContext(name, parameter);
 
 		public async Task ShowWindowAsync(string name, object parameter = null)
 		{
@@ -36,28 +36,26 @@ namespace NetDriveManager.WPF.utilities.navigation.services
 
 		private async Task<Window> CreateWindowWithDataContext(string name, object parameter)
 		{
-			var navData = _navStore.GetWindow(name);
+			var navData = _navStore.GetWindowNavigationData(name);
+			_ = navData ?? throw new NullReferenceException($"No window registered with the name: {name}");
+
 			Window view = await GetAndActivateWindowAsync(navData, parameter);
 			ViewModelBase viewModel = GetViewModel(navData);
 			view.DataContext = viewModel;
 			return view;
 		}
 
-		#endregion Window handling
-
-		#region User Control handling
-
 		public UserControl GetUserControlWithDataContext(string name, object parameter = null) => CreateUserControlWithDataContext(name, parameter);
 
 		private UserControl CreateUserControlWithDataContext(string name, object parameter)
 		{
-			var navData = _navStore.GetUserControl(name);
-			UserControl view = GetView(navData);
+			var navData = _navStore.GetUserControlNavigationData(name);
+			_ = navData ?? throw new NullReferenceException($"No user control registered with the name: {name}");
+
+			UserControl view = GetView(navData) as UserControl;
 			ViewModelBase viewModel = GetViewModel(navData);
 			view.DataContext = viewModel;
 			return view;
 		}
-
-		#endregion User Control handling
 	}
 }

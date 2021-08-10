@@ -11,36 +11,20 @@ namespace NetDriveManager.WPF.utilities.navigation.services
 {
 	public class NavigationServiceBase
 	{
-		internal async Task<Window> GetAndActivateWindowAsync(WindowNavigationDataModel ndm, object parameter = null)
+		internal async Task<Window> GetAndActivateWindowAsync(NavigationDataModel ndm, object parameter = null)
 		{
-			var window = GetView(ndm);
+			var window = GetView(ndm) as Window;
 
 			if (window.DataContext is IActivable activable)
 			{
 				await activable.ActivateAsync(parameter);
 			}
 
-			return window as Window;
+			return window;
 		}
 
-		internal Window GetView(WindowNavigationDataModel ndm)
-		{
-			return ndm.CreateViewFunc();
-		}
+		internal object GetView(NavigationDataModel ndm) => ndm.CreateViewFunc();
 
-		internal UserControl GetView(UserControlNavigationDataModel ndm)
-		{
-			return ndm.CreateViewFunc();
-		}
-
-		internal ViewModelBase GetViewModel(WindowNavigationDataModel ndm)
-		{
-			return ndm.CreateViewModelFunc() as ViewModelBase;
-		}
-
-		internal ViewModelBase GetViewModel(UserControlNavigationDataModel ndm)
-		{
-			return ndm.CreateViewModelFunc() as ViewModelBase;
-		}
+		internal ViewModelBase GetViewModel(NavigationDataModel ndm) => ndm.CreateViewModelFunc();
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using NetDriveManager.WPF.controls;
+using NetDriveManager.WPF.utilities.contentController.services;
 using NetDriveManager.WPF.utilities.navigation;
 using NetDriveManager.WPF.utilities.navigation.services;
 using NetDriveManager.WPF.views;
@@ -10,16 +11,13 @@ namespace NetDriveManager.WPF.viewModels
 {
 	public class MainWindowViewModel : ViewModelBase
 	{
-		private readonly INavigationService _navigationService;
+		private readonly IContentControllerService _cc;
 
-		public MainWindowViewModel(INavigationService navigationService)
+		public MainWindowViewModel(IContentControllerService contentControllerService)
 		{
-			_navigationService = navigationService;
+			_cc = contentControllerService;
 			TestProp = "Dependency Injection and ViewModel Mapping works";
-			MainContent = _navigationService.GetUserControlWithDataContext(nameof(HeaderControl));
-			_navigationService.ShowWindowModalAsync(nameof(HeaderControl));
-			var view = _navigationService.GetWindowWithDataContextAsync(nameof(SettingsWindow)).Result;
-			view.ShowDialog();
+			MainContent = _cc.GetUserControl(nameof(HeaderControl));
 		}
 
 		public string TestProp { get; set; }

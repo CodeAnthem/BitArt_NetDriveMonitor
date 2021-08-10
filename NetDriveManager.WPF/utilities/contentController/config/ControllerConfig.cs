@@ -1,22 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NetDriveManager.WPF.controls;
-using NetDriveManager.WPF.utilities.navigation.services;
+using NetDriveManager.WPF.utilities.contentController.stores;
 using NetDriveManager.WPF.viewModels;
 using NetDriveManager.WPF.views;
 using System;
 
-namespace NetDriveManager.WPF.utilities.navigation.config
+namespace NetDriveManager.WPF.utilities.contentController.config
 {
-	public class NavigationConfig : INavigationConfig
+	public class ControllerConfig : IControllerConfig
 	{
 		private readonly IServiceProvider _ioc;
-		private readonly INavigationStore _navStore;
-
-		public NavigationConfig(IServiceProvider serviceProvider, INavigationStore navigationStore)
-		{
-			_ioc = serviceProvider;
-			_navStore = navigationStore;
-		}
+		private readonly IContentStore _contentStore;
 
 		public void RegisterAll()
 		{
@@ -26,12 +20,12 @@ namespace NetDriveManager.WPF.utilities.navigation.config
 
 		private void RegisterWindows()
 		{
-			_navStore.AddWindow(nameof(MainWindow),
+			_contentStore.AddWindow(nameof(MainWindow),
 				() => _ioc.GetRequiredService<MainWindow>(),
 				() => _ioc.GetRequiredService<MainWindowViewModel>()
 				);
 
-			_navStore.AddWindow(nameof(SettingsWindow),
+			_contentStore.AddWindow(nameof(SettingsWindow),
 				() => _ioc.GetRequiredService<SettingsWindow>(),
 				() => _ioc.GetRequiredService<SettingsViewModel>()
 				 );
@@ -39,10 +33,16 @@ namespace NetDriveManager.WPF.utilities.navigation.config
 
 		private void RegisterUserControls()
 		{
-			_navStore.AddUserControl(nameof(HeaderControl),
+			_contentStore.AddUserControl(nameof(HeaderControl),
 				() => _ioc.GetRequiredService<HeaderControl>(),
 				() => _ioc.GetRequiredService<HeaderControlViewModel>()
 				);
+		}
+
+		public ControllerConfig(IServiceProvider ioc, IContentStore contentStore)
+		{
+			_ioc = ioc;
+			_contentStore = contentStore;
 		}
 	}
 }

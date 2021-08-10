@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="utilities\navigation\services\old\**" />
+    <EmbeddedResource Remove="utilities\navigation\services\old\**" />
+    <None Remove="utilities\navigation\services\old\**" />
+    <Page Remove="utilities\navigation\services\old\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.2" />
   </ItemGroup>
