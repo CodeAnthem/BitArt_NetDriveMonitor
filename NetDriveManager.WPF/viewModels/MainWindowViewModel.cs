@@ -7,15 +7,18 @@ namespace NetDriveManager.WPF.viewModels
 	public class MainWindowViewModel : ViewModelBase
 	{
 		private readonly IContentControllerService _cc;
+		public ContentControl CCHeader { get; }
+		public ContentControl CCMain { get; }
+		public ContentControl CCNav { get; }
+		public ContentControl CCFooter { get; }
 
 		public MainWindowViewModel(IContentControllerService contentControllerService)
 		{
 			_cc = contentControllerService;
-			TestProp = "Dependency Injection and ViewModel Mapping works";
-			MainContent = _cc.GetUserControl(nameof(HeaderControl));
+			CCHeader = _cc.GetUserControl(nameof(HeaderControl));
+			MyStringProperty = "test property of main view model";
 		}
 
-		public string TestProp { get; set; }
-		public ContentControl MainContent { get; set; }
+		public string MyStringProperty { get; set;  }
 	}
 }

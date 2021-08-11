@@ -5,7 +5,9 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="clr-namespace:NetDriveManager.WPF.controls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	d:DesignHeight="450" d:DesignWidth="800"
+	xmlns:viewmodels="clr-namespace:NetDriveManager.WPF.viewModels"
+	d:DataContext="{d:DesignInstance Type=viewmodels:HeaderControlViewModel}"
+	d:DesignHeight="450" d:DesignWidth="800" Background="Green"
 	mc:Ignorable="d">
 	<Grid>
 		<StackPanel>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using ControlzEx.Theming;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using NetDriveManager.WPF.utilities.contentController.config;
 using NetDriveManager.WPF.utilities.contentController.services;
@@ -33,6 +34,8 @@ namespace NetDriveManager.WPF
 				mainWindow.Show();
 
 				base.OnStartup(e);
+
+				ThemeManager.Current.ChangeTheme(this, "Light.Steel");
 			}
 		}
 	}

@@ -4,10 +4,23 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>resources\assets\icons\icons8-laufwerk-c-48.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="resources\assets\fonts\TarponMotel.ttf" />
+    <None Remove="resources\assets\icons\icons8-laufwerk-c-48.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.4.7" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="4.8.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="resources\assets\fonts\TarponMotel.ttf" />
+    <Resource Include="resources\assets\icons\icons8-laufwerk-c-48.ico" />
   </ItemGroup>
 </Project>

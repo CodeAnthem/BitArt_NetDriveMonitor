@@ -13,6 +13,7 @@
 	Title="Net Drive Monitor"
 	Width="800" Height="450" MinWidth="600"
 	MinHeight="300"
+	d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
 	AllowsTransparency="True"
 	Background="{DynamicResource MaterialDesignPaper}"
 	BorderBrush="DarkGray" BorderThickness="0"
@@ -58,7 +59,8 @@
 		BorderThickness="0" CornerRadius="20">
 		<StackPanel>
 			<uc:HeaderControl />
-			<ContentControl Content="{Binding Content}" />
+			<TextBlock Text="Normal Content Text" />
+			<ContentControl Content="{Binding MainContent}" />
 		</StackPanel>
 	</Border>
 </mah:MetroWindow>
