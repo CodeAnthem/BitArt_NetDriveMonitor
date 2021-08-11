@@ -1,10 +1,5 @@
 ﻿using NetDriveManager.WPF.controls;
 using NetDriveManager.WPF.utilities.contentController.services;
-using NetDriveManager.WPF.utilities.navigation;
-using NetDriveManager.WPF.utilities.navigation.services;
-using NetDriveManager.WPF.views;
-using System.Threading;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace NetDriveManager.WPF.viewModels

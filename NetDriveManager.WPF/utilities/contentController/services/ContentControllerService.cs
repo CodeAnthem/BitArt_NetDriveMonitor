@@ -1,13 +1,10 @@
-﻿using NetDriveManager.WPF.utilities.contentController.stores;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows;
-using NetDriveManager.WPF.utilities.contentController.models;
+﻿using NetDriveManager.WPF.utilities.contentController.models;
+using NetDriveManager.WPF.utilities.contentController.stores;
 using NetDriveManager.WPF.viewModels;
-using System.Xml.Linq;
+using System;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace NetDriveManager.WPF.utilities.contentController.services
 {
@@ -29,11 +26,8 @@ namespace NetDriveManager.WPF.utilities.contentController.services
 		private UserControl CreateUserControlWithDataContext(string name)
 		{
 			IContentDataModel cdm = _store.GetContentData(nameof(UserControl), name);
-			_ = cdm ?? throw new NullReferenceException($"No user control registered with the name: {name}");
-
 			UserControl view = CreateViewOfData(cdm) as UserControl;
-			_ = view ?? throw new NullReferenceException($"Failed to create user control: {cdm.Name}");
-
+			_ = view ?? throw new Exception($"[CC] Failed to create UserControl for Name: { cdm.Name }");
 			ViewModelBase viewModel = CreateViewModelOfData(cdm);
 			if (viewModel != null)
 				view.DataContext = viewModel;
@@ -44,10 +38,8 @@ namespace NetDriveManager.WPF.utilities.contentController.services
 		private Window CreateWindowWithDataContext(string name)
 		{
 			IContentDataModel cdm = _store.GetContentData(nameof(Window), name);
-			_ = cdm ?? throw new NullReferenceException($"No window registered with the name: {name}");
-
 			Window view = CreateViewOfData(cdm) as Window;
-			_ = view ?? throw new NullReferenceException($"Failed to create Window: {cdm.Name}");
+			_ = view ?? throw new Exception($"[CC] Failed to create Window for Name: { cdm.Name }");
 
 			ViewModelBase viewModel = CreateViewModelOfData(cdm);
 			if (viewModel != null)

@@ -26,10 +26,10 @@ namespace NetDriveManager.WPF.utilities.contentController.stores
 		public IContentDataModel GetContentData(string type, string name)
 		{
 			bool doesKeyExist = _contentDict.ContainsKey(type);
-			_ = doesKeyExist ? true : throw new Exception($"Type is not registered. View: {name} - Type: {type}");
+			_ = doesKeyExist ? true : throw new Exception($"[CC] Type is not registered. View: {name} - Type: {type}");
 
 			IContentDataModel cdm = _contentDict[type].Find(cdm => cdm.Name == name);
-			_ = cdm ?? throw new ArgumentNullException($"View is not registered. View: {name} - Type: {type}");
+			_ = cdm ?? throw new Exception($"[CC] View is not registered. View: {name} - Type: {type}");
 
 			return cdm;
 		}

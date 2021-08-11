@@ -2,9 +2,6 @@
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using NetDriveManager.WPF.utilities.contentController.config;
 using NetDriveManager.WPF.utilities.contentController.services;
-using NetDriveManager.WPF.utilities.navigation.config;
-using NetDriveManager.WPF.utilities.navigation.services;
-using NetDriveManager.WPF.views;
 using System.Windows;
 
 namespace NetDriveManager.WPF
@@ -23,7 +20,7 @@ namespace NetDriveManager.WPF
 				.BuildServiceProvider());
 		}
 
-		protected override async void OnStartup(StartupEventArgs e)
+		protected override void OnStartup(StartupEventArgs e)
 		{
 			SetupServiceProvider();
 			using (var scope = Ioc.Default.CreateScope())
