@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace NetDriveManager.WPF.controls
 {
 	/// <summary>
-	/// Interaction logic for HeaderControl.xaml
+	/// Interaction logic for HeaderPartControl.xaml
 	/// </summary>
-	public partial class HeaderControl : UserControl
+	public partial class HeaderPartControl : UserControl
 	{
-		public HeaderControl()
+		public HeaderPartControl()
 		{
 			InitializeComponent();
 		}

@@ -25,17 +25,37 @@ namespace NetDriveManager.WPF.utilities.contentController.config
 				() => _ioc.GetRequiredService<MainWindowViewModel>()
 				);
 
-			_contentStore.AddWindow(nameof(SettingsWindow),
-				() => _ioc.GetRequiredService<SettingsWindow>(),
-				() => _ioc.GetRequiredService<SettingsViewModel>()
-				 );
+			//_contentStore.AddWindow(nameof(SettingsWindow),
+			//	() => _ioc.GetRequiredService<SettingsWindow>(),
+			//	() => _ioc.GetRequiredService<SettingsViewModel>()
+			//	 );
 		}
 
 		private void RegisterUserControls()
 		{
-			_contentStore.AddUserControl(nameof(HeaderControl),
-				() => _ioc.GetRequiredService<HeaderControl>(),
+			_contentStore.AddUserControl(nameof(HeaderPartControl),
+				() => _ioc.GetRequiredService<HeaderPartControl>(),
 				() => _ioc.GetRequiredService<HeaderControlViewModel>()
+				);
+
+			_contentStore.AddUserControl(nameof(NavigationStatusPartControl),
+				() => _ioc.GetRequiredService<NavigationStatusPartControl>(),
+				() => _ioc.GetRequiredService<NavigationStatusPartViewModel>()
+				);
+
+			_contentStore.AddUserControl(nameof(FooterPartControl),
+				() => _ioc.GetRequiredService<FooterPartControl>(),
+				() => _ioc.GetRequiredService<FooterPartViewModel>()
+				);
+
+			_contentStore.AddUserControl(nameof(OverviewControl),
+				() => _ioc.GetRequiredService<OverviewControl>(),
+				() => _ioc.GetRequiredService<OverviewViewModel>()
+				);
+
+			_contentStore.AddUserControl(nameof(SettingsControl),
+				() => _ioc.GetRequiredService<SettingsControl>(),
+				() => _ioc.GetRequiredService<SettingsViewModel>()
 				);
 		}
 

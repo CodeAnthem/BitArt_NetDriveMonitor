@@ -8,13 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="resources\assets\fonts\TarponMotel.ttf" />
-    <None Remove="resources\assets\icons\icons8-laufwerk-c-48.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.4.7" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.8.0" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.1.7" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.2" />
   </ItemGroup>

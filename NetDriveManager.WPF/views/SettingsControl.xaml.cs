@@ -8,16 +8,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace NetDriveManager.WPF.views
 {
 	/// <summary>
-	/// Interaction logic for SettingsWindow.xaml
+	/// Interaction logic for SettingsControl.xaml
 	/// </summary>
-	public partial class SettingsWindow : Window
+	public partial class SettingsControl : UserControl
 	{
-		public SettingsWindow()
+		public SettingsControl()
 		{
 			InitializeComponent();
 		}

@@ -5,13 +5,11 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
 	xmlns:local="clr-namespace:NetDriveManager.WPF"
-	xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+	xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:viewmodels="clr-namespace:NetDriveManager.WPF.viewModels"
 	Title="Net Drive Monitor"
 	Width="800" Height="450"
-	mah:AllowsTransparency="True" BorderThickness="0"
-	GlowBrush="White"
+	BorderThickness="0" GlowBrush="White"
 	Icon="./resources/assets/icons/icons8-laufwerk-c-48.ico"
 	ShowIconOnTitleBar="True"
 	WindowTransitionsEnabled="True"
@@ -45,11 +43,11 @@
 		</mah:WindowCommands>
 	</mah:MetroWindow.RightWindowCommands>
 
-	<Grid>
+	<Grid Margin="16,0">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -57,8 +55,8 @@
 		</Grid.ColumnDefinitions>
 
 		<ContentControl Grid.Row="0" Content="{Binding CCHeader}" />
-		<ContentControl Grid.Row="1" Content="{Binding CCMain}" />
-		<ContentControl Grid.Row="2" Content="{Binding CCNav}" />
+		<ContentControl Grid.Row="1" Content="{Binding CCNavStatus}" />
+		<ContentControl Grid.Row="2" Content="{Binding CCMain}" />
 		<ContentControl Grid.Row="3" Content="{Binding CCFooter}" />
 	</Grid>
 

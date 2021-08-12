@@ -14,22 +14,41 @@ namespace NetDriveManager.WPF
 		{
 			var serviceCollection = new ServiceCollection();
 
-			// Content Control
+			#region Content Control
+
 			serviceCollection.AddSingleton<IContentStore, ContentStore>();
 			serviceCollection.AddSingleton<IContentControllerService, ContentControllerService>();
 			serviceCollection.AddSingleton<IControllerConfig, ControllerConfig>();
 			//serviceCollection.AddSingleton<IControllerConfig, ControllerConfig>(sc =>
 			//	new ControllerConfig(sc, sc.GetRequiredService<IContentStore>()));
 
-			// View Models
-			serviceCollection.AddSingleton<MainWindowViewModel>();
-			serviceCollection.AddSingleton<SettingsViewModel>();
-			serviceCollection.AddSingleton<HeaderControlViewModel>();
+			#endregion Content Control
 
-			// Windows & Views
+			#region View Models
+
+			serviceCollection.AddSingleton<MainWindowViewModel>();
+
+			serviceCollection.AddSingleton<HeaderControlViewModel>();
+			serviceCollection.AddSingleton<NavigationStatusPartViewModel>();
+			serviceCollection.AddSingleton<FooterPartViewModel>();
+
+			serviceCollection.AddSingleton<OverviewViewModel>();
+			serviceCollection.AddSingleton<SettingsViewModel>();
+
+			#endregion View Models
+
+			#region Views
+
 			serviceCollection.AddTransient<MainWindow>();
-			serviceCollection.AddTransient<SettingsWindow>();
-			serviceCollection.AddTransient<HeaderControl>();
+
+			serviceCollection.AddTransient<HeaderPartControl>();
+			serviceCollection.AddTransient<NavigationStatusPartControl>();
+			serviceCollection.AddTransient<FooterPartControl>();
+
+			serviceCollection.AddTransient<OverviewControl>();
+			serviceCollection.AddTransient<SettingsControl>();
+
+			#endregion Views
 
 			return serviceCollection;
 		}
