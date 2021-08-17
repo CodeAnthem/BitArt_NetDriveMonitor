@@ -1,7 +1,6 @@
 ﻿using NetDriveManager.Monitor.components.dataAccess;
 using NetDriveManager.Monitor.components.netdriveHandler;
 using NetDriveManager.Monitor.components.netDrivePingWatchdog;
-using NetDriveManager.Monitor.components.netDrivePingWatchdog.parts;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -9,34 +8,35 @@ namespace NetDriveManager.Monitor
 {
 	public class NetdriveMonitor : INetdriveMonitor
 	{
-		public bool IsRunning { get; private set; }
+		public bool IsEnabled { get; private set; }
 
 		public List<NetdriveMonitorModel> Drives { get; private set; } = new List<NetdriveMonitorModel>();
 
-		public readonly INetdriveMonitorSettings Settings;
+		private readonly IDataAccess _da;
 
-		private readonly IDataAccess _dataAccess;
+		private readonly INetdriveHandler _handler;
 
-		private readonly INetdriveHandler _handler = new NetdriveHandler();
+		private readonly INetdrivePingWatchdog _pingWatchdog;
 
-		private readonly NetdrivePingWatchdog _pingWatchdog = new NetdrivePingWatchdog();
-
-		public NetdriveMonitor(INetdriveMonitorSettings netdriveMonitorSettings = null)
+		public NetdriveMonitor(IDataAccess dataAccess, INetdriveHandler netdriveHandler, INetdrivePingWatchdog netdrivePingWatchdog)
 		{
-			Settings = netdriveMonitorSettings ?? new DefaultSettings();
-			var dataAccessor = new DataAccessJsonFile(Settings.JsonFile4Drives);
-			_dataAccess = new DataAccess(dataAccessor, true);
-			_pingWatchdog.OnHostStatusUpdated += HostStatusUpdated;
+			_da = dataAccess;
+			_da.UseDummyDataIfEmpty = true;
+			_handler = netdriveHandler;
+			_pingWatchdog = netdrivePingWatchdog;
+
+			_pingWatchdog.OnDriveAvailable += x => ConnectDrive(x);
+			_pingWatchdog.OnDriveUnavailable += x => DisconnectDrive(x);
 		}
 
 		public bool Activate()
 		{
-			if (!IsRunning)
+			if (!IsEnabled)
 			{
 				// Start
 				Drives = GetDrives();
 
-				IsRunning = true;
+				IsEnabled = true;
 				return true;
 			}
 			Debug.WriteLine("Start aborted. Already running.");
@@ -45,12 +45,12 @@ namespace NetDriveManager.Monitor
 
 		public bool Deactivate()
 		{
-			if (!IsRunning)
+			if (!IsEnabled)
 			{
 				// Stop
 				Drives.Clear();
 
-				IsRunning = false;
+				IsEnabled = false;
 				return true;
 			}
 			Debug.WriteLine("Stop aborted. Not running yet.");
@@ -61,21 +61,12 @@ namespace NetDriveManager.Monitor
 
 		public bool DisconnectDrive(NetdriveMonitorModel drive) => _handler.DisconnectDrive(drive);
 
-		public List<NetdriveMonitorModel> GetDrives() => _dataAccess.GetDrives0REmptyList();
+		public List<NetdriveMonitorModel> GetDrives() => _da.GetDrives0REmptyList();
 
-		public bool SaveDrives(List<NetdriveMonitorModel> drivesList) => _dataAccess.SaveDrives(drivesList);
+		public bool SaveDrives(List<NetdriveMonitorModel> drivesList) => _da.SaveDrives(drivesList);
 
 		public bool StartPingMonitor() => _pingWatchdog.Start(Drives);
 
 		public bool StopPingMonitor() => _pingWatchdog.Stop();
-
-		private void HostStatusUpdated(NetdrivePingWatchdogReportModel report)
-		{
-			if (report.IsOnline)
-			{
-				ConnectDrive(report.Drive);
-			}
-			DisconnectDrive(report.Drive);
-		}
 	}
 }

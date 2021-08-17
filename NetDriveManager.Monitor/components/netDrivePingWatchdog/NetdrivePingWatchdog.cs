@@ -6,21 +6,23 @@ using System.Diagnostics;
 
 namespace NetDriveManager.Monitor.components.netDrivePingWatchdog
 {
-	public class NetdrivePingWatchdog
+	public class NetdrivePingWatchdog : INetdrivePingWatchdog
 	{
-		public event Action<NetdrivePingWatchdogReportModel> OnHostStatusUpdated;
+		public event Action<NetdriveMonitorModel> OnDriveAvailable;
+
+		public event Action<NetdriveMonitorModel> OnDriveUnavailable;
 
 		public bool IsRunning { get; private set; }
 
-		private readonly NetdrivePingWatchdogStore _store;
+		private readonly INetdrivePingWatchdogStore _store;
 
-		private readonly HostMonitor _pingMonitor;
+		private readonly IHostMonitor _pingMonitor;
 
-		public NetdrivePingWatchdog()
+		public NetdrivePingWatchdog(INetdrivePingWatchdogStore netdrivePingWatchdogStore, IHostMonitor hostMonitor)
 		{
-			_store = new NetdrivePingWatchdogStore();
+			_store = netdrivePingWatchdogStore;
+			_pingMonitor = hostMonitor;
 
-			_pingMonitor = new HostMonitor();
 			_pingMonitor.ScanInterval = 1000;
 			_pingMonitor.NotifyOnChangesOnly = true;
 			_pingMonitor.NotifyOnFirstPing = false;
@@ -67,8 +69,14 @@ namespace NetDriveManager.Monitor.components.netDrivePingWatchdog
 			var affectedDrives = _store.GetDrivesOfHost(hostName);
 			foreach (var drive in affectedDrives)
 			{
-				var report = new NetdrivePingWatchdogReportModel(drive, state);
-				OnHostStatusUpdated?.Invoke(report);
+				if (state)
+				{
+					OnDriveAvailable?.Invoke(drive);
+				}
+				else
+				{
+					OnDriveUnavailable?.Invoke(drive);
+				}
 			}
 		}
 	}

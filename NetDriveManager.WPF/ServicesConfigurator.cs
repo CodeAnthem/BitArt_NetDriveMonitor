@@ -14,13 +14,13 @@ namespace NetDriveManager.WPF
 	{
 		public static IServiceCollection GetServices()
 		{
-			var serviceCollection = new ServiceCollection();
+			var services = new ServiceCollection();
 
 			#region Content Control
 
-			serviceCollection.AddSingleton<IContentStore, ContentStore>();
-			serviceCollection.AddSingleton<IContentControllerService, ContentControllerService>();
-			serviceCollection.AddSingleton<IControllerConfig, ControllerConfig>();
+			services.AddSingleton<IContentStore, ContentStore>();
+			services.AddSingleton<IContentControllerService, ContentControllerService>();
+			services.AddSingleton<IControllerConfig, ControllerConfig>();
 			//serviceCollection.AddSingleton<IControllerConfig, ControllerConfig>(sc =>
 			//	new ControllerConfig(sc, sc.GetRequiredService<IContentStore>()));
 
@@ -28,39 +28,39 @@ namespace NetDriveManager.WPF
 
 			#region View Models
 
-			serviceCollection.AddSingleton<MainWindowViewModel>();
+			services.AddSingleton<MainWindowViewModel>();
 
-			serviceCollection.AddSingleton<HeaderControlViewModel>();
-			serviceCollection.AddSingleton<FooterPartViewModel>();
+			services.AddSingleton<HeaderControlViewModel>();
+			services.AddSingleton<FooterPartViewModel>();
 
-			serviceCollection.AddSingleton<OverviewViewModel>();
-			serviceCollection.AddSingleton<SettingsViewModel>();
-			serviceCollection.AddSingleton<ManageDrivesViewModel>();
+			services.AddSingleton<OverviewViewModel>();
+			services.AddSingleton<SettingsViewModel>();
+			services.AddSingleton<ManageDrivesViewModel>();
 
 			#endregion View Models
 
 			#region Views
 
-			serviceCollection.AddTransient<MainWindow>();
+			services.AddTransient<MainWindow>();
 
-			serviceCollection.AddTransient<HeaderPartControl>();
-			serviceCollection.AddTransient<FooterPartControl>();
+			services.AddTransient<HeaderPartControl>();
+			services.AddTransient<FooterPartControl>();
 
-			serviceCollection.AddTransient<OverviewControl>();
-			serviceCollection.AddTransient<SettingsControl>();
-			serviceCollection.AddTransient<ManageDrivesControl>();
+			services.AddTransient<OverviewControl>();
+			services.AddTransient<SettingsControl>();
+			services.AddTransient<ManageDrivesControl>();
 
 			#endregion Views
 
-			serviceCollection.AddSingleton<MainContentStore>();
+			services.AddSingleton<MainContentStore>();
 
 			#region Netdrive Monitor
 
-			serviceCollection.AddSingleton<INetdriveMonitor, NetdriveMonitor>();
+			services.AddNetdriveManager();
 
 			#endregion Netdrive Monitor
 
-			return serviceCollection;
+			return services;
 		}
 	}
 }

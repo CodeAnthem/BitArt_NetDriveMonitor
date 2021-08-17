@@ -5,17 +5,29 @@ using System.IO;
 
 namespace NetDriveManager.Monitor.components.dataAccess
 {
-	internal class DataAccessJsonFile : IDataAccess
+	internal class DataAccessorJsonFile : IDataAccessor
 	{
-		public List<NetdriveMonitorModel> GetDrives0REmptyList()
+		private static readonly string _applicationPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+		private const string _filePath = @"Save\drives.json";
+		private readonly string _jsonFilePath;
+
+		private readonly FileInfo _jsonFile;
+
+		public DataAccessorJsonFile()
+		{
+			_jsonFilePath = Path.Combine(_applicationPath, _filePath);
+			_jsonFile = new FileInfo(_jsonFilePath);
+		}
+
+		public List<NetdriveMonitorModel> GetDrives0RNull()
 		{
 			if (_jsonFile.Exists)
 			{
 				string jsonString = File.ReadAllText(_jsonFile.FullName);
 				return JsonConvert.DeserializeObject<List<NetdriveMonitorModel>>(jsonString);
 			}
-			Debug.WriteLine("No JSON file found - returning empty list");
-			return new List<NetdriveMonitorModel>();
+			Debug.WriteLine("No JSON file found - returning null");
+			return null;
 		}
 
 		public bool SaveDrives(List<NetdriveMonitorModel> netdrivesList)
@@ -33,13 +45,6 @@ namespace NetDriveManager.Monitor.components.dataAccess
 				return true;
 			}
 			return false;
-		}
-
-		private FileInfo _jsonFile;
-
-		public DataAccessJsonFile(string pathOfJsonFile)
-		{
-			_jsonFile = new FileInfo(pathOfJsonFile);
 		}
 	}
 }

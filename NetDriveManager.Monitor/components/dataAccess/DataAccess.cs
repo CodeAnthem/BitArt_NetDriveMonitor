@@ -1,27 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NetDriveManager.Monitor.components.dataAccess
 {
 	public class DataAccess : IDataAccess
 	{
+		public bool UseDummyDataIfEmpty { get; set; }
+
 		#region Private Fields
 
-		private readonly bool _useDummyDataIfEmpty;
-		private readonly IDataAccess _da;
 		private static readonly List<NetdriveMonitorModel> _dummyNetdriveList = new List<NetdriveMonitorModel>
 			{
 				new NetdriveMonitorModel("H:", "dp-nas10", "home", true),
 				new NetdriveMonitorModel("V:", "dp-nas10", "video")
 			};
 
+		private readonly IDataAccessor _accessor;
+
 		#endregion Private Fields
 
 		#region Public Constructors
 
-		public DataAccess(IDataAccess da, bool useDummyDataIfEmpty)
+		public DataAccess(IDataAccessor dataAccessor)
 		{
-			_da = da;
-			_useDummyDataIfEmpty = useDummyDataIfEmpty;
+			_accessor = dataAccessor;
 		}
 
 		#endregion Public Constructors
@@ -30,26 +32,20 @@ namespace NetDriveManager.Monitor.components.dataAccess
 
 		public List<NetdriveMonitorModel> GetDrives0REmptyList()
 		{
-			List<NetdriveMonitorModel> netdrivesList = _da.GetDrives0REmptyList();
-			return PassDummyDataIfRequired(netdrivesList);
-		}
+			List<NetdriveMonitorModel> netdrivesList = _accessor.GetDrives0RNull();
+			netdrivesList ??= new List<NetdriveMonitorModel>();
 
-		public bool SaveDrives(List<NetdriveMonitorModel> netDrives) => _da.SaveDrives(netDrives);
-
-		#endregion Public Methods
-
-		#region Private Methods
-
-		private List<NetdriveMonitorModel> PassDummyDataIfRequired(List<NetdriveMonitorModel> netdrivesList)
-		{
-			bool drivesFound = netdrivesList.Count > 0;
-			if (!drivesFound && _useDummyDataIfEmpty)
+			if (netdrivesList.Count == 0 && UseDummyDataIfEmpty)
 			{
 				return _dummyNetdriveList;
 			}
 			return netdrivesList;
 		}
 
-		#endregion Private Methods
+		public List<NetdriveMonitorModel> GetDummyData() => _dummyNetdriveList;
+
+		public bool SaveDrives(List<NetdriveMonitorModel> netDrives) => _accessor.SaveDrives(netDrives);
+
+		#endregion Public Methods
 	}
 }

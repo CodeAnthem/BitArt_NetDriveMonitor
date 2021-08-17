@@ -11,6 +11,8 @@ namespace NetDriveManager.Monitor.components.netdriveHandler
 
 		public bool ConnectDrive(NetdriveMonitorModel drive) => _ndb.Add(drive);
 
+		public bool DisconnctAll() => _ndb.RemoveAll();
+
 		public bool DisconnectDrive(NetdriveMonitorModel drive) => _ndb.Remove(drive);
 
 		//TODO: add get status method

@@ -5,7 +5,7 @@ namespace NetDriveManager.Monitor
 	public interface INetdriveMonitor
 	{
 		List<NetdriveMonitorModel> Drives { get; }
-		bool IsRunning { get; }
+		bool IsEnabled { get; }
 
 		bool Activate();
 		bool ConnectDrive(NetdriveMonitorModel drive);

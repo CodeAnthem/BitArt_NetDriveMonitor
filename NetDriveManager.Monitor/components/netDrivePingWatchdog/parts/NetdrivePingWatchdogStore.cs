@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace NetDriveManager.Monitor.components.netDrivePingWatchdog.parts
 {
-	public class NetdrivePingWatchdogStore
+	public class NetdrivePingWatchdogStore : INetdrivePingWatchdogStore
 	{
 		private readonly Dictionary<string, List<NetdriveMonitorModel>> _activeDrivesList = new Dictionary<string, List<NetdriveMonitorModel>>();
 

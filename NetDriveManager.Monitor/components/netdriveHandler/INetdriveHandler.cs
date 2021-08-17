@@ -3,6 +3,9 @@
 	public interface INetdriveHandler
 	{
 		bool ConnectDrive(NetdriveMonitorModel drive);
+
 		bool DisconnectDrive(NetdriveMonitorModel drive);
+
+		bool DisconnctAll();
 	}
 }
