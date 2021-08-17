@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NetDriveManager.WPF.controls
+namespace NetDriveManager.WPF.views
 {
 	/// <summary>
-	/// Interaction logic for NavigationStatusPartControl.xaml
+	/// Interaction logic for ManageDrivesControl.xaml
 	/// </summary>
-	public partial class NavigationStatusPartControl : UserControl
+	public partial class ManageDrivesControl : UserControl
 	{
-		public NavigationStatusPartControl()
+		public ManageDrivesControl()
 		{
 			InitializeComponent();
 		}

@@ -7,8 +7,10 @@
 	xmlns:local="clr-namespace:NetDriveManager.WPF"
 	xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:viewmodels="clr-namespace:NetDriveManager.WPF.viewModels"
 	Title="Net Drive Monitor"
 	Width="800" Height="450"
+	d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
 	BorderThickness="0" GlowBrush="White"
 	Icon="./resources/assets/icons/icons8-laufwerk-c-48.ico"
 	ShowIconOnTitleBar="True"
@@ -46,7 +48,6 @@
 	<Grid Margin="16,0">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
@@ -55,9 +56,8 @@
 		</Grid.ColumnDefinitions>
 
 		<ContentControl Grid.Row="0" Content="{Binding CCHeader}" />
-		<ContentControl Grid.Row="1" Content="{Binding CCNavStatus}" />
-		<ContentControl Grid.Row="2" Content="{Binding CCMain}" />
-		<ContentControl Grid.Row="3" Content="{Binding CCFooter}" />
+		<ContentControl Grid.Row="1" Content="{Binding CCMain}" />
+		<ContentControl Grid.Row="2" Content="{Binding CCFooter}" />
 	</Grid>
 
 </mah:MetroWindow>

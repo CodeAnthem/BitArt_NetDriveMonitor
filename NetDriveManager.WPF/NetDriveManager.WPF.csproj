@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NetDriveManager.Monitor\NetDriveManager.Monitor.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="resources\assets\fonts\TarponMotel.ttf" />
     <Resource Include="resources\assets\icons\icons8-laufwerk-c-48.ico" />
   </ItemGroup>

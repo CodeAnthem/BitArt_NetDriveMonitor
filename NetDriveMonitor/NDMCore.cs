@@ -14,7 +14,7 @@ using System.Linq;
 
 namespace NetDriveMonitor
 {
-	public class NDMCore : NDMBase
+	public class INetdriveMonitor : NDMBase
 	{
 		#region Public Properties
 

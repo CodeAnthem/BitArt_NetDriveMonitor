@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using NetDriveManager.Monitor;
 using NetDriveManager.WPF.controls;
+using NetDriveManager.WPF.helpers;
 using NetDriveManager.WPF.utilities.contentController.config;
 using NetDriveManager.WPF.utilities.contentController.services;
 using NetDriveManager.WPF.utilities.contentController.stores;
@@ -29,11 +31,11 @@ namespace NetDriveManager.WPF
 			serviceCollection.AddSingleton<MainWindowViewModel>();
 
 			serviceCollection.AddSingleton<HeaderControlViewModel>();
-			serviceCollection.AddSingleton<NavigationStatusPartViewModel>();
 			serviceCollection.AddSingleton<FooterPartViewModel>();
 
 			serviceCollection.AddSingleton<OverviewViewModel>();
 			serviceCollection.AddSingleton<SettingsViewModel>();
+			serviceCollection.AddSingleton<ManageDrivesViewModel>();
 
 			#endregion View Models
 
@@ -42,13 +44,21 @@ namespace NetDriveManager.WPF
 			serviceCollection.AddTransient<MainWindow>();
 
 			serviceCollection.AddTransient<HeaderPartControl>();
-			serviceCollection.AddTransient<NavigationStatusPartControl>();
 			serviceCollection.AddTransient<FooterPartControl>();
 
 			serviceCollection.AddTransient<OverviewControl>();
 			serviceCollection.AddTransient<SettingsControl>();
+			serviceCollection.AddTransient<ManageDrivesControl>();
 
 			#endregion Views
+
+			serviceCollection.AddSingleton<MainContentStore>();
+
+			#region Netdrive Monitor
+
+			serviceCollection.AddSingleton<INetdriveMonitor, NetdriveMonitor>();
+
+			#endregion Netdrive Monitor
 
 			return serviceCollection;
 		}

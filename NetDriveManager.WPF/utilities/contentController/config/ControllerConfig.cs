@@ -24,11 +24,6 @@ namespace NetDriveManager.WPF.utilities.contentController.config
 				() => _ioc.GetRequiredService<MainWindow>(),
 				() => _ioc.GetRequiredService<MainWindowViewModel>()
 				);
-
-			//_contentStore.AddWindow(nameof(SettingsWindow),
-			//	() => _ioc.GetRequiredService<SettingsWindow>(),
-			//	() => _ioc.GetRequiredService<SettingsViewModel>()
-			//	 );
 		}
 
 		private void RegisterUserControls()
@@ -36,11 +31,6 @@ namespace NetDriveManager.WPF.utilities.contentController.config
 			_contentStore.AddUserControl(nameof(HeaderPartControl),
 				() => _ioc.GetRequiredService<HeaderPartControl>(),
 				() => _ioc.GetRequiredService<HeaderControlViewModel>()
-				);
-
-			_contentStore.AddUserControl(nameof(NavigationStatusPartControl),
-				() => _ioc.GetRequiredService<NavigationStatusPartControl>(),
-				() => _ioc.GetRequiredService<NavigationStatusPartViewModel>()
 				);
 
 			_contentStore.AddUserControl(nameof(FooterPartControl),
@@ -56,6 +46,11 @@ namespace NetDriveManager.WPF.utilities.contentController.config
 			_contentStore.AddUserControl(nameof(SettingsControl),
 				() => _ioc.GetRequiredService<SettingsControl>(),
 				() => _ioc.GetRequiredService<SettingsViewModel>()
+				);
+
+			_contentStore.AddUserControl(nameof(ManageDrivesControl),
+				() => _ioc.GetRequiredService<ManageDrivesControl>(),
+				() => _ioc.GetRequiredService<ManageDrivesViewModel>()
 				);
 		}
 
