@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using NetDriveManager.Monitor.components.dataAccess;
 using NetDriveManager.Monitor.components.netdriveHandler;
 using NetDriveManager.Monitor.components.netDrivePingWatchdog;
-using NetDriveManager.Monitor.components.netDrivePingWatchdog.parts;
 
 namespace NetDriveManager.Monitor
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace NetDriveManager.Monitor.components.netDrivePingWatchdog.parts
+namespace NetDriveManager.Monitor.components.netDrivePingWatchdog
 {
 	public class NetdrivePingWatchdogStore : INetdrivePingWatchdogStore
 	{
