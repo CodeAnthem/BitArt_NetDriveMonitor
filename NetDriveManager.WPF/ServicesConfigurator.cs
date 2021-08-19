@@ -54,11 +54,11 @@ namespace NetDriveManager.WPF
 
 			services.AddSingleton<MainContentStore>();
 
-			#region Netdrive Monitor
-
+			// Other Libraries
 			services.AddNetdriveManager();
 
-			#endregion Netdrive Monitor
+			// Logging
+			services.AddSerilogLogging();
 
 			return services;
 		}
