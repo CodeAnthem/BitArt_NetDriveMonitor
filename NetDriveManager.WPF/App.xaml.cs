@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using NetDriveManager.WPF.utilities.contentController.config;
+using NetDriveManager.WPF.AppUI;
+using NetDriveManager.WPF.Main;
 using NetDriveManager.WPF.utilities.contentController.services;
 using Serilog;
 using SerilogTimings;
@@ -20,28 +21,17 @@ namespace NetDriveManager.WPF
 
 		public App()
 		{
-			_services = GetServiceProvider();
-			SetGlobalContainer();
+			_services = new Services_Config().GetMergedServices()
+				.BuildServiceProvider();
+			Ioc.Default.ConfigureServices(_services);
 		}
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
 			SetupGlobalLogger();
+			RegisterContentController();
 			RunAppAndMessureTime();
-		}
-
-		private IServiceProvider GetServiceProvider()
-		{
-			var serviceProvider = new Services_Config().GetMergedServices()
-				.BuildServiceProvider();
-
-			return serviceProvider;
-		}
-
-		private void SetGlobalContainer()
-		{
-			Ioc.Default.ConfigureServices(_services);
 		}
 
 		private void SetupGlobalLogger()
@@ -50,34 +40,34 @@ namespace NetDriveManager.WPF
 			Log.Debug("Logging Started");
 		}
 
+		private void RegisterContentController()
+		{
+			Ioc.Default.GetRequiredService<CCCMain>()
+				.Register();
+			Ioc.Default.GetRequiredService<CCCApp>()
+				.Register();
+		}
+
 		private void RunAppAndMessureTime()
 		{
 			using (Operation.Time("App loading"))
 			{
-				StartApplicationSafeMode();
-			}
-		}
-
-		private void StartApplicationSafeMode()
-		{
-			try
-			{
-				Log.Information("Application starting");
-				using (IServiceScope scope = _services.CreateScope())
+				try
 				{
-					scope.ServiceProvider.GetRequiredService<IControllerConfig>()
-						.RegisterAll();
-
-					var cc = scope.ServiceProvider.GetRequiredService<IContentControllerService>();
-					var mainWindow = cc.GetWindow(nameof(MainWindow));
-					mainWindow.Show();
+					Log.Information("Application starting");
+					using (IServiceScope scope = _services.CreateScope())
+					{
+						var cc = scope.ServiceProvider.GetRequiredService<IContentControllerService>();
+						var mainWindow = cc.GetWindow(nameof(MainWindow));
+						mainWindow.Show();
+					}
 				}
-			}
-			catch (Exception ex)
-			{
-				Log.Fatal(ex, "Application terminated unexpectedly");
-				//TODO: Add logline feeature again				LoggingConfigurator.LogLine();
-				Log.CloseAndFlush();
+				catch (Exception ex)
+				{
+					Log.Fatal(ex, "Application terminated unexpectedly");
+					//TODO: Add logline feeature again				LoggingConfigurator.LogLine();
+					Log.CloseAndFlush();
+				}
 			}
 		}
 

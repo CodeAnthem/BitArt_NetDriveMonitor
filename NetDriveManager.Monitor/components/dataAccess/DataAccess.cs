@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 
 namespace NetDriveManager.Monitor.components.dataAccess
@@ -37,8 +38,11 @@ namespace NetDriveManager.Monitor.components.dataAccess
 
 			if (netdrivesList.Count == 0 && UseDummyDataIfEmpty)
 			{
+				Log.Debug("Loaded dummy drives");
+
 				return _dummyNetdriveList;
 			}
+			Log.Information("Loaded drives");
 			return netdrivesList;
 		}
 

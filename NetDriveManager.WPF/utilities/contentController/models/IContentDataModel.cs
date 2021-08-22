@@ -1,4 +1,4 @@
-﻿using NetDriveManager.WPF.viewModels;
+﻿using NetDriveManager.WPF.Main;
 using System;
 
 namespace NetDriveManager.WPF.utilities.contentController.models

@@ -25,9 +25,11 @@ namespace NetDriveManager.Monitor.components.dataAccess
 			if (_jsonFile.Exists)
 			{
 				string jsonString = File.ReadAllText(_jsonFile.FullName);
-				return JsonConvert.DeserializeObject<List<NetdriveMonitorModel>>(jsonString);
+				var list = JsonConvert.DeserializeObject<List<NetdriveMonitorModel>>(jsonString);
+				Log.Debug("Loaded {amount} drives of JSON file", list.Count);
+				return list;
 			}
-			Log.Warning("No JSON file found - returning null");
+			Log.Warning("No JSON file found, returning null");
 			return null;
 		}
 
@@ -43,8 +45,10 @@ namespace NetDriveManager.Monitor.components.dataAccess
 
 				string jsonString = JsonConvert.SerializeObject(netdrivesList, Formatting.Indented);
 				File.WriteAllText(_jsonFile.FullName, jsonString);
+				Log.Information("Successfully saved {amount} drives to JSON file", netdrivesList.Count);
 				return true;
 			}
+			Log.Warning("Saving failed, no data?");
 			return false;
 		}
 	}

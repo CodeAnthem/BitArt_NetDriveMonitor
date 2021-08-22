@@ -1,5 +1,5 @@
-﻿using NetDriveManager.WPF.utilities.contentController.models;
-using NetDriveManager.WPF.viewModels;
+﻿using NetDriveManager.WPF.Main;
+using NetDriveManager.WPF.utilities.contentController.models;
 using System;
 using System.Collections.Generic;
 using System.Windows;

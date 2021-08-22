@@ -1,9 +1,6 @@
-﻿using NetDriveManager.WPF.viewModels;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using NetDriveManager.WPF.Main;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Toolkit.Mvvm;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace NetDriveManager.WPF.stores
 {
