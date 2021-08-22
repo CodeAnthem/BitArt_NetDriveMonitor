@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>resources\assets\icons\icons8-laufwerk-c-48.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Assets\Icons\DummyIcon.ico</ApplicationIcon>
     <AssemblyName>Netdrive Manager by Bitturbo</AssemblyName>
   </PropertyGroup>
 

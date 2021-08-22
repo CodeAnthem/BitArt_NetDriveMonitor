@@ -17,7 +17,7 @@ namespace NetDriveManager.WPF.Main
 
 		public void Register()
 		{
-			_contentStore.AddUserControl(nameof(MainWindow),
+			_contentStore.AddWindow(nameof(MainWindow),
 				() => _ioc.GetRequiredService<MainWindow>(),
 				() => _ioc.GetRequiredService<MainWindowModel>()
 				);

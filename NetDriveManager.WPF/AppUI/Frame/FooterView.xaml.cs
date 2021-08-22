@@ -16,9 +16,9 @@ namespace NetDriveManager.WPF.AppUI.Frame
 	/// <summary>
 	/// Interaction logic for Footer.xaml
 	/// </summary>
-	public partial class Footer : UserControl
+	public partial class FooterView : UserControl
 	{
-		public Footer()
+		public FooterView()
 		{
 			InitializeComponent();
 		}

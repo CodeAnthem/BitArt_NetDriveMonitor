@@ -46,6 +46,7 @@ namespace NetDriveManager.WPF
 				.Register();
 			Ioc.Default.GetRequiredService<CCCApp>()
 				.Register();
+			Log.Debug("Content Controller Registered");
 		}
 
 		private void RunAppAndMessureTime()

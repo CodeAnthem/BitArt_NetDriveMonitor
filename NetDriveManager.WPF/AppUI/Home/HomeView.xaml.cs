@@ -16,9 +16,9 @@ namespace NetDriveManager.WPF.AppUI.Home
 	/// <summary>
 	/// Interaction logic for Home.xaml
 	/// </summary>
-	public partial class Home : UserControl
+	public partial class HomeView : UserControl
 	{
-		public Home()
+		public HomeView()
 		{
 			InitializeComponent();
 		}
