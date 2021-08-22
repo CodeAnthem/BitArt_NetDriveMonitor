@@ -1,8 +1,8 @@
 ﻿using NetDriveManager.Monitor.components.dataAccess;
 using NetDriveManager.Monitor.components.netdriveHandler;
 using NetDriveManager.Monitor.components.netDrivePingWatchdog;
+using Serilog;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace NetDriveManager.Monitor
 {
@@ -17,9 +17,11 @@ namespace NetDriveManager.Monitor
 		private readonly INetdriveHandler _handler;
 
 		private readonly INetdrivePingWatchdog _pingWatchdog;
+		private readonly ILogger _logger;
 
-		public NetdriveMonitor(IDataAccess dataAccess, INetdriveHandler netdriveHandler, INetdrivePingWatchdog netdrivePingWatchdog)
+		public NetdriveMonitor(ILogger logger, IDataAccess dataAccess, INetdriveHandler netdriveHandler, INetdrivePingWatchdog netdrivePingWatchdog)
 		{
+			_logger = logger.ForContext<NetdriveMonitor>();
 			_da = dataAccess;
 			_da.UseDummyDataIfEmpty = true;
 			_handler = netdriveHandler;
@@ -39,7 +41,7 @@ namespace NetDriveManager.Monitor
 				IsEnabled = true;
 				return true;
 			}
-			Debug.WriteLine("Start aborted. Already running.");
+			Log.Warning("Start aborted, already running");
 			return false;
 		}
 
@@ -53,7 +55,7 @@ namespace NetDriveManager.Monitor
 				IsEnabled = false;
 				return true;
 			}
-			Debug.WriteLine("Stop aborted. Not running yet.");
+			Log.Warning("Stop aborted, not running yet");
 			return false;
 		}
 

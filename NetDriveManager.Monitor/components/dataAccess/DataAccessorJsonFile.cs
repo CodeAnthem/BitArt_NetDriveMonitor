@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Serilog;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -26,7 +27,7 @@ namespace NetDriveManager.Monitor.components.dataAccess
 				string jsonString = File.ReadAllText(_jsonFile.FullName);
 				return JsonConvert.DeserializeObject<List<NetdriveMonitorModel>>(jsonString);
 			}
-			Debug.WriteLine("No JSON file found - returning null");
+			Log.Warning("No JSON file found - returning null");
 			return null;
 		}
 

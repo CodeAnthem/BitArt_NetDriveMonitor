@@ -3,6 +3,8 @@ using NetDriveManager.WPF.controls;
 using NetDriveManager.WPF.helpers;
 using NetDriveManager.WPF.utilities.contentController.services;
 using NetDriveManager.WPF.views;
+using Serilog;
+using SerilogTimings.Extensions;
 using System;
 using System.ComponentModel;
 using System.Reflection;
@@ -30,6 +32,7 @@ namespace NetDriveManager.WPF.viewModels
 			CCHeader = _cc.GetUserControl(nameof(HeaderPartControl));
 			CCFooter = _cc.GetUserControl(nameof(FooterPartControl));
 			SetTheme();
+			Log.Debug("Main window loaded");
 		}
 
 		private void UpdateMainContent()
@@ -41,6 +44,7 @@ namespace NetDriveManager.WPF.viewModels
 		{
 			ThemeManager.Current.ChangeTheme(App.Current, "Dark.Steel");
 			ThemeManager.Current.ThemeSyncMode = ThemeSyncMode.SyncAll;
+			Log.Debug("Theme set and sync enabled");
 		}
 	}
 }

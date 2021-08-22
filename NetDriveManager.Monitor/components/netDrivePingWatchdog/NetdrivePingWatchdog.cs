@@ -1,4 +1,5 @@
 ﻿using BitArt_Network_Helpers;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -41,10 +42,10 @@ namespace NetDriveManager.Monitor.components.netDrivePingWatchdog
 					IsRunning = true;
 					return true;
 				}
-				Debug.WriteLine("Start aborted. Drives empty");
+				Log.Debug("Start aborted. Drives empty");
 				return false;
 			}
-			Debug.WriteLine("Start aborted. Already running.");
+			Log.Debug("Start aborted. Already running.");
 			return false;
 		}
 
@@ -59,7 +60,7 @@ namespace NetDriveManager.Monitor.components.netDrivePingWatchdog
 				IsRunning = false;
 				return true;
 			}
-			Debug.WriteLine("Stop aborted. Not running yet.");
+			Log.Debug("Stop aborted. Not running yet.");
 			return false;
 		}
 

@@ -48,5 +48,10 @@ namespace NetDriveManager.WPF.utilities.contentController.stores
 			_contentDict[type].Add(contentDataModel);
 			return true;
 		}
+
+		public int GetCount()
+		{
+			return _contentDict.Count;
+		}
 	}
 }

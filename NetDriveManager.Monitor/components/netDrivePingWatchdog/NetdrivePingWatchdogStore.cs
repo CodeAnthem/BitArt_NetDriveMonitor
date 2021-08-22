@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Serilog;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace NetDriveManager.Monitor.components.netDrivePingWatchdog
@@ -37,7 +38,7 @@ namespace NetDriveManager.Monitor.components.netDrivePingWatchdog
 			if (!isHostAlreadyKnown)
 			{
 				_activeDrivesList.Add(hostnameOrIP, new List<NetdriveMonitorModel>());
-				Debug.WriteLine($"Ping Watchdog: Added host: {hostnameOrIP}");
+				Log.Debug($"Ping Watchdog: Added host: {hostnameOrIP}");
 			}
 		}
 	}

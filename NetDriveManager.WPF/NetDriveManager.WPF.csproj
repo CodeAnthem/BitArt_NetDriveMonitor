@@ -13,12 +13,11 @@
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.8.0" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.1.7" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.2" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <PackageReference Include="Serilog.Sinks.WPF" Version="1.2.1" />
+    <PackageReference Include="SerilogTimings" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,4 +28,6 @@
     <Resource Include="resources\assets\fonts\TarponMotel.ttf" />
     <Resource Include="resources\assets\icons\icons8-laufwerk-c-48.ico" />
   </ItemGroup>
+
+  <Import Project="..\..\averon420\BitArt_MyHelpers_Shared\BitArt_Logger_Serilog\BitArt_Logger_Serilog.projitems" Label="Shared" />
 </Project>

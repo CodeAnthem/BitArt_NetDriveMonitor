@@ -1,6 +1,7 @@
 ﻿using NetDriveManager.WPF.utilities.contentController.models;
 using NetDriveManager.WPF.utilities.contentController.stores;
 using NetDriveManager.WPF.viewModels;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
