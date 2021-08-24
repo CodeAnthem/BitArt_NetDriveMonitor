@@ -42,13 +42,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DOCS", "DOCS", "{583C010D-D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetDriveManager.Monitor", "NetDriveManager.Monitor\NetDriveManager.Monitor.csproj", "{69C2C63E-8970-4DEB-90D7-8F4C1E2A0CD7}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BitArt_Logger_Serilog", "..\averon420\BitArt_MyHelpers_Shared\BitArt_Logger_Serilog\BitArt_Logger_Serilog.shproj", "{5A03BD7F-6465-4989-A40D-51DF2E308372}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\averon420\BitArt_MyHelpers_Shared\BitArt_Netdrive_Helpers\BitArt_Netdrive_Helpers.projitems*{2af484cd-0f11-47fd-8265-bd04d8a004e2}*SharedItemsImports = 13
-		..\averon420\BitArt_MyHelpers_Shared\BitArt_Logger_Serilog\BitArt_Logger_Serilog.projitems*{47c26e8f-052b-46e7-93c5-e55e87cdc3e7}*SharedItemsImports = 5
-		..\averon420\BitArt_MyHelpers_Shared\BitArt_Logger_Serilog\BitArt_Logger_Serilog.projitems*{5a03bd7f-6465-4989-a40d-51df2e308372}*SharedItemsImports = 13
 		..\averon420\BitArt_MyHelpers_Shared\BitArt_Network_Helpers\BitArt_Network_Helpers.projitems*{5e4c1237-2a21-4289-a37d-3fbd22308a21}*SharedItemsImports = 13
 		..\averon420\BitArt_MyHelpers_Shared\BitArt_Netdrive_Helpers\BitArt_Netdrive_Helpers.projitems*{69c2c63e-8970-4deb-90d7-8f4c1e2a0cd7}*SharedItemsImports = 5
 		..\averon420\BitArt_MyHelpers_Shared\BitArt_Network_Helpers\BitArt_Network_Helpers.projitems*{69c2c63e-8970-4deb-90d7-8f4c1e2a0cd7}*SharedItemsImports = 5
@@ -123,7 +119,6 @@ Global
 		{05E6444A-A532-454E-AF18-ED786BFC0792} = {E0605F78-F3CD-4FEE-A50D-BA3074D5989D}
 		{47C26E8F-052B-46E7-93C5-E55E87CDC3E7} = {E0605F78-F3CD-4FEE-A50D-BA3074D5989D}
 		{69C2C63E-8970-4DEB-90D7-8F4C1E2A0CD7} = {650F1EA3-6864-48B9-81BE-8636C8C1EC88}
-		{5A03BD7F-6465-4989-A40D-51DF2E308372} = {623EEF13-C36D-4083-9BBB-02374F89D428}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8971A2B6-0669-4408-9271-392B1F23495E}

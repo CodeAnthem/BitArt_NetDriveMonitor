@@ -4,6 +4,7 @@ using WPF.Main;
 using Serilog;
 using WPF.AppUI;
 using WPF.Utilities.ContentController;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace WPF
 {
@@ -18,22 +19,17 @@ namespace WPF
 
 		public IServiceCollection GetMergedServices()
 		{
+			_services.AddTransient<AppInfo>();
+
 			_services.Add_ContentController();
 			_services.Add_UI_Main();
 
 			_services.AddNetdriveManager();
 			_services.Add_UI_App();
 
-			AddLogging();
+			_services.Add_SeriLogging();
 
 			return _services;
-		}
-
-		private void AddLogging()
-		{
-			LoggerConfiguration seriCfg = new Serilog_Config().GetSerilogLoggerConfiguration();
-			ILogger logger = seriCfg.CreateLogger();
-			_services.AddSingleton<ILogger>(logger);
 		}
 	}
 }

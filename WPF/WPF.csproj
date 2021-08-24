@@ -30,6 +30,4 @@
     <Resource Include="Resources\Assets\Fonts\TarponMotel.ttf" />
     <Resource Include="Resources\Assets\Icons\DummyIcon.ico" />
   </ItemGroup>
-
-  <Import Project="..\..\averon420\BitArt_MyHelpers_Shared\BitArt_Logger_Serilog\BitArt_Logger_Serilog.projitems" Label="Shared" />
 </Project>

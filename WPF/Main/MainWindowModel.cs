@@ -12,12 +12,15 @@ namespace WPF.Main
 		public ContentControl CCMain => _mainContent.Control;
 		public ContentControl CCHeader { get; }
 		public ContentControl CCFooter { get; }
+		public string WindowTitle { get => _appInfo.WindowTitle; }
 
 		private readonly IContentControllerService _cc;
 		private readonly MainContentStore _mainContent;
+		private readonly AppInfo _appInfo;
 
-		public MainWindowModel(IContentControllerService contentControllerService, MainContentStore mainContentStore)
+		public MainWindowModel(AppInfo appInfo, IContentControllerService contentControllerService, MainContentStore mainContentStore)
 		{
+			_appInfo = appInfo;
 			_cc = contentControllerService;
 
 			_mainContent = mainContentStore;

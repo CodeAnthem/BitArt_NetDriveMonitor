@@ -1,22 +1,19 @@
-﻿using BitArt_Logger_Serilog;
-using Serilog;
+﻿using Serilog;
 using Serilog.Events;
 using System.Diagnostics;
+using WPF.Logging;
 
 namespace WPF
 {
 	public class Serilog_Config
 	{
-		#region TODO: Global app info class
-
-		//private static readonly string _appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-		private const string _appName = "Netdrive Manager";
-
-		private static readonly string _version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
 		private const string _breakLine = "---------------------------------------------------------------------------------------";
+		private readonly AppInfo _appInfo;
 
-		#endregion TODO: Global app info class
+		public Serilog_Config(AppInfo appInfo)
+		{
+			_appInfo = appInfo;
+		}
 
 		public LoggerConfiguration GetSerilogLoggerConfiguration()
 		{
@@ -47,7 +44,7 @@ namespace WPF
 			return serCfg
 				.WriteTo.Debug(
 					restrictedToMinimumLevel: LogEventLevel.Debug,
-					outputTemplate: $"[Debug: {_appName}] [{{Level:u4}}] {{Caller}}> {{Message:lj}}{{NewLine}}{{Exception}}"
+					outputTemplate: $"[Debug: {_appInfo.AppName}] [{{Level:u4}}] {{Caller}}> {{Message:lj}}{{NewLine}}{{Exception}}"
 				);
 		}
 
@@ -55,7 +52,7 @@ namespace WPF
 		{
 			return serCfg
 				.WriteTo.File(
-				   $@"Log\{_appName}_.log",
+				   $@"Log\{_appInfo.AppName}_.log",
 					restrictedToMinimumLevel: LogEventLevel.Information,
 					rollingInterval: RollingInterval.Day,
 					retainedFileCountLimit: 14,

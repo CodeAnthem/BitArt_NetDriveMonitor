@@ -7,7 +7,7 @@
 	xmlns:local="clr-namespace:WPF.Main"
 	xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Title="Net Drive Monitor"
+	Title="{Binding WindowTitle}"
 	Width="800" Height="450"
 	d:DataContext="{d:DesignInstance Type=local:MainWindowModel}"
 	BorderThickness="0" GlowBrush="White"
