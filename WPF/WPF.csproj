@@ -30,4 +30,19 @@
     <Resource Include="Resources\Assets\Fonts\TarponMotel.ttf" />
     <Resource Include="Resources\Assets\Icons\DummyIcon.ico" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Main\windowSettings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>windowSettings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Main\windowSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>windowSettings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
 </Project>

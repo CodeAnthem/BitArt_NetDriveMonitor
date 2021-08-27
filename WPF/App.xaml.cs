@@ -74,7 +74,8 @@ namespace WPF
 
 		protected override void OnExit(ExitEventArgs e)
 		{
-			Log.Warning("Application stopped");
+			windowSettings.Default.Save();
+			Log.Information("Application stopped");
 			//TODO: Add logline feeature again			LoggingConfigurator.LogLine();
 			Log.CloseAndFlush();
 		}

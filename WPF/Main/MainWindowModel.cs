@@ -4,6 +4,7 @@ using WPF.AppUI.Home;
 using WPF.Utilities.ContentController.Services;
 using Serilog;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace WPF.Main
 {
@@ -30,6 +31,7 @@ namespace WPF.Main
 			CCHeader = _cc.GetUserControl(nameof(HeaderView));
 			CCFooter = _cc.GetUserControl(nameof(FooterView));
 			SetTheme();
+
 			Log.Debug("Main window loaded");
 		}
 
