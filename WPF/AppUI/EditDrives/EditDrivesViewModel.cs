@@ -6,12 +6,13 @@ using WPF.Utilities.ContentController.Services;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Serilog;
 
 namespace WPF.AppUI.EditDrives
 {
 	public class EditDrivesViewModel : ViewModelBase
 	{
-		public ObservableCollection<NetdriveMonitorModel> DriveColl { get; set; } = new ObservableCollection<NetdriveMonitorModel>();
+		public ObservableCollection<NetdriveMonitorModel> DriveColl => _core.Drives;
 		public ICommand NavigateCancelCommand { get; }
 
 		public ICommand NavigateSaveCommand { get; }
@@ -30,13 +31,14 @@ namespace WPF.AppUI.EditDrives
 			NavigateCancelCommand = new RelayCommand(NavigateBack);
 			NavigateSaveCommand = new RelayCommand(Save);
 
-			GetDrivesForDataGrid();
+			//GetDrivesForDataGrid();
 		}
 
-		private void GetDrivesForDataGrid()
-		{
-			_core.GetDrives().ForEach(d => DriveColl.Add(d));
-		}
+		//private void GetDrivesForDataGrid()
+		//{
+		//	_core.GetDrives().ForEach(d => DriveColl.Add(d));
+		//	Log.Debug($"Loaded {DriveColl.Count} drives of DataAccess");
+		//}
 
 		private void NavigateBack()
 		{
@@ -46,6 +48,7 @@ namespace WPF.AppUI.EditDrives
 		private void Save()
 		{
 			_core.SaveDrives(DriveColl.ToList());
+			NavigateBack();
 		}
 	}
 }

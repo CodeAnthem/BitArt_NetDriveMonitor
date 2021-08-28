@@ -3,6 +3,8 @@ using NetDriveManager.Monitor.components.netdriveHandler;
 using NetDriveManager.Monitor.components.netDrivePingWatchdog;
 using Serilog;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace NetDriveManager.Monitor
 {
@@ -10,7 +12,7 @@ namespace NetDriveManager.Monitor
 	{
 		public bool IsEnabled { get; private set; }
 
-		public List<NetdriveMonitorModel> Drives { get; private set; } = new List<NetdriveMonitorModel>();
+		public ObservableCollection<NetdriveMonitorModel> Drives { get; private set; } = new ObservableCollection<NetdriveMonitorModel>();
 
 		private readonly IDataAccess _da;
 
@@ -36,7 +38,12 @@ namespace NetDriveManager.Monitor
 			if (!IsEnabled)
 			{
 				// Start
-				Drives = GetDrives();
+				GetDrives().ToList().ForEach(d => Drives.Add(d));
+				//TODO: Check drives (are they online, offline OR bla)
+				//foreach (var drive in Drives)
+				//{
+				//	_handler.
+				//}
 
 				IsEnabled = true;
 				return true;
@@ -63,7 +70,7 @@ namespace NetDriveManager.Monitor
 
 		public bool DisconnectDrive(NetdriveMonitorModel drive) => _handler.DisconnectDrive(drive);
 
-		public List<NetdriveMonitorModel> GetDrives() => _da.GetDrives0REmptyList();
+		public IEnumerable<NetdriveMonitorModel> GetDrives() => _da.GetDrives0REmptyList();
 
 		public bool SaveDrives(List<NetdriveMonitorModel> drivesList) => _da.SaveDrives(drivesList);
 

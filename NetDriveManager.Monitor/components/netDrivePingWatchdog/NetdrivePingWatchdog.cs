@@ -3,6 +3,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace NetDriveManager.Monitor.components.netDrivePingWatchdog
 {
@@ -29,13 +30,13 @@ namespace NetDriveManager.Monitor.components.netDrivePingWatchdog
 			_pingMonitor.OnHostChanged += HostUpdated;
 		}
 
-		public bool Start(List<NetdriveMonitorModel> drives)
+		public bool Start(IEnumerable<NetdriveMonitorModel> drives)
 		{
 			if (!IsRunning)
 			{
-				if (drives.Count > 0)
+				if (drives.Any())
 				{
-					drives.ForEach(x => _store.AddDriveIfRequired(x));
+					drives.ToList().ForEach(x => _store.AddDriveIfRequired(x));
 					_store.GetHosts().ForEach(x => _pingMonitor.AddHost(x));
 					_pingMonitor.Start();
 

@@ -24,7 +24,7 @@ namespace WPF.AppUI
 
 			// Settings
 			services.AddTransient<EditDrivesView>();
-			services.AddSingleton<EditDrivesViewModel>();
+			services.AddTransient<EditDrivesViewModel>();
 
 			// Edit Drives
 

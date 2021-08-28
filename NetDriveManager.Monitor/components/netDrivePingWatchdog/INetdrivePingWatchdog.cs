@@ -8,9 +8,11 @@ namespace NetDriveManager.Monitor.components.netDrivePingWatchdog
 		bool IsRunning { get; }
 
 		event Action<NetdriveMonitorModel> OnDriveAvailable;
+
 		event Action<NetdriveMonitorModel> OnDriveUnavailable;
 
-		bool Start(List<NetdriveMonitorModel> drives);
+		bool Start(IEnumerable<NetdriveMonitorModel> drives);
+
 		bool Stop();
 	}
 }

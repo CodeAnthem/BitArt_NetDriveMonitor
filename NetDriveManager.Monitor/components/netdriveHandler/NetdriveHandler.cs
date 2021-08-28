@@ -15,6 +15,8 @@ namespace NetDriveManager.Monitor.components.netdriveHandler
 
 		public bool DisconnectDrive(NetdriveMonitorModel drive) => _ndb.Remove(drive);
 
+		//public void GetDriveStatus(NetdriveMonitorModel drive) => _;
+
 		//TODO: add get status method
 	}
 }

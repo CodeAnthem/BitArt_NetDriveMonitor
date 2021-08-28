@@ -1,4 +1,5 @@
 ﻿using BitArt_Netdrive_Helpers.models;
+using Newtonsoft.Json;
 
 namespace NetDriveManager.Monitor
 {
@@ -9,6 +10,12 @@ namespace NetDriveManager.Monitor
 		public bool AutoConnectIfAvailable { get; set; }
 		public bool AutoConnectIfAccessed { get; set; }
 		public bool AutoConnectLanOnly { get; set; }
+
+		[JsonIgnore]
+		public bool IsHostAvailable { get; set; }
+
+		[JsonIgnore]
+		public bool IsConnected { get; set; }
 
 		#endregion Public Properties
 

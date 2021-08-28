@@ -99,7 +99,20 @@
 				Background="Green" BorderBrush="Beige"
 				BorderThickness="2" CornerRadius="20">
 				<StackPanel Orientation="Horizontal">
-					<DataGrid x:Name="DriveGrid" AutoGenerateColumns="True" ItemsSource="{Binding DriveColl}" />
+					<DataGrid x:Name="DriveGrid"
+						AreRowDetailsFrozen="True"
+						AutoGenerateColumns="False" IsReadOnly="False"
+						ItemsSource="{Binding DriveColl}"
+						UseLayoutRounding="True">
+						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding Letter}" Header="Letter" />
+							<DataGridTextColumn Binding="{Binding HostName}" Header="Server" />
+							<DataGridTextColumn Binding="{Binding Share}" Header="Share" />
+							<DataGridCheckBoxColumn Binding="{Binding AutoConnectIfAvailable}" Header="Auto: if available" />
+							<DataGridCheckBoxColumn Binding="{Binding AutoConnectIfAccessed}" Header="Auto: if accessed" />
+							<DataGridCheckBoxColumn Binding="{Binding AutoConnectLanOnly}" Header="Auto: LAN only" />
+						</DataGrid.Columns>
+					</DataGrid>
 				</StackPanel>
 			</Border>
 		</Grid>

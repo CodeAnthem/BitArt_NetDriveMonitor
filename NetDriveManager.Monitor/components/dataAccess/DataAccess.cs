@@ -13,6 +13,7 @@ namespace NetDriveManager.Monitor.components.dataAccess
 		private static readonly List<NetdriveMonitorModel> _dummyNetdriveList = new List<NetdriveMonitorModel>
 			{
 				new NetdriveMonitorModel("H:", "dp-nas10", "home", true),
+				new NetdriveMonitorModel("L:", "dp-nas10", "soft", false),
 				new NetdriveMonitorModel("V:", "dp-nas10", "video")
 			};
 
