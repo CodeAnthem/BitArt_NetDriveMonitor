@@ -30,21 +30,21 @@ namespace WPF.Main
 
 			CCHeader = _cc.GetUserControl(nameof(HeaderView));
 			CCFooter = _cc.GetUserControl(nameof(FooterView));
-			SetTheme();
 
+			SetTheme();
 			Log.Debug("Main window loaded");
+		}
+
+		private void SetTheme()
+		{
+			ThemeManager.Current.ThemeSyncMode = ThemeSyncMode.SyncAll;
+			ThemeManager.Current.SyncTheme();
+			Log.Debug("Theme set and sync enabled");
 		}
 
 		private void UpdateMainContent()
 		{
 			OnPropertyChanged(nameof(CCMain));
-		}
-
-		private void SetTheme()
-		{
-			ThemeManager.Current.ChangeTheme(App.Current, "Dark.Steel");
-			ThemeManager.Current.ThemeSyncMode = ThemeSyncMode.SyncAll;
-			Log.Debug("Theme set and sync enabled");
 		}
 	}
 }

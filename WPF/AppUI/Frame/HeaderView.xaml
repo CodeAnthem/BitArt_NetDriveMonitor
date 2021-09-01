@@ -4,6 +4,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="clr-namespace:WPF.AppUI.Frame"
+	xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+	xmlns:markup="clr-namespace:MahApps.Metro.Markup;assembly=MahApps.Metro"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DataContext="{d:DesignInstance Type=local:HeaderViewModel}"
@@ -11,27 +13,72 @@
 	mc:Ignorable="d">
 	<Grid>
 
-		<Grid.Resources>
-			<Style TargetType="materialDesign:Card">
-				<Setter Property="Margin" Value="0,16,0,8" />
-				<Setter Property="Padding" Value="10" />
-			</Style>
-		</Grid.Resources>
-
-		<materialDesign:Card>
+		<materialDesign:Card Margin="0,16,0,8">
 			<DockPanel VerticalAlignment="Center">
-				<StackPanel HorizontalAlignment="Left">
-					<TextBlock FontFamily="/assets/fonts/#TarponMotel" FontSize="30" Text="{Binding HeaderTitle}" />
-					<TextBlock Text="{Binding HeaderSubTitle}" />
+				<StackPanel DockPanel.Dock="Left">
+					<TextBlock Foreground="{DynamicResource MahApps.Brushes.Accent}" Style="{DynamicResource MaterialDesignHeadline4TextBlock}" Text="{Binding HeaderTitle}" />
+					<TextBlock Style="{DynamicResource MaterialDesignSubtitle1TextBlock}" Text="{Binding HeaderSubTitle}" />
 				</StackPanel>
-				<StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
-					<StackPanel.Resources>
-						<Style TargetType="Button">
-							<Setter Property="Margin" Value="10,0" />
-						</Style>
-					</StackPanel.Resources>
-					<Button Command="{}" Content="asdfasdf" />
-					<Button Command="{}" Content="Close" />
+				<StackPanel Margin="4,0" HorizontalAlignment="Right" Orientation="Horizontal">
+					<StackPanel VerticalAlignment="Center">
+
+						<StackPanel.Resources />
+
+						<!--<mah:ToggleSwitch
+							Margin="5" HorizontalContentAlignment="Center"
+							CommandParameter="{Binding}"
+							ContentDirection="LeftToRight"
+							IsOn="{Binding IsDarkTheme}"
+							OffCommand="{Binding ChangeThemeLight}"
+							OffContent="Change to Light"
+							OnCommand="{Binding ChangeThemeDark}"
+							OnContent="Change to Dark" />-->
+
+						<DockPanel>
+							<DockPanel.Resources>
+								<Style x:Key="DarkLightToggleStyle" BasedOn="{StaticResource MaterialDesignActionToggleButton}" TargetType="ToggleButton">
+									<Setter Property="Foreground" Value="Black" />
+									<Style.Triggers>
+										<Trigger x:Name="DarkLightToggleTrueTrigger" Property="IsChecked" Value="True">
+											<Setter Property="Foreground" Value="White" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+
+								<Style x:Key="DarkLightTextStyle" TargetType="TextBlock">
+									<Setter Property="Text" Value="Get Dark &gt;" />
+									<!--<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForeground}" />-->
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding ElementName=LightDarkToggleButton, Path=IsChecked}" Value="True">
+											<Setter Property="Text" Value="Get Light &gt;" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</DockPanel.Resources>
+
+							<ToggleButton x:Name="LightDarkToggleButton" Content="{materialDesign:PackIcon Kind=LightbulbOff, Size=25}"
+								materialDesign:ButtonAssist.CornerRadius="20"
+								materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=LightbulbOn,
+								                                                                      Size=25}"
+								Background="Transparent"
+								Command="{Binding ToggleBaseThemeCommand}"
+								DockPanel.Dock="Right"
+								IsChecked="{Binding IsDarkTheme}"
+								Style="{DynamicResource DarkLightToggleStyle}"
+								ToolTip="Toggle Theme" />
+
+							<TextBlock x:Name="LightDarkToggleText"
+								Padding="4" VerticalAlignment="Center"
+								Style="{DynamicResource DarkLightTextStyle}" />
+
+						</DockPanel>
+
+
+					</StackPanel>
+					<Image
+						Width="80" Height="80"
+						Source="/Resources/Assets/Logo/Logo.png"
+						Stretch="Fill" />
 				</StackPanel>
 			</DockPanel>
 		</materialDesign:Card>

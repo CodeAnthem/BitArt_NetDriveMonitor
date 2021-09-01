@@ -2,6 +2,8 @@
 
 namespace WPF.Main
 {
+	// https://thomaslevesque.com/2008/11/18/wpf-binding-to-application-settings-using-a-markup-extension/
+
 	public class WindowSettingsBindingExtension : Binding
 	{
 		public WindowSettingsBindingExtension()

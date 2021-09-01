@@ -10,7 +10,7 @@
 		public string AppAuthor { get; } = $"{_author}";
 		public string WindowTitle { get; } = $"{_appName}";
 		public string HeaderTitle { get; } = $"{_appName}";
-		public string HeaderSubTitle { get; } = "App under construction";
+		public string HeaderSubTitle { get; } = "A small tool to manage and monitor Windows network drives";
 		public string FooterTitle { get; } = $"{_author} - {_appName}";
 	}
 }

@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using NetDriveManager.Monitor;
 using System;
 using System.Windows;
+using ControlzEx.Theming;
 
 namespace WPF.AppUI.Home
 {

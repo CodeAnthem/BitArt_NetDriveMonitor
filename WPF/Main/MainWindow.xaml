@@ -10,8 +10,11 @@
 	Title="{Binding WindowTitle}"
 	Width="{local:WindowSettingsBinding Width}"
 	Height="{local:WindowSettingsBinding Height}"
-	d:DataContext="{d:DesignInstance Type=local:MainWindowModel}"
-	BorderThickness="0" GlowBrush="White"
+	MinWidth="650" MinHeight="500"
+	d:DataContext="{d:DesignInstance Type=local:MainWindowModel,
+	                                 IsDesignTimeCreatable=False}"
+	Background="#444" BorderThickness="0"
+	GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
 	Icon="/Resources/Assets/Icons/DummyIcon.ico"
 	Left="{local:WindowSettingsBinding Left}"
 	ShowIconOnTitleBar="True"
@@ -47,7 +50,7 @@
 		</mah:WindowCommands>
 	</mah:MetroWindow.RightWindowCommands>
 
-	<Grid Margin="16,0">
+	<Grid Margin="16,0" Background="#444">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
