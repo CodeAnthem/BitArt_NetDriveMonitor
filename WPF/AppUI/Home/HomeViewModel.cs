@@ -13,22 +13,51 @@ namespace WPF.AppUI.Home
 {
 	public class HomeViewModel : ViewModelBase
 	{
-		public ObservableCollection<NetdriveMonitorModel> Drives { get; } = new ObservableCollection<NetdriveMonitorModel>();
+		#region Private Fields
 
-		public ICommand ManageDrivesCommand { get; }
-		public ICommand ManageSettingsCommand { get; }
-		public ICommand ToggleDriveCommand { get; }
-		private readonly MainContentStore _mainContent;
 		private readonly IContentControllerService _cc;
+		private readonly MainContentStore _mainContent;
 		private NetdriveMonitorModel _selectedDrive;
 
+		#endregion
+
+		#region Private Methods
+
+		private void NavEditDrives()
+		{
+			_mainContent.Control = _cc.GetUserControl(nameof(EditDrivesView));
+		}
+
+		private void NavSettings()
+		{
+			Core.ConnectDrive(SelectedDrive);
+			MessageBox.Show("Opening Settings, soon?!");
+		}
+
+		//Drives = new ObservableCollection<NetdriveMonitorModel>(Core.Drives);
+		private void ToggleDrive()
+		{
+			MessageBox.Show($"Connecting {SelectedDrive} ");
+		}
+
+		#endregion
+
+		#region Public Properties
+
+		public INetdriveMonitor Core { get; }
+		public ICommand ManageDrivesCommand { get; }
+		public ICommand ManageSettingsCommand { get; }
 		public NetdriveMonitorModel SelectedDrive
 		{
 			get { return _selectedDrive; }
 			set { SetProperty(ref _selectedDrive, value); }
 		}
 
-		public INetdriveMonitor Core { get; }
+		public ICommand ToggleDriveCommand { get; }
+
+		#endregion
+
+		#region Public Constructors
 
 		public HomeViewModel(IContentControllerService contentControllerService, MainContentStore mainContentStore, INetdriveMonitor core = null)
 		{
@@ -39,25 +68,8 @@ namespace WPF.AppUI.Home
 			ToggleDriveCommand = new RelayCommand(ToggleDrive);
 			Core = core;
 			Core.Activate();
-			Drives = new ObservableCollection<NetdriveMonitorModel>(Core.Drives);
 		}
 
-		//Drives = new ObservableCollection<NetdriveMonitorModel>(Core.Drives);
-
-		private void NavSettings()
-		{
-			Core.ConnectDrive(SelectedDrive);
-			MessageBox.Show("Opening Settings, soon?!");
-		}
-
-		private void ToggleDrive()
-		{
-			MessageBox.Show($"Connecting {SelectedDrive} ");
-		}
-
-		private void NavEditDrives()
-		{
-			_mainContent.Control = _cc.GetUserControl(nameof(EditDrivesView));
-		}
+		#endregion
 	}
 }

@@ -12,15 +12,44 @@ namespace WPF.AppUI.EditDrives
 {
 	public class EditDrivesViewModel : ViewModelBase
 	{
-		public ObservableCollection<NetdriveMonitorModel> DriveColl => _core.Drives;
+		#region Private Fields
+
+		private readonly IContentControllerService _cc;
+		private readonly INetdriveMonitor _core;
+		private readonly MainContentStore _mainContent;
+
+		#endregion
+
+		#region Private Methods
+
+		private void NavigateBack()
+		{
+			_mainContent.Control = _cc.GetUserControl(nameof(HomeView));
+		}
+
+		//private void GetDrivesForDataGrid()
+		//{
+		//	_core.GetDrives().ForEach(d => DriveColl.Add(d));
+		//	Log.Debug($"Loaded {DriveColl.Count} drives of DataAccess");
+		//}
+		private void Save()
+		{
+			//_core.SaveDrives(DriveColl.ToList());
+			NavigateBack();
+		}
+
+		#endregion
+
+		#region Public Properties
+
+		//public ObservableCollection<NetdriveMonitorModel> DriveColl => _core.Drives;
 		public ICommand NavigateCancelCommand { get; }
 
 		public ICommand NavigateSaveCommand { get; }
 
-		private readonly IContentControllerService _cc;
+		#endregion
 
-		private readonly MainContentStore _mainContent;
-		private readonly INetdriveMonitor _core;
+		#region Public Constructors
 
 		public EditDrivesViewModel(INetdriveMonitor core, MainContentStore mainContent, IContentControllerService cc)
 		{
@@ -34,21 +63,6 @@ namespace WPF.AppUI.EditDrives
 			//GetDrivesForDataGrid();
 		}
 
-		//private void GetDrivesForDataGrid()
-		//{
-		//	_core.GetDrives().ForEach(d => DriveColl.Add(d));
-		//	Log.Debug($"Loaded {DriveColl.Count} drives of DataAccess");
-		//}
-
-		private void NavigateBack()
-		{
-			_mainContent.Control = _cc.GetUserControl(nameof(HomeView));
-		}
-
-		private void Save()
-		{
-			_core.SaveDrives(DriveColl.ToList());
-			NavigateBack();
-		}
+		#endregion
 	}
 }

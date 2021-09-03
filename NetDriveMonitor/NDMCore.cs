@@ -36,15 +36,15 @@ namespace NetDriveMonitor
 
 		#region Public Constructors
 
-		public NDMCore()
-		{
-			var dataAccessJson = new DataAccessJson(_applicationPath + _JsonConfigFileForDrives);
-			DA = new DataAccess(dataAccessJson, true);
+		//public NDMCore()
+		//{
+		//	var dataAccessJson = new DataAccessJson(_applicationPath + _JsonConfigFileForDrives);
+		//	DA = new DataAccess(dataAccessJson, true);
 
-			HostMonitor.NotifyOnChangesOnly = false;
-			HostMonitor.NotifyOnFirstPing = true;
-			HostMonitor.OnHostChanged += CheckDrivesOfHost;
-		}
+		//	HostMonitor.NotifyOnChangesOnly = false;
+		//	HostMonitor.NotifyOnFirstPing = true;
+		//	HostMonitor.OnHostChanged += CheckDrivesOfHost;
+		//}
 
 		#endregion Public Constructors
 
