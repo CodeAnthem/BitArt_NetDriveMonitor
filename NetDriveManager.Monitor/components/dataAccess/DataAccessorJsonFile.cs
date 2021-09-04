@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using NetDriveManager.Monitor.Interfaces;
+using Newtonsoft.Json;
 using Serilog;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,11 +9,16 @@ namespace NetDriveManager.Monitor.components.dataAccess
 {
 	internal class DataAccessorJsonFile : IDataAccessor
 	{
-		private static readonly string _applicationPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+		#region Private Fields
+
 		private const string _filePath = @"Save\drives.json";
+		private static readonly string _applicationPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+		private readonly FileInfo _jsonFile;
 		private readonly string _jsonFilePath;
 
-		private readonly FileInfo _jsonFile;
+		#endregion
+
+		#region Public Constructors
 
 		public DataAccessorJsonFile()
 		{
@@ -20,12 +26,16 @@ namespace NetDriveManager.Monitor.components.dataAccess
 			_jsonFile = new FileInfo(_jsonFilePath);
 		}
 
-		public List<NetdriveMonitorModel> GetDrives0RNull()
+		#endregion
+
+		#region Public Methods
+
+		public List<INetDrive> GetDrives0RNull()
 		{
 			if (_jsonFile.Exists)
 			{
 				string jsonString = File.ReadAllText(_jsonFile.FullName);
-				var list = JsonConvert.DeserializeObject<List<NetdriveMonitorModel>>(jsonString);
+				var list = JsonConvert.DeserializeObject<List<INetDrive>>(jsonString);
 				Log.Debug("Loaded {amount} drives of JSON file", list.Count);
 				return list;
 			}
@@ -33,7 +43,7 @@ namespace NetDriveManager.Monitor.components.dataAccess
 			return null;
 		}
 
-		public bool SaveDrives(List<NetdriveMonitorModel> netdrivesList)
+		public bool SaveDrives(List<INetDrive> netdrivesList)
 		{
 			var anyDrives = netdrivesList.Count > 0;
 			if (anyDrives)
@@ -51,5 +61,7 @@ namespace NetDriveManager.Monitor.components.dataAccess
 			Log.Warning("Saving failed, no data?");
 			return false;
 		}
+
+		#endregion
 	}
 }

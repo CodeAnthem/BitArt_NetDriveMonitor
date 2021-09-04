@@ -1,8 +1,12 @@
 ﻿using BitArt_Network_Helpers;
+using BitArt_WindowsHelpers.Network;
 using Microsoft.Extensions.DependencyInjection;
 using NetDriveManager.Monitor.components.dataAccess;
-using NetDriveManager.Monitor.components.netdriveHandler;
+using NetDriveManager.Monitor.components.NetDriveFactory;
+using NetDriveManager.Monitor.components.NetDriveHelper;
+using NetDriveManager.Monitor.components.NetDriveMounter;
 using NetDriveManager.Monitor.components.NetDriveStore;
+using NetDriveManager.Monitor.Interfaces;
 
 namespace NetDriveManager.Monitor
 {
@@ -12,13 +16,29 @@ namespace NetDriveManager.Monitor
 
 		public static IServiceCollection AddNetdriveManager(this IServiceCollection services)
 		{
-			services.AddSingleton<INetdriveMonitor, NetdriveMonitor>();
+			// Main Program
+			services.AddSingleton<INetDriveMonitor, NetDriveMonitor>();
 
+			// Data Access
 			services.AddSingleton<IDataAccess, DataAccess>();
 			services.AddSingleton<IDataAccessor, DataAccessorJsonFile>();
-			services.AddSingleton<INetdriveHandler, NetdriveHandler>();
+
+			// Factory
+			services.AddScoped<INetDriveFactory, NetDriveFactory>();
+
+			// Helper
+			services.AddScoped<INetDriveHelper, NetDriveHelper>();
+
+			// Mounter
+			services.AddScoped<INetDriveMounter<NetDriveMounterCMD>, NetDriveMounterCMD>();
+			services.AddScoped<INetDriveMounter<NetDriveMounterDirect>, NetDriveMounterDirect>();
+
+			// Store
 			services.AddSingleton<INetDriveStore, NetDriveStore>();
+
+			// Helpers > external
 			services.AddSingleton<IHostMonitor, HostMonitor>();
+			services.AddSingleton<IPathFinderUNC, PathFinderUNC>();
 
 			return services;
 		}

@@ -1,4 +1,6 @@
-﻿using Serilog;
+﻿using NetDriveManager.Monitor.Interfaces;
+using NetDriveManager.Monitor.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 
@@ -6,55 +8,57 @@ namespace NetDriveManager.Monitor.components.dataAccess
 {
 	public class DataAccess : IDataAccess
 	{
+		#region Private Fields
+
+		private readonly IDataAccessor _accessor;
+		private readonly INetDriveFactory _factory;
+
+		#endregion
+
+		#region Public Constructors
+
+		public DataAccess(IDataAccessor dataAccessor, INetDriveFactory factory)
+		{
+			_accessor = dataAccessor;
+			_factory = factory;
+		}
+
+		#endregion
+
 		#region Public Properties
 
 		public bool UseDummyDataIfEmpty { get; set; }
 
 		#endregion
 
-		#region Private Fields
-
-		private static readonly List<NetdriveMonitorModel> _dummyNetdriveList = new List<NetdriveMonitorModel>
-			{
-				new NetdriveMonitorModel("H:", "dp-nas10", "home", false),
-				new NetdriveMonitorModel("L:", "dp-nas10", "soft", false),
-				new NetdriveMonitorModel("V:", "dp-nas10", "video")
-			};
-
-		private readonly IDataAccessor _accessor;
-
-		#endregion Private Fields
-
-		#region Public Constructors
-
-		public DataAccess(IDataAccessor dataAccessor)
-		{
-			_accessor = dataAccessor;
-		}
-
-		#endregion Public Constructors
-
 		#region Public Methods
 
-		public List<NetdriveMonitorModel> GetDrives0REmptyList()
+		public List<INetDrive> GetDrives0REmptyList()
 		{
-			List<NetdriveMonitorModel> netdrivesList = _accessor.GetDrives0RNull();
-			netdrivesList ??= new List<NetdriveMonitorModel>();
+			List<INetDrive> netdrivesList = _accessor.GetDrives0RNull();
+			netdrivesList ??= new List<INetDrive>();
 
 			if (netdrivesList.Count == 0 && UseDummyDataIfEmpty)
 			{
 				Log.Debug("Loaded dummy drives");
 
-				return _dummyNetdriveList;
+				return GetDummyData();
 			}
 			Log.Information("Loaded drives");
 			return netdrivesList;
 		}
 
-		public List<NetdriveMonitorModel> GetDummyData() => _dummyNetdriveList;
+		public List<INetDrive> GetDummyData()
+		{
+			List<INetDrive> dummyDrives = new List<INetDrive>();
+			dummyDrives.Add(_factory.Create("H:", "dp-nas10", "home"));
+			dummyDrives.Add(_factory.Create("L:", "dp-nas10", "soft"));
+			dummyDrives.Add(_factory.Create("V:", "dp-nas10", "video"));
+			return dummyDrives;
+		}
 
-		public bool SaveDrives(List<NetdriveMonitorModel> netDrives) => _accessor.SaveDrives(netDrives);
+		public bool SaveDrives(List<INetDrive> netDrives) => _accessor.SaveDrives(netDrives);
 
-		#endregion Public Methods
+		#endregion
 	}
 }

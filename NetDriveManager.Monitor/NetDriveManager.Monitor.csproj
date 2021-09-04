@@ -4,9 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="..\..\averon420\BitArt_MyHelpers_Shared\BitArt_Netdrive_Helpers\BitArt_Netdrive_Helpers.projitems" Label="Shared" />
-
   <Import Project="..\..\averon420\BitArt_MyHelpers_Shared\BitArt_Network_Helpers\BitArt_Network_Helpers.projitems" Label="Shared" />
+
+  <Import Project="..\..\averon420\BitArt_MyHelpers_Shared\BitArt_WindowsHelpers\BitArt_WindowsHelpers.projitems" Label="Shared" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />

@@ -1,12 +1,9 @@
 ﻿using Microsoft.Toolkit.Mvvm.Input;
-using NetDriveManager.Monitor;
+using NetDriveManager.Monitor.Interfaces;
+using System.Windows.Input;
 using WPF.AppUI.Home;
 using WPF.Main;
 using WPF.Utilities.ContentController.Services;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-using Serilog;
 
 namespace WPF.AppUI.EditDrives
 {
@@ -15,7 +12,7 @@ namespace WPF.AppUI.EditDrives
 		#region Private Fields
 
 		private readonly IContentControllerService _cc;
-		private readonly INetdriveMonitor _core;
+		private readonly INetDriveMonitor _core;
 		private readonly MainContentStore _mainContent;
 
 		#endregion
@@ -51,7 +48,7 @@ namespace WPF.AppUI.EditDrives
 
 		#region Public Constructors
 
-		public EditDrivesViewModel(INetdriveMonitor core, MainContentStore mainContent, IContentControllerService cc)
+		public EditDrivesViewModel(INetDriveMonitor core, MainContentStore mainContent, IContentControllerService cc)
 		{
 			_core = core;
 			_mainContent = mainContent;

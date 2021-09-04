@@ -1,19 +1,18 @@
 ﻿using BitArt_Network_Helpers;
-using NetDriveManager.Monitor.components.dataAccess;
-using NetDriveManager.Monitor.components.netdriveHandler;
-using NetDriveManager.Monitor.components.NetDriveStore;
+using NetDriveManager.Monitor.Interfaces;
 using Serilog;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace NetDriveManager.Monitor
 {
-	public class NetdriveMonitor : INetdriveMonitor
+	public class NetDriveMonitor : INetDriveMonitor
 	{
 		#region Private Fields
 
 		private readonly IDataAccess _da;
-		private readonly INetdriveHandler _handler;
+
+		private readonly INetDriveHelper _helper;
 		private readonly IHostMonitor _hostMonitor;
 		private readonly ILogger _logger;
 		private readonly INetDriveStore _store;
@@ -22,7 +21,7 @@ namespace NetDriveManager.Monitor
 
 		#region Public Properties
 
-		public ObservableCollection<NetdriveMonitorModel> Drives { get => _store.Drives; }
+		public ObservableCollection<INetDrive> Drives { get => _store.Drives; }
 
 		public bool IsEnabled { get; private set; }
 
@@ -30,13 +29,32 @@ namespace NetDriveManager.Monitor
 
 		#region Public Constructors
 
+		public NetDriveMonitor(ILogger logger, IDataAccess dataAccess, INetDriveStore store, IHostMonitor hostMonitor, INetDriveHelper helper)
+		{
+			_logger = logger.ForContext<NetDriveMonitor>();
+			_da = dataAccess;
+			_da.UseDummyDataIfEmpty = true;
+			_store = store;
+			_hostMonitor = hostMonitor;
+
+			_hostMonitor.ScanInterval = 1000;
+			_hostMonitor.NotifyOnChangesOnly = true;
+			_hostMonitor.NotifyOnFirstPing = false;
+
+			_hostMonitor.OnHostChanged += HostStatusChanged;
+			_helper = helper;
+
+			//_pingWatchdog.OnDriveAvailable += x => ConnectDrive(x);
+			//_pingWatchdog.OnDriveUnavailable += x => DisconnectDrive(x);
+		}
+
 		private void HostStatusChanged(string hostName, bool state)
 		{
 			var drivesOfHost = _store.GetDrivesOfHostOREMPTY(hostName);
 
 			foreach (var drive in drivesOfHost)
 			{
-				drive.IsHostAvailable = state;
+				drive.Status.IsHostAvailable = state;
 				if (state)
 				{
 					Log.Debug("Changed host status of drive {drive} to online", drive);
@@ -48,7 +66,7 @@ namespace NetDriveManager.Monitor
 
 				if (state)
 				{
-					if (drive.AutoConnectIfAvailable)
+					if (drive.Options.AutoConnectIfAvailable)
 						ConnectDrive(drive);
 				}
 				else
@@ -57,25 +75,6 @@ namespace NetDriveManager.Monitor
 				}
 			}
 			Log.Debug("Updated all drives of host: {host}", hostName);
-		}
-
-		public NetdriveMonitor(ILogger logger, IDataAccess dataAccess, INetdriveHandler netdriveHandler, INetDriveStore store, IHostMonitor hostMonitor)
-		{
-			_logger = logger.ForContext<NetdriveMonitor>();
-			_da = dataAccess;
-			_da.UseDummyDataIfEmpty = true;
-			_store = store;
-			_handler = netdriveHandler;
-			_hostMonitor = hostMonitor;
-
-			_hostMonitor.ScanInterval = 1000;
-			_hostMonitor.NotifyOnChangesOnly = true;
-			_hostMonitor.NotifyOnFirstPing = false;
-
-			_hostMonitor.OnHostChanged += HostStatusChanged;
-
-			//_pingWatchdog.OnDriveAvailable += x => ConnectDrive(x);
-			//_pingWatchdog.OnDriveUnavailable += x => DisconnectDrive(x);
 		}
 
 		#endregion
@@ -119,7 +118,7 @@ namespace NetDriveManager.Monitor
 			return false;
 		}
 
-		public bool ConnectDrive(NetdriveMonitorModel drive) => _handler.ConnectDrive(drive);
+		public bool ConnectDrive(INetDrive drive) => _helper.Add(drive);
 
 		public bool Deactivate()
 		{
@@ -135,11 +134,11 @@ namespace NetDriveManager.Monitor
 			return false;
 		}
 
-		public bool DisconnectDrive(NetdriveMonitorModel drive) => _handler.DisconnectDrive(drive);
+		public bool DisconnectDrive(INetDrive drive) => _helper.Remove(drive);
 
-		public IEnumerable<NetdriveMonitorModel> GetDrives() => _da.GetDrives0REmptyList();
+		public IEnumerable<INetDrive> GetDrives() => _da.GetDrives0REmptyList();
 
-		public bool SaveDrives(List<NetdriveMonitorModel> drivesList) => _da.SaveDrives(drivesList);
+		public bool SaveDrives(List<INetDrive> drivesList) => _da.SaveDrives(drivesList);
 
 		#endregion
 	}

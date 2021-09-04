@@ -1,13 +1,10 @@
 ﻿using Microsoft.Toolkit.Mvvm.Input;
+using NetDriveManager.Monitor.Interfaces;
+using System.Windows;
+using System.Windows.Input;
 using WPF.AppUI.EditDrives;
 using WPF.Main;
 using WPF.Utilities.ContentController.Services;
-using System.Windows.Input;
-using System.Collections.ObjectModel;
-using NetDriveManager.Monitor;
-using System;
-using System.Windows;
-using ControlzEx.Theming;
 
 namespace WPF.AppUI.Home
 {
@@ -17,7 +14,7 @@ namespace WPF.AppUI.Home
 
 		private readonly IContentControllerService _cc;
 		private readonly MainContentStore _mainContent;
-		private NetdriveMonitorModel _selectedDrive;
+		private INetDrive _selectedDrive;
 
 		#endregion
 
@@ -44,10 +41,10 @@ namespace WPF.AppUI.Home
 
 		#region Public Properties
 
-		public INetdriveMonitor Core { get; }
+		public INetDriveMonitor Core { get; }
 		public ICommand ManageDrivesCommand { get; }
 		public ICommand ManageSettingsCommand { get; }
-		public NetdriveMonitorModel SelectedDrive
+		public INetDrive SelectedDrive
 		{
 			get { return _selectedDrive; }
 			set { SetProperty(ref _selectedDrive, value); }
@@ -59,7 +56,7 @@ namespace WPF.AppUI.Home
 
 		#region Public Constructors
 
-		public HomeViewModel(IContentControllerService contentControllerService, MainContentStore mainContentStore, INetdriveMonitor core = null)
+		public HomeViewModel(IContentControllerService contentControllerService, MainContentStore mainContentStore, INetDriveMonitor core = null)
 		{
 			_cc = contentControllerService;
 			_mainContent = mainContentStore;

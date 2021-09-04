@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using NetDriveManager.Monitor.Interfaces;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,9 +11,9 @@ namespace NetDriveManager.Monitor.components.NetDriveStore
 	{
 		#region Private Methods
 
-		private void AddDriveToHostDict(NetdriveMonitorModel drive)
+		private void AddDriveToHostDict(INetDrive drive)
 		{
-			string hostnameOrIP = drive.HostName;
+			string hostnameOrIP = drive.Info.HostName;
 			AddHostIfNotExistYet(hostnameOrIP);
 			DrivesByHostDict[hostnameOrIP].Add(drive);
 		}
@@ -21,7 +22,7 @@ namespace NetDriveManager.Monitor.components.NetDriveStore
 		{
 			if (!IsHostAlreadyKnown(hostnameOrIP))
 			{
-				DrivesByHostDict.Add(hostnameOrIP, new List<NetdriveMonitorModel>());
+				DrivesByHostDict.Add(hostnameOrIP, new List<INetDrive>());
 				Log.Debug("Host '{host}' added", hostnameOrIP);
 				return;
 			}
@@ -34,8 +35,8 @@ namespace NetDriveManager.Monitor.components.NetDriveStore
 
 		#region Public Properties
 
-		public ObservableCollection<NetdriveMonitorModel> Drives { get; } = new ObservableCollection<NetdriveMonitorModel>();
-		public Dictionary<string, List<NetdriveMonitorModel>> DrivesByHostDict { get; set; } = new Dictionary<string, List<NetdriveMonitorModel>>();
+		public ObservableCollection<INetDrive> Drives { get; } = new ObservableCollection<INetDrive>();
+		public Dictionary<string, List<INetDrive>> DrivesByHostDict { get; set; } = new Dictionary<string, List<INetDrive>>();
 
 		#endregion
 
@@ -48,19 +49,19 @@ namespace NetDriveManager.Monitor.components.NetDriveStore
 			Log.Debug("Cleared store");
 		}
 
-		public List<NetdriveMonitorModel> GetDrivesOfHostOREMPTY(string hostnameOrIP)
+		public List<INetDrive> GetDrivesOfHostOREMPTY(string hostnameOrIP)
 		{
-			List<NetdriveMonitorModel> drives = IsHostAlreadyKnown(hostnameOrIP)
+			List<INetDrive> drives = IsHostAlreadyKnown(hostnameOrIP)
 				? DrivesByHostDict[hostnameOrIP]
-				: new List<NetdriveMonitorModel>();
+				: new List<INetDrive>();
 			Log.Debug("Found {count} drives for host: {host}", drives.Count, hostnameOrIP);
 			return drives;
 		}
 
-		public List<NetdriveMonitorModel> GetDrivesOfHostOREMPTY2(string hostnameOrIP)
+		public List<INetDrive> GetDrivesOfHostOREMPTY2(string hostnameOrIP)
 		{
 			// Alternate Version
-			List<NetdriveMonitorModel> drives = new List<NetdriveMonitorModel>();
+			List<INetDrive> drives = new List<INetDrive>();
 			if (IsHostAlreadyKnown(hostnameOrIP))
 			{
 				drives = DrivesByHostDict[hostnameOrIP];
@@ -80,7 +81,7 @@ namespace NetDriveManager.Monitor.components.NetDriveStore
 			return listOfHosts;
 		}
 
-		public void Register(NetdriveMonitorModel drive)
+		public void Register(INetDrive drive)
 		{
 			//if (drive.Equals(null))
 			//{

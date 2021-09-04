@@ -185,13 +185,13 @@
 
 						<DataGridTextColumn
 							Width="100"
-							Binding="{Binding Letter}"
+							Binding="{Binding Info.Letter}"
 							CanUserReorder="False" CanUserResize="False"
 							Header="Letter" />
-						<DataGridTextColumn Width="*" Binding="{Binding HostName}" Header="Server" />
-						<DataGridTextColumn Width="*" Binding="{Binding Share}" Header="Share" />
-						<DataGridTextColumn Width="*" Binding="{Binding IsConnected}" Header="Connected" />
-						<DataGridTextColumn Width="*" Binding="{Binding IsHostAvailable}" Header="Available" />
+						<DataGridTextColumn Width="*" Binding="{Binding Info.HostName}" Header="Server" />
+						<DataGridTextColumn Width="*" Binding="{Binding Info.Share}" Header="Share" />
+						<DataGridTextColumn Width="*" Binding="{Binding Status.IsConnected}" Header="Connected" />
+						<DataGridTextColumn Width="*" Binding="{Binding Status.IsHostAvailable}" Header="Available" />
 					</DataGrid.Columns>
 				</DataGrid>
 			</Border>
