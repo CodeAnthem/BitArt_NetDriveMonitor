@@ -6,7 +6,10 @@ using NetDriveManager.Monitor.components.NetDriveFactory;
 using NetDriveManager.Monitor.components.NetDriveHelper;
 using NetDriveManager.Monitor.components.NetDriveMounter;
 using NetDriveManager.Monitor.components.NetDriveStore;
+using NetDriveManager.Monitor.components.NetDriveWatcher;
+using NetDriveManager.Monitor.components.SettingsFactory;
 using NetDriveManager.Monitor.Interfaces;
+using NetDriveManager.Monitor.Models;
 
 namespace NetDriveManager.Monitor
 {
@@ -18,6 +21,10 @@ namespace NetDriveManager.Monitor
 		{
 			// Main Program
 			services.AddSingleton<INetDriveMonitor, NetDriveMonitor>();
+
+			// Settings
+			var settings = SettingsFactory.Create();
+			services.AddSingleton<INetDriveMonitorSettings>(settings);
 
 			// Data Access
 			services.AddSingleton<IDataAccess, DataAccess>();
@@ -35,6 +42,9 @@ namespace NetDriveManager.Monitor
 
 			// Store
 			services.AddSingleton<INetDriveStore, NetDriveStore>();
+
+			// Net Drive Watcher
+			services.AddSingleton<NetDriveWatcherTimer>();
 
 			// Helpers > external
 			services.AddSingleton<IHostMonitor, HostMonitor>();

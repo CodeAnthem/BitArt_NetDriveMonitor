@@ -1,8 +1,10 @@
 ﻿using BitArt_Network_Helpers;
+using NetDriveManager.Monitor.components.NetDriveWatcher;
 using NetDriveManager.Monitor.Interfaces;
 using Serilog;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace NetDriveManager.Monitor
 {
@@ -10,8 +12,7 @@ namespace NetDriveManager.Monitor
 	{
 		#region Private Fields
 
-		private readonly IDataAccess _da;
-
+		private readonly NetDriveWatcherTimer _driveWatcher;
 		private readonly INetDriveHelper _helper;
 		private readonly IHostMonitor _hostMonitor;
 		private readonly ILogger _logger;
@@ -21,19 +22,21 @@ namespace NetDriveManager.Monitor
 
 		#region Public Properties
 
+		public IDataAccess DataAccess { get; }
+		public INetDriveHelper DriveHelper { get; }
 		public ObservableCollection<INetDrive> Drives { get => _store.Drives; }
-
 		public bool IsEnabled { get; private set; }
+		public INetDriveMonitorSettings NetDriveMonitorSettings { get; }
 
 		#endregion
 
 		#region Public Constructors
 
-		public NetDriveMonitor(ILogger logger, IDataAccess dataAccess, INetDriveStore store, IHostMonitor hostMonitor, INetDriveHelper helper)
+		public NetDriveMonitor(ILogger logger, IDataAccess dataAccess, INetDriveStore store, IHostMonitor hostMonitor, NetDriveWatcherTimer driveWatcher, INetDriveHelper driveHelper, INetDriveMonitorSettings netDriveMonitorSettings)
 		{
 			_logger = logger.ForContext<NetDriveMonitor>();
-			_da = dataAccess;
-			_da.UseDummyDataIfEmpty = true;
+			DataAccess = dataAccess;
+			DataAccess.UseDummyDataIfEmpty = true;
 			_store = store;
 			_hostMonitor = hostMonitor;
 
@@ -42,7 +45,9 @@ namespace NetDriveManager.Monitor
 			_hostMonitor.NotifyOnFirstPing = false;
 
 			_hostMonitor.OnHostChanged += HostStatusChanged;
-			_helper = helper;
+			_driveWatcher = driveWatcher;
+			DriveHelper = driveHelper;
+			NetDriveMonitorSettings = netDriveMonitorSettings;
 
 			//_pingWatchdog.OnDriveAvailable += x => ConnectDrive(x);
 			//_pingWatchdog.OnDriveUnavailable += x => DisconnectDrive(x);
@@ -66,12 +71,13 @@ namespace NetDriveManager.Monitor
 
 				if (state)
 				{
-					if (drive.Options.AutoConnectIfAvailable)
-						ConnectDrive(drive);
+					if (drive.Options.AutoConnectIfAvailable && !drive.Status.IsConnected && NetDriveMonitorSettings.IsAutoConnectIfAvailable) // TODO: Add check if auto connect option is enabled
+						DriveHelper.Add(drive);
 				}
 				else
 				{
-					DisconnectDrive(drive);
+					if (drive.Status.IsConnected)
+						DriveHelper.Remove(drive);
 				}
 			}
 			Log.Debug("Updated all drives of host: {host}", hostName);
@@ -88,7 +94,7 @@ namespace NetDriveManager.Monitor
 				_store.Clear();
 
 				// Get drives and register them into store
-				var drivesOfConfigFile = GetDrives();
+				var drivesOfConfigFile = DataAccess.GetDrives0REmptyList();
 				foreach (var drive in drivesOfConfigFile)
 				{
 					_store.Register(drive);
@@ -104,6 +110,7 @@ namespace NetDriveManager.Monitor
 
 				// Start
 				_hostMonitor.Start();
+				_driveWatcher.Start();
 
 				//TODO: Check drives (are they online, offline OR bla)
 				//foreach (var drive in Drives)
@@ -118,8 +125,6 @@ namespace NetDriveManager.Monitor
 			return false;
 		}
 
-		public bool ConnectDrive(INetDrive drive) => _helper.Add(drive);
-
 		public bool Deactivate()
 		{
 			if (!IsEnabled)
@@ -133,12 +138,6 @@ namespace NetDriveManager.Monitor
 			Log.Warning("Stop aborted, not running yet");
 			return false;
 		}
-
-		public bool DisconnectDrive(INetDrive drive) => _helper.Remove(drive);
-
-		public IEnumerable<INetDrive> GetDrives() => _da.GetDrives0REmptyList();
-
-		public bool SaveDrives(List<INetDrive> drivesList) => _da.SaveDrives(drivesList);
 
 		#endregion
 	}

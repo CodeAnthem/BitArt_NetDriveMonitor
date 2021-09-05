@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NetDriveManager.Monitor.Interfaces
 {
@@ -9,6 +10,8 @@ namespace NetDriveManager.Monitor.Interfaces
 		bool Add(INetDrive drive);
 
 		bool Add(string letter, string hostName, string share);
+
+		Task<bool> AddAsync(INetDrive drive);
 
 		IEnumerable<INetDrive> GetAll();
 
@@ -21,6 +24,8 @@ namespace NetDriveManager.Monitor.Interfaces
 		bool Remove(string letter);
 
 		bool RemoveAll();
+
+		Task<bool> RemoveAsync(INetDrive drive);
 
 		#endregion
 	}

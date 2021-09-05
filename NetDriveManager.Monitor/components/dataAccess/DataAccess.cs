@@ -51,7 +51,7 @@ namespace NetDriveManager.Monitor.components.dataAccess
 		public List<INetDrive> GetDummyData()
 		{
 			List<INetDrive> dummyDrives = new List<INetDrive>();
-			dummyDrives.Add(_factory.Create("H:", "dp-nas10", "home"));
+			dummyDrives.Add(_factory.Create("H:", "dp-nas10", "home", true));
 			dummyDrives.Add(_factory.Create("L:", "dp-nas10", "soft"));
 			dummyDrives.Add(_factory.Create("V:", "dp-nas10", "video"));
 			return dummyDrives;

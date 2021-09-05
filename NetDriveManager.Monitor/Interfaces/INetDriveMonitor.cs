@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace NetDriveManager.Monitor.Interfaces
 {
@@ -7,8 +8,11 @@ namespace NetDriveManager.Monitor.Interfaces
 	{
 		#region Public Properties
 
+		IDataAccess DataAccess { get; }
+		INetDriveHelper DriveHelper { get; }
 		ObservableCollection<INetDrive> Drives { get; }
 		bool IsEnabled { get; }
+		INetDriveMonitorSettings NetDriveMonitorSettings { get; }
 
 		#endregion
 
@@ -16,15 +20,7 @@ namespace NetDriveManager.Monitor.Interfaces
 
 		bool Activate();
 
-		bool ConnectDrive(INetDrive drive);
-
 		bool Deactivate();
-
-		bool DisconnectDrive(INetDrive drive);
-
-		IEnumerable<INetDrive> GetDrives();
-
-		bool SaveDrives(List<INetDrive> drivesList);
 
 		#endregion
 	}

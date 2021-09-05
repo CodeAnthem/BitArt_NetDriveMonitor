@@ -77,7 +77,7 @@ namespace NetDriveManager.Monitor.components.NetDriveStore
 			{
 				listOfHosts = DrivesByHostDict.Keys.ToList();
 			}
-			Log.Debug("Found {count} registered hosts");
+			Log.Debug("Found {count} registered hosts", listOfHosts.Count);
 			return listOfHosts;
 		}
 

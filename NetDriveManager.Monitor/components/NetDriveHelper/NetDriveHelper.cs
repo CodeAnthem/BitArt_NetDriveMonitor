@@ -2,6 +2,7 @@
 using NetDriveManager.Monitor.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NetDriveManager.Monitor.components.NetDriveHelper
 {
@@ -28,27 +29,46 @@ namespace NetDriveManager.Monitor.components.NetDriveHelper
 
 		#region Public Methods
 
-		public bool Add(INetDrive drive) => _cmdMounter.Add(drive);
+		public bool Add(INetDrive drive) => AddAction(drive);
 
+		// not really used, but why not?
 		public bool Add(string letter, string hostName, string share)
 		{
 			INetDrive drive = _factory.Create(letter, hostName, share);
 			if (drive is null)
 				throw new Exception("Failed to create drive");
-			return Add(drive);
+			return AddAction(drive);
 		}
+
+		public async Task<bool> AddAsync(INetDrive drive) => await Task.Run(() => AddAction(drive));
 
 		public IEnumerable<INetDrive> GetAll() => _directMounter.GetAll();
 
-		public bool IsAlreadyConnected(INetDrive drive) => IsAlreadyConnected(drive.Info.Letter);
+		public async Task<IEnumerable<INetDrive>> GetAllAsync() => await Task.Run(() => _directMounter.GetAll());
 
-		public bool IsAlreadyConnected(string letter) => IsLetterUsed(letter);
+		public bool IsAlreadyConnected(INetDrive drive) => IsAlreadyConnectedAction(drive.Info.Letter);
 
-		public bool Remove(INetDrive drive) => Remove(drive.Info.Letter);
+		public bool IsAlreadyConnected(string letter) => IsAlreadyConnectedAction(letter);
 
-		public bool Remove(string letter) => _cmdMounter.Remove(letter);
+		public bool Remove(INetDrive drive) => RemoveAction(drive.Info.Letter);
+
+		public bool Remove(string letter) => RemoveAction(letter);
 
 		public bool RemoveAll() => _cmdMounter.RemoveAll();
+
+		public async Task<bool> RemoveAllAsync() => await Task.Run(() => _cmdMounter.RemoveAll());
+
+		public async Task<bool> RemoveAsync(INetDrive drive) => await Task.Run(() => RemoveAction(drive.Info.Letter));
+
+		#endregion
+
+		#region Private Methods
+
+		private bool AddAction(INetDrive drive) => _cmdMounter.Add(drive);
+
+		private bool IsAlreadyConnectedAction(string letter) => IsLetterUsed(letter);
+
+		private bool RemoveAction(string letter) => _cmdMounter.Remove(letter);
 
 		#endregion
 	}

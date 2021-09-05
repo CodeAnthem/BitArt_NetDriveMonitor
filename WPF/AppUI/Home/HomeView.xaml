@@ -80,10 +80,11 @@
 									Margin="5" HorizontalContentAlignment="Center"
 									CommandParameter="{Binding}"
 									ContentDirection="LeftToRight"
-									OffCommand="{Binding ToggleSwitchOffCommand}"
-									OffContent="Not Connecting if accessed"
-									OnCommand="{Binding ToggleSwitchOnCommand}"
-									OnContent="Connecting if accessed" />
+									IsOn="{Binding Settings.IsAutoConnectIfAvailable, Mode=OneWay}"
+									OffCommand="{Binding ToggleSetting_AutoConnectIfAvailable}"
+									OffContent="Not auto-connecting if available"
+									OnCommand="{Binding ToggleSetting_AutoConnectIfAvailable}"
+									OnContent="Auto-connecting if available" />
 								<!--<ToggleButton ClickMode="Release" Style="{StaticResource MaterialDesignSwitchToggleButton}" ToolTip="Toggle automatically mapping if available">
 									<materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
 										<SolidColorBrush Color="Green" />
@@ -102,7 +103,7 @@
 							<StackPanel Orientation="Horizontal">
 								<Button Content="Settings"
 									Width="auto"
-									Command="{Binding ManageSettingsCommand}"
+									Command="{Binding ManageSettings}"
 									Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}"
 									ToolTip="Open Settings" />
 
@@ -110,7 +111,7 @@
 
 								<Button Content="Edit Drives"
 									Width="auto"
-									Command="{Binding ManageDrivesCommand}"
+									Command="{Binding ManageDrives}"
 									Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}"
 									ToolTip="Open Settings" />
 							</StackPanel>
@@ -176,7 +177,8 @@
 									<Grid Margin="8,4" Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
 										<Button Content="Toggle"
 											Margin="4,4"
-											Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.ToggleDriveCommand}"
+											Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.ToggleDriveAsync}"
+											IsEnabled="{Binding Status.IsHostAvailable}"
 											Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" />
 									</Grid>
 								</DataTemplate>
@@ -199,9 +201,15 @@
 
 		<!--  Stats  -->
 		<Grid Grid.Row="2" Margin="0,0,0,16">
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Foreground="White" Text="Selected Drive = " />
-				<TextBlock Foreground="White" Text="{Binding SelectedDrive.Letter}" />
+			<StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Foreground="White" Text="Selected Drive = " />
+					<TextBlock Foreground="White" Text="{Binding SelectedDrive.Info.Letter}" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Foreground="White" Text="Auto Connect = " />
+					<TextBlock Foreground="White" Text="{Binding Settings.IsAutoConnectIfAvailable}" />
+				</StackPanel>
 			</StackPanel>
 		</Grid>
 
