@@ -1,15 +1,13 @@
-﻿using BitArt_Network_Helpers;
-using BitArt_WindowsHelpers.Network;
+﻿using BitArt_WindowsHelpers.Network;
 using Microsoft.Extensions.DependencyInjection;
 using NetDriveManager.Monitor.components.dataAccess;
 using NetDriveManager.Monitor.components.NetDriveFactory;
 using NetDriveManager.Monitor.components.NetDriveHelper;
 using NetDriveManager.Monitor.components.NetDriveMounter;
 using NetDriveManager.Monitor.components.NetDriveStore;
-using NetDriveManager.Monitor.components.NetDriveWatcher;
 using NetDriveManager.Monitor.components.SettingsFactory;
+using NetDriveManager.Monitor.components.Watchers;
 using NetDriveManager.Monitor.Interfaces;
-using NetDriveManager.Monitor.Models;
 
 namespace NetDriveManager.Monitor
 {
@@ -43,11 +41,11 @@ namespace NetDriveManager.Monitor
 			// Store
 			services.AddSingleton<INetDriveStore, NetDriveStore>();
 
-			// Net Drive Watcher
-			services.AddSingleton<NetDriveWatcherTimer>();
+			// Watchers
+			services.AddSingleton<NetDriveWatcher>();
+			services.AddSingleton<IHostWatcher, HostWatcher>();
 
 			// Helpers > external
-			services.AddSingleton<IHostMonitor, HostMonitor>();
 			services.AddSingleton<IPathFinderUNC, PathFinderUNC>();
 
 			return services;

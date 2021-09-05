@@ -18,8 +18,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI-WPF", "UI-WPF\UI-WPF.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "helpers", "helpers", "{623EEF13-C36D-4083-9BBB-02374F89D428}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BitArt_Network_Helpers", "..\averon420\BitArt_MyHelpers_Shared\BitArt_Network_Helpers\BitArt_Network_Helpers.shproj", "{5E4C1237-2A21-4289-A37D-3FBD22308A21}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2BB5ED0D-C5AC-4FA0-A2CE-D1065AF964D1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTesting", "ConsoleTesting\ConsoleTesting.csproj", "{872B8FEB-74B6-483E-BD43-75630AE1D25D}"
@@ -47,10 +45,7 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\averon420\BitArt_MyHelpers_Shared\BitArt_WindowsHelpers\BitArt_WindowsHelpers.projitems*{1e726a61-e6c0-4399-952a-46d95e34a1ee}*SharedItemsImports = 13
-		..\averon420\BitArt_MyHelpers_Shared\BitArt_Network_Helpers\BitArt_Network_Helpers.projitems*{5e4c1237-2a21-4289-a37d-3fbd22308a21}*SharedItemsImports = 13
-		..\averon420\BitArt_MyHelpers_Shared\BitArt_Network_Helpers\BitArt_Network_Helpers.projitems*{69c2c63e-8970-4deb-90d7-8f4c1e2a0cd7}*SharedItemsImports = 5
 		..\averon420\BitArt_MyHelpers_Shared\BitArt_WindowsHelpers\BitArt_WindowsHelpers.projitems*{69c2c63e-8970-4deb-90d7-8f4c1e2a0cd7}*SharedItemsImports = 5
-		..\averon420\BitArt_MyHelpers_Shared\BitArt_Network_Helpers\BitArt_Network_Helpers.projitems*{7add3241-2d92-4508-bc8b-6bd714316b2b}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,7 +100,6 @@ Global
 		{7ADD3241-2D92-4508-BC8B-6BD714316B2B} = {650F1EA3-6864-48B9-81BE-8636C8C1EC88}
 		{FAD78AAD-CE9A-4EAB-BFC7-166516CBB817} = {E0605F78-F3CD-4FEE-A50D-BA3074D5989D}
 		{623EEF13-C36D-4083-9BBB-02374F89D428} = {5E3D6BA0-CD93-4541-B51E-30DB73AB6C24}
-		{5E4C1237-2A21-4289-A37D-3FBD22308A21} = {623EEF13-C36D-4083-9BBB-02374F89D428}
 		{872B8FEB-74B6-483E-BD43-75630AE1D25D} = {2BB5ED0D-C5AC-4FA0-A2CE-D1065AF964D1}
 		{05E6444A-A532-454E-AF18-ED786BFC0792} = {E0605F78-F3CD-4FEE-A50D-BA3074D5989D}
 		{47C26E8F-052B-46E7-93C5-E55E87CDC3E7} = {E0605F78-F3CD-4FEE-A50D-BA3074D5989D}

@@ -1,10 +1,12 @@
-﻿using BitArt_Network_Helpers;
-using NetDriveManager.Monitor.components.NetDriveWatcher;
+﻿using NetDriveManager.Monitor.components.Watchers;
 using NetDriveManager.Monitor.Interfaces;
 using Serilog;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Runtime;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace NetDriveManager.Monitor
 {
@@ -12,11 +14,12 @@ namespace NetDriveManager.Monitor
 	{
 		#region Private Fields
 
-		private readonly NetDriveWatcherTimer _driveWatcher;
+		private readonly NetDriveWatcher _driveWatcher;
 		private readonly INetDriveHelper _helper;
-		private readonly IHostMonitor _hostMonitor;
+		private readonly IHostWatcher _hostWatcher;
 		private readonly ILogger _logger;
 		private readonly INetDriveStore _store;
+		private readonly System.Timers.Timer _timer = new System.Timers.Timer();
 
 		#endregion
 
@@ -26,31 +29,75 @@ namespace NetDriveManager.Monitor
 		public INetDriveHelper DriveHelper { get; }
 		public ObservableCollection<INetDrive> Drives { get => _store.Drives; }
 		public bool IsEnabled { get; private set; }
-		public INetDriveMonitorSettings NetDriveMonitorSettings { get; }
+		public INetDriveMonitorSettings Settings { get; }
+		private bool isScanDoneOnce;
 
 		#endregion
 
 		#region Public Constructors
 
-		public NetDriveMonitor(ILogger logger, IDataAccess dataAccess, INetDriveStore store, IHostMonitor hostMonitor, NetDriveWatcherTimer driveWatcher, INetDriveHelper driveHelper, INetDriveMonitorSettings netDriveMonitorSettings)
+		public NetDriveMonitor(ILogger logger, IDataAccess dataAccess, INetDriveStore store, NetDriveWatcher driveWatcher, INetDriveHelper driveHelper, INetDriveMonitorSettings netDriveMonitorSettings, IHostWatcher hostWatcher)
 		{
-			_logger = logger.ForContext<NetDriveMonitor>();
+			//_logger = logger.ForContext<NetDriveMonitor>();
+			_logger = logger;
+
 			DataAccess = dataAccess;
 			DataAccess.UseDummyDataIfEmpty = true;
 			_store = store;
-			_hostMonitor = hostMonitor;
 
-			_hostMonitor.ScanInterval = 1000;
-			_hostMonitor.NotifyOnChangesOnly = true;
-			_hostMonitor.NotifyOnFirstPing = false;
+			_hostWatcher = hostWatcher;
+			_hostWatcher.NotifyOnChangesOnly = true;
+			_hostWatcher.NotifyOnFirstPing = true;
+			_hostWatcher.OnHostChanged += HostStatusChanged;
 
-			_hostMonitor.OnHostChanged += HostStatusChanged;
 			_driveWatcher = driveWatcher;
 			DriveHelper = driveHelper;
-			NetDriveMonitorSettings = netDriveMonitorSettings;
+			Settings = netDriveMonitorSettings;
 
+			TimerSetup();
+			_hostWatcher = hostWatcher;
 			//_pingWatchdog.OnDriveAvailable += x => ConnectDrive(x);
 			//_pingWatchdog.OnDriveUnavailable += x => DisconnectDrive(x);
+		}
+
+		private void TimerSetup()
+		{
+			_timer.Interval = 1000;
+			_timer.AutoReset = true;
+			_timer.Enabled = false;
+			_timer.Elapsed += Timer_Elapsed;
+		}
+
+		private async void Timer_Elapsed(object sender, ElapsedEventArgs e)
+		{
+			_timer.Enabled = false;
+			await _hostWatcher.ScanAllHostsAsyncParallel();
+			//await Task.Delay(2000); // no really required anymore
+			await _driveWatcher.CheckDriveStatusAsync(_store.Drives.ToList());
+
+			CheckDrivesConnectionStatus();
+
+			_timer.Enabled = true;
+		}
+
+		private void CheckDrivesConnectionStatus()
+		{
+			if (!isScanDoneOnce)
+			{
+				isScanDoneOnce = true;
+				return;
+			}
+			foreach (var drive in _store.Drives)
+			{
+				if (drive.Status.IsHostAvailable && !drive.Status.IsConnected && drive.Options.AutoConnectIfAvailable && Settings.IsAutoConnectIfAvailable)
+				{
+					DriveHelper.Add(drive);
+				}
+				else if (!drive.Status.IsHostAvailable && drive.Status.IsConnected)
+				{
+					DriveHelper.Remove(drive);
+				}
+			}
 		}
 
 		private void HostStatusChanged(string hostName, bool state)
@@ -68,17 +115,6 @@ namespace NetDriveManager.Monitor
 				{
 					Log.Debug("Changed host status of drive {drive} to offline", drive);
 				}
-
-				if (state)
-				{
-					if (drive.Options.AutoConnectIfAvailable && !drive.Status.IsConnected && NetDriveMonitorSettings.IsAutoConnectIfAvailable) // TODO: Add check if auto connect option is enabled
-						DriveHelper.Add(drive);
-				}
-				else
-				{
-					if (drive.Status.IsConnected)
-						DriveHelper.Remove(drive);
-				}
 			}
 			Log.Debug("Updated all drives of host: {host}", hostName);
 		}
@@ -93,30 +129,11 @@ namespace NetDriveManager.Monitor
 			{
 				_store.Clear();
 
-				// Get drives and register them into store
-				var drivesOfConfigFile = DataAccess.GetDrives0REmptyList();
-				foreach (var drive in drivesOfConfigFile)
-				{
-					_store.Register(drive);
-				}
-
-				var listOfHosts = _store.GetRegisteredHostsOREMPTY();
-				foreach (var hostOrIP in listOfHosts)
-				{
-					_hostMonitor.AddHost(hostOrIP);
-					Log.Debug("Host {host} added to ping monitor", hostOrIP);
-				}
-				Log.Debug("Added {count} hosts to ping watch", _hostMonitor.HostCount);
+				GetDrivesAndRegisterToStore();
+				RegisterStoreDrivesToHostWatcher();
 
 				// Start
-				_hostMonitor.Start();
-				_driveWatcher.Start();
-
-				//TODO: Check drives (are they online, offline OR bla)
-				//foreach (var drive in Drives)
-				//{
-				//	_handler.
-				//}
+				_timer.Start();
 
 				IsEnabled = true;
 				return true;
@@ -125,12 +142,34 @@ namespace NetDriveManager.Monitor
 			return false;
 		}
 
+		private void RegisterStoreDrivesToHostWatcher()
+		{
+			var listOfHosts = _store.GetRegisteredHostsOREMPTY();
+			foreach (var hostOrIP in listOfHosts)
+			{
+				_hostWatcher.RegisterHost(hostOrIP);
+				Log.Debug("Host {host} added to ping monitor", hostOrIP);
+			}
+			Log.Debug("Added {count} hosts to ping watch", _hostWatcher.HostCount);
+		}
+
+		private void GetDrivesAndRegisterToStore()
+		{
+			var drivesOfConfigFile = DataAccess.GetDrives0REmptyList();
+			foreach (var drive in drivesOfConfigFile)
+			{
+				_store.Register(drive);
+			}
+		}
+
 		public bool Deactivate()
 		{
 			if (!IsEnabled)
 			{
 				// Stop
-				_hostMonitor.Stop();
+				_timer.Stop();
+				_hostWatcher.Clear();
+				_store.Clear();
 
 				IsEnabled = false;
 				return true;
