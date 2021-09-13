@@ -8,6 +8,21 @@ namespace NetDriveManager.Monitor.Models
 	{
 		#region Public Constructors
 
+		public NetDriveModel(string letter, string hostName, string share
+			, bool autoConnectIfAvailable, bool autoConnectLanOnly)
+		{
+			Info = new NetDriveInfo(letter, hostName, share);
+			Options = new NetDriveOptions(autoConnectIfAvailable, autoConnectLanOnly);
+			Status = new NetDriveStatus();
+		}
+
+		public NetDriveModel()
+		{
+			Info = new NetDriveInfo("", "", "");
+			Options = new NetDriveOptions();
+			Status = new NetDriveStatus();
+		}
+
 		public NetDriveModel(NetDriveInfo info, NetDriveOptions options, NetDriveStatus status)
 		{
 			Info = info;

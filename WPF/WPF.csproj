@@ -11,10 +11,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Assets\Icons\red-cross.png" />
     <None Remove="Resources\Assets\Logo\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Assets\Icons\red-cross.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Assets\Logo\Logo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

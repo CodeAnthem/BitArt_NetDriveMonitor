@@ -1,4 +1,5 @@
 ﻿using NetDriveManager.Monitor.Models;
+using Newtonsoft.Json;
 
 namespace NetDriveManager.Monitor.Interfaces
 {
@@ -8,6 +9,7 @@ namespace NetDriveManager.Monitor.Interfaces
 
 		NetDriveInfo Info { get; set; }
 		NetDriveOptions Options { get; set; }
+		[JsonIgnore]
 		NetDriveStatus Status { get; set; }
 
 		#endregion

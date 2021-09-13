@@ -1,4 +1,5 @@
 ﻿using NetDriveManager.Monitor.Interfaces;
+using NetDriveManager.Monitor.Models;
 using Newtonsoft.Json;
 using Serilog;
 using System.Collections.Generic;
@@ -34,8 +35,9 @@ namespace NetDriveManager.Monitor.components.dataAccess
 		{
 			if (_jsonFile.Exists)
 			{
-				string jsonString = File.ReadAllText(_jsonFile.FullName);
-				var list = JsonConvert.DeserializeObject<List<INetDrive>>(jsonString);
+				string jsonString = System.IO.File.ReadAllText(_jsonFile.FullName);
+				var list = JsonConvert.DeserializeObject<List<INetDrive>>(jsonString, new NetDriveConverter());
+
 				Log.Debug("Loaded {amount} drives of JSON file", list.Count);
 				return list;
 			}

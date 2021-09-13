@@ -1,6 +1,8 @@
-﻿using NetDriveManager.Monitor.components.Watchers;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using NetDriveManager.Monitor.components.Watchers;
 using NetDriveManager.Monitor.Interfaces;
 using Serilog;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime;
@@ -10,8 +12,10 @@ using System.Timers;
 
 namespace NetDriveManager.Monitor
 {
-	public class NetDriveMonitor : INetDriveMonitor
+	public class NetDriveMonitor : ObservableObject, INetDriveMonitor
 	{
+		public event Action EnabledStatusChanged;
+
 		#region Private Fields
 
 		private readonly NetDriveWatcher _driveWatcher;
@@ -28,9 +32,19 @@ namespace NetDriveManager.Monitor
 		public IDataAccess DataAccess { get; }
 		public INetDriveHelper DriveHelper { get; }
 		public ObservableCollection<INetDrive> Drives { get => _store.Drives; }
-		public bool IsEnabled { get; private set; }
+		private bool _isEnabled;
+		public bool IsEnabled
+		{
+			get => _isEnabled;
+			private set
+			{
+				SetProperty(ref _isEnabled, value);
+				EnabledStatusChanged?.Invoke();
+			}
+		}
+
 		public INetDriveMonitorSettings Settings { get; }
-		private bool isScanDoneOnce;
+		private bool _isScanDoneOnce;
 
 		#endregion
 
@@ -82,9 +96,9 @@ namespace NetDriveManager.Monitor
 
 		private void CheckDrivesConnectionStatus()
 		{
-			if (!isScanDoneOnce)
+			if (!_isScanDoneOnce)
 			{
-				isScanDoneOnce = true;
+				_isScanDoneOnce = true;
 				return;
 			}
 			foreach (var drive in _store.Drives)
@@ -136,6 +150,7 @@ namespace NetDriveManager.Monitor
 				_timer.Start();
 
 				IsEnabled = true;
+				Log.Debug("NetDriveMonitor started");
 				return true;
 			}
 			Log.Warning("Start aborted, already running");
@@ -164,7 +179,7 @@ namespace NetDriveManager.Monitor
 
 		public bool Deactivate()
 		{
-			if (!IsEnabled)
+			if (IsEnabled)
 			{
 				// Stop
 				_timer.Stop();
@@ -172,6 +187,7 @@ namespace NetDriveManager.Monitor
 				_store.Clear();
 
 				IsEnabled = false;
+				Log.Debug("NetDriveMonitor stopped");
 				return true;
 			}
 			Log.Warning("Stop aborted, not running yet");

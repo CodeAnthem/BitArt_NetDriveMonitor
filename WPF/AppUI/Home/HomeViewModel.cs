@@ -1,10 +1,13 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using NetDriveManager.Monitor;
 using NetDriveManager.Monitor.Interfaces;
 using Serilog;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Markup;
 using WPF.AppUI.EditDrives;
 using WPF.Main;
 using WPF.Utilities.ContentController.Services;
@@ -24,6 +27,7 @@ namespace WPF.AppUI.Home
 		#region Public Properties
 
 		public INetDriveMonitorSettings Settings { get; set; }
+		public bool IsCoreEnabled { get => Core.IsEnabled; }
 
 		#endregion
 
@@ -31,12 +35,19 @@ namespace WPF.AppUI.Home
 
 		private void NavEditDrivesCommand()
 		{
+			Log.Debug("Clicked edit drives command");
+			//Core.Deactivate();
+
 			_mainContent.Control = _cc.GetUserControl(nameof(EditDrivesView));
 		}
 
 		private void NavSettingsCommand()
 		{
-			MessageBox.Show("Opening Settings, soon?!");
+			if (Core.IsEnabled)
+				Core.Deactivate();
+			else
+				Core.Activate();
+			//MessageBox.Show("Opening Settings, soon?!");
 		}
 
 		private void ToggleDriveCommand()
@@ -61,8 +72,6 @@ namespace WPF.AppUI.Home
 
 		#endregion
 
-
-
 		#region Public Properties
 
 		public INetDriveMonitor Core { get; }
@@ -86,6 +95,7 @@ namespace WPF.AppUI.Home
 			_cc = contentControllerService;
 			_mainContent = mainContentStore;
 			Core = core;
+			Core.EnabledStatusChanged += OnEnabledStatusChanged;
 			Settings = settings;
 
 			ManageDrives = new RelayCommand(NavEditDrivesCommand);
@@ -95,6 +105,8 @@ namespace WPF.AppUI.Home
 
 			Core.Activate();
 		}
+
+		private void OnEnabledStatusChanged() => OnPropertyChanged(nameof(IsCoreEnabled));
 
 		#endregion
 

@@ -15,8 +15,8 @@ namespace WPF.AppUI
 			// Frame
 			services.AddTransient<HeaderView>();
 			services.AddSingleton<HeaderViewModel>();
-			services.AddSingleton<FooterView>();
-			services.AddTransient<FooterViewModel>();
+			services.AddTransient<FooterView>();
+			services.AddSingleton<FooterViewModel>();
 
 			// Home
 			services.AddTransient<HomeView>();
@@ -24,7 +24,7 @@ namespace WPF.AppUI
 
 			// Settings
 			services.AddTransient<EditDrivesView>();
-			services.AddTransient<EditDrivesViewModel>();
+			services.AddTransient<EditDrivesViewModel>(); // force reload
 
 			// Edit Drives
 

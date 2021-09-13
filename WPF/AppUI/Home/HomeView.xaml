@@ -23,7 +23,7 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<!--  Buttons Bar Top  -->
+		<!--  Header & Buttons  -->
 		<Grid Grid.Row="0" Margin="0,0,0,10">
 			<materialDesign:Card>
 				<Grid>
@@ -45,76 +45,61 @@
 					<Grid Grid.Column="0">
 						<StackPanel HorizontalAlignment="Left" Orientation="Vertical">
 							<TextBlock Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Text="OverView" />
+
 							<StackPanel Orientation="Horizontal">
+								<StackPanel.Resources>
+									<Style x:Key="CoreStatus" BasedOn="{StaticResource MaterialDesignHelperTextBlock}" TargetType="TextBlock">
+										<Setter Property="Foreground" Value="Red" />
+										<Setter Property="Text" Value="Not Ready" />
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding IsCoreEnabled, Mode=OneWay}" Value="True">
+												<Setter Property="Foreground" Value="Green" />
+												<Setter Property="Text" Value="Ready" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</StackPanel.Resources>
+
 								<TextBlock Style="{DynamicResource MaterialDesignHelperTextBlock}" Text="Status" />
 								<Separator Margin="2" />
-								<TextBlock Foreground="Red" Style="{StaticResource MaterialDesignHelperTextBlock}" Text="Failed" />
+								<TextBlock Style="{DynamicResource CoreStatus}" />
 							</StackPanel>
+
 						</StackPanel>
 					</Grid>
 
 					<Grid Grid.Column="1">
 						<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
-
-							<DockPanel LastChildFill="True">
-								<!--<TextBlock Padding="10,5" DockPanel.Dock="Left" Text="Connect if available" />-->
-								<!--<ToggleButton Content="Connect if available"
-									Width="auto"
-									Margin="5"
-									Style="{StaticResource MyToggleButtonStyle}" />
-								<ToggleButton ClickMode="Release" Style="{StaticResource MaterialDesignSwitchToggleButton}" ToolTip="Toggle automatically mapping if available">
-									<materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
-										<SolidColorBrush Color="Green" />
-									</materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
-									<materialDesign:ToggleButtonAssist.SwitchTrackOffBackground>
-										<SolidColorBrush Color="Red" />
-									</materialDesign:ToggleButtonAssist.SwitchTrackOffBackground>
-								</ToggleButton>-->
-							</DockPanel>
-
-							<DockPanel LastChildFill="False">
-
-								<!--<TextBlock DockPanel.Dock="Top" Text="Connect if accessed" />-->
-								<mah:ToggleSwitch
-									Margin="5" HorizontalContentAlignment="Center"
-									CommandParameter="{Binding}"
-									ContentDirection="LeftToRight"
-									IsOn="{Binding Settings.IsAutoConnectIfAvailable, Mode=OneWay}"
-									OffCommand="{Binding ToggleSetting_AutoConnectIfAvailable}"
-									OffContent="Not auto-connecting if available"
-									OnCommand="{Binding ToggleSetting_AutoConnectIfAvailable}"
-									OnContent="Auto-connecting if available" />
-								<!--<ToggleButton ClickMode="Release" Style="{StaticResource MaterialDesignSwitchToggleButton}" ToolTip="Toggle automatically mapping if available">
-									<materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
-										<SolidColorBrush Color="Green" />
-									</materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
-									<materialDesign:ToggleButtonAssist.SwitchTrackOffBackground>
-										<SolidColorBrush Color="Red" />
-									</materialDesign:ToggleButtonAssist.SwitchTrackOffBackground>
-								</ToggleButton>-->
-							</DockPanel>
+							<mah:ToggleSwitch
+								Margin="5" HorizontalContentAlignment="Center"
+								CommandParameter="{Binding}"
+								ContentDirection="LeftToRight"
+								IsOn="{Binding Settings.IsAutoConnectIfAvailable, Mode=OneWay}"
+								OffCommand="{Binding ToggleSetting_AutoConnectIfAvailable}"
+								OffContent="Not auto-connecting if available"
+								OnCommand="{Binding ToggleSetting_AutoConnectIfAvailable}"
+								OnContent="Auto-connecting if available" />
 
 						</StackPanel>
 					</Grid>
 
 					<Grid Grid.Column="2">
-						<StackPanel HorizontalAlignment="Right" Orientation="Vertical">
-							<StackPanel Orientation="Horizontal">
-								<Button Content="Settings"
-									Width="auto"
-									Command="{Binding ManageSettings}"
-									Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}"
-									ToolTip="Open Settings" />
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
-								<Separator Margin="16,0" />
+							<Button Content="Settings"
+								Width="auto"
+								Command="{Binding ManageSettings}"
+								Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}"
+								ToolTip="Open settings" />
 
-								<Button Content="Edit Drives"
-									Width="auto"
-									Command="{Binding ManageDrives}"
-									Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}"
-									ToolTip="Open Settings" />
-							</StackPanel>
+							<Separator Margin="16,0" />
+
+							<Button Content="Edit Drives"
+								Width="auto"
+								Command="{Binding ManageDrives}"
+								Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}"
+								ToolTip="Edit drives" />
 
 						</StackPanel>
 					</Grid>
@@ -166,8 +151,8 @@
 					SelectedItem="{Binding SelectedDrive}"
 					SelectionMode="Single" SelectionUnit="FullRow"
 					Style="{DynamicResource MahApps.Styles.DataGrid.Azure}">
-					<DataGrid.Columns>
 
+					<DataGrid.Columns>
 						<DataGridTemplateColumn
 							CanUserReorder="False" CanUserResize="False"
 							CellStyle="{StaticResource DriveGridButtonCellStyle}"
@@ -195,6 +180,7 @@
 						<DataGridTextColumn Width="*" Binding="{Binding Status.IsConnected}" Header="Connected" />
 						<DataGridTextColumn Width="*" Binding="{Binding Status.IsHostAvailable}" Header="Available" />
 					</DataGrid.Columns>
+
 				</DataGrid>
 			</Border>
 		</Grid>

@@ -6,19 +6,12 @@ namespace NetDriveManager.Monitor.Models
 	{
 		#region Private Fields
 
-		private bool _autoConnectIfAccessed;
 		private bool _autoConnectIfAvailable;
 		private bool _autoConnectLanOnly;
 
 		#endregion
 
 		#region Public Properties
-
-		public bool AutoConnectIfAccessed
-		{
-			get { return _autoConnectIfAccessed; }
-			set { SetProperty(ref _autoConnectIfAccessed, value); }
-		}
 
 		public bool AutoConnectIfAvailable
 		{
@@ -36,16 +29,14 @@ namespace NetDriveManager.Monitor.Models
 
 		#region Public Constructors
 
-		public NetDriveOptions(bool autoConnectIfAccessed, bool autoConnectIfAvailable, bool autoConnectLanOnly)
+		public NetDriveOptions(bool autoConnectIfAvailable, bool autoConnectLanOnly)
 		{
-			AutoConnectIfAccessed = autoConnectIfAccessed;
 			AutoConnectIfAvailable = autoConnectIfAvailable;
 			AutoConnectLanOnly = autoConnectLanOnly;
 		}
 
 		public NetDriveOptions()
 		{
-			AutoConnectIfAccessed = false;
 			AutoConnectIfAvailable = false;
 			AutoConnectLanOnly = false;
 		}

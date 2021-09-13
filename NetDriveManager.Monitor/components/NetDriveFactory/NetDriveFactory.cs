@@ -1,6 +1,7 @@
 ﻿using NetDriveManager.Monitor.Interfaces;
 using NetDriveManager.Monitor.Models;
 using System;
+using System.IO;
 
 namespace NetDriveManager.Monitor.components.NetDriveFactory
 {
@@ -12,7 +13,7 @@ namespace NetDriveManager.Monitor.components.NetDriveFactory
 							bool acIfAvailable = false, bool acIfAccessed = false, bool acLanOnly = false)
 		{
 			var driveInfo = CreateDriveInfo(letter, hostName, share);
-			var driveOptions = new NetDriveOptions(acIfAccessed, acIfAvailable, acLanOnly);
+			var driveOptions = new NetDriveOptions(acIfAvailable, acLanOnly);
 			var driveStatus = new NetDriveStatus();
 
 			var drive = new NetDriveModel(driveInfo, driveOptions, driveStatus);
