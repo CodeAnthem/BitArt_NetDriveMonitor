@@ -34,7 +34,7 @@ namespace NetDriveManager.Monitor.Models
 
 		#region Private Methods
 
-		private static bool IsEqual(NetDriveModel left, NetDriveModel right)
+		private static bool IsEqual(INetDrive left, INetDrive right)
 		{
 			if (left is null || right is null)
 			{
@@ -64,7 +64,7 @@ namespace NetDriveManager.Monitor.Models
 
 		public override bool Equals(object o)
 		{
-			return IsEqual(this, o as NetDriveModel);
+			return IsEqual(this, o as INetDrive);
 		}
 
 		public override int GetHashCode()

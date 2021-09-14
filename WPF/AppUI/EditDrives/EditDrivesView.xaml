@@ -9,7 +9,8 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:validation="clr-namespace:WPF.AppUI.Validation"
 	d:DataContext="{d:DesignInstance Type=local:EditDrivesViewModel}"
-	d:DesignHeight="450" d:DesignWidth="800"
+	d:DesignHeight="450"
+	d:DesignWidth="800"
 	mc:Ignorable="d">
 	<Grid>
 
@@ -23,7 +24,9 @@
 		</Grid.ColumnDefinitions>
 
 		<!--  Header & Buttons  -->
-		<Grid Grid.Row="0" Margin="0,0,0,10">
+		<Grid
+			Grid.Row="0"
+			Margin="0,0,0,10">
 
 			<materialDesign:Card>
 
@@ -45,17 +48,25 @@
 					</Grid.Resources>
 
 					<Grid Grid.Column="0">
-						<StackPanel HorizontalAlignment="Left" Orientation="Vertical">
-							<TextBlock Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Text="Manage Drives" />
+						<StackPanel
+							HorizontalAlignment="Left"
+							Orientation="Vertical">
+							<TextBlock Text="Manage Drives"
+								Style="{DynamicResource MaterialDesignHeadline6TextBlock}" />
 							<StackPanel Orientation="Horizontal">
 
 								<StackPanel Orientation="Horizontal">
 									<StackPanel.Resources>
-										<Style x:Key="CoreStatus" BasedOn="{StaticResource MaterialDesignHelperTextBlock}" TargetType="TextBlock">
+										<Style
+											x:Key="CoreStatus"
+											BasedOn="{StaticResource MaterialDesignHelperTextBlock}"
+											TargetType="TextBlock">
 											<Setter Property="Foreground" Value="Red" />
 											<Setter Property="Text" Value="Not Ready" />
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding IsCoreEnabled, Mode=OneWay}" Value="True">
+												<DataTrigger
+													Binding="{Binding IsCoreEnabled, Mode=OneWay}"
+													Value="True">
 													<Setter Property="Foreground" Value="Green" />
 													<Setter Property="Text" Value="Ready" />
 												</DataTrigger>
@@ -63,7 +74,8 @@
 										</Style>
 									</StackPanel.Resources>
 
-									<TextBlock Style="{DynamicResource MaterialDesignHelperTextBlock}" Text="Status" />
+									<TextBlock Text="Status"
+										Style="{DynamicResource MaterialDesignHelperTextBlock}" />
 									<Separator Margin="2" />
 									<TextBlock Style="{DynamicResource CoreStatus}" />
 								</StackPanel>
@@ -72,19 +84,24 @@
 								<StackPanel Orientation="Horizontal">
 									<TextBlock Text="Drives amount:" />
 									<Separator Margin="2" />
-									<TextBlock Style="{StaticResource MaterialDesignHelperTextBlock}" Text="{Binding ConfiguredDrives.Count}" />
+									<TextBlock Text="{Binding ConfiguredDrives.Count}"
+										Style="{StaticResource MaterialDesignHelperTextBlock}" />
 								</StackPanel>
 							</StackPanel>
 						</StackPanel>
 					</Grid>
 
 					<Grid Grid.Column="1">
-						<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" />
+						<StackPanel
+							HorizontalAlignment="Center"
+							Orientation="Horizontal" />
 					</Grid>
 
 					<Grid Grid.Column="2">
 
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+						<StackPanel
+							HorizontalAlignment="Right"
+							Orientation="Horizontal">
 
 							<Button Content="Save"
 								Width="auto"
@@ -111,12 +128,15 @@
 		</Grid>
 
 		<!--  Datagrid & Add Drives  -->
-		<Grid Grid.Row="1" Margin="0,0,0,16">
+		<Grid
+			Grid.Row="1"
+			Margin="0,0,0,16">
 			<Border
 				Padding="10"
 				Background="{DynamicResource MahApps.Brushes.Menu.Background}"
 				BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
-				BorderThickness="2" CornerRadius="20">
+				BorderThickness="2"
+				CornerRadius="20">
 
 				<Grid HorizontalAlignment="Stretch">
 					<Grid.RowDefinitions>
@@ -131,22 +151,19 @@
 					<Grid Grid.Row="0">
 
 						<Grid.Resources>
-							<Style x:Key="DriveGridHeaderStyle" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader.Azure}" TargetType="DataGridColumnHeader">
+							<Style
+								x:Key="DriveGridHeaderStyle"
+								BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader.Azure}"
+								TargetType="DataGridColumnHeader">
 								<Setter Property="HorizontalContentAlignment" Value="Center" />
 							</Style>
 
-							<Style x:Key="DriveGridCellStyle" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}" TargetType="DataGridCell">
+							<Style
+								x:Key="DriveGridCellStyle"
+								BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}"
+								TargetType="DataGridCell">
 								<Setter Property="Focusable" Value="False" />
-								<Setter Property="HorizontalContentAlignment" Value="Center" />
-							</Style>
-
-							<Style x:Key="DriveGridButtonCellStyle" BasedOn="{StaticResource MahApps.Styles.DataGridCell}" TargetType="DataGridCell">
-								<Setter Property="Width" Value="auto" />
-								<Setter Property="Margin" Value="10,0,0,0" />
-								<Setter Property="Visibility" Value="Visible" />
-								<Setter Property="Focusable" Value="False" />
-
-								<Setter Property="HorizontalContentAlignment" Value="Center" />
+								<Setter Property="HorizontalAlignment" Value="Center" />
 							</Style>
 						</Grid.Resources>
 
@@ -154,55 +171,103 @@
 							Width="auto"
 							AutoGenerateColumns="False"
 							Background="{DynamicResource MahApps.Brushes.Menu.Background}"
-							CanUserAddRows="True" CanUserDeleteRows="True"
+							CanUserAddRows="False"
+							CanUserDeleteRows="False"
+							CellStyle="{StaticResource DriveGridCellStyle}"
 							ColumnHeaderStyle="{DynamicResource DriveGridHeaderStyle}"
-							FontSize="15" GridLinesVisibility="Horizontal"
+							FontSize="15"
+							GridLinesVisibility="Horizontal"
 							IsReadOnly="False"
-							ItemsSource="{Binding ConfiguredDrives, Mode=TwoWay}"
-							SelectedItem="{Binding SelectedDrive}"
-							SelectionMode="Single" SelectionUnit="FullRow"
+							ItemsSource="{Binding RowItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+							SelectedItem="{Binding SelectedRow}"
+							SelectionMode="Single"
+							SelectionUnit="FullRow"
 							Style="{DynamicResource MahApps.Styles.DataGrid.Azure}">
 							<DataGrid.Columns>
 
 								<DataGridTemplateColumn
-									Width="auto"
-									CanUserReorder="False" CanUserResize="False"
+									CanUserReorder="False"
+									CanUserResize="False"
+									CellStyle="{StaticResource MahApps.Styles.DataGridCell}"
 									Header="Delete">
 									<DataGridTemplateColumn.CellTemplate>
 										<DataTemplate>
-											<Button Background="Transparent" BorderBrush="Transparent" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.DeleteDriveCommand}">
-												<Image Source="/Resources/Assets/Icons/red-cross.png" />
+											<Button
+												Margin="0,4,0,4"
+												HorizontalAlignment="Center"
+												Background="{DynamicResource MahApps.Brushes.Menu.Background}"
+												BorderBrush="Gray"
+												BorderThickness="1"
+												Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.DeleteDriveCommand}">
+												<Image
+													Margin="0,2,0,0"
+													Source="/Resources/Assets/Icons/red-cross.png" />
 											</Button>
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
 
-								<DataGridTemplateColumn Header="Letter2">
+								<DataGridTemplateColumn Header="Letter">
 									<DataGridTemplateColumn.CellTemplate>
 										<DataTemplate>
-											<!--<ComboBox ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.DriveLettersList}" SelectedItem="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=Info.Letter}" />-->
-											<ComboBox ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.DriveLettersList}" SelectedItem="{Binding Info.Letter}" />
+											<ComboBox
+												Width="100"
+												HorizontalAlignment="Center"
+												HorizontalContentAlignment="Center"
+												ItemsSource="{Binding AvailableLetters, UpdateSourceTrigger=LostFocus}"
+												SelectedItem="{Binding Drive.Info.Letter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+												Style="{StaticResource MaterialDesignDataGridComboBox}" />
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
-
 								</DataGridTemplateColumn>
+								<!--  ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Path=DataContext.DriveLettersList}"  -->
 
-								<DataGridTextColumn
+								<!--<DataGridComboBoxColumn
+									Width="200"
+									DisplayMemberPath="{Binding DriveLettersList}"
+									Header="Letter"
+									SelectedItemBinding="{Binding Info.Letter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+									<DataGridComboBoxColumn.ElementStyle>
+										<Style BasedOn="{StaticResource MahApps.Styles.ComboBox.DataGrid}" TargetType="ComboBox">
+											<Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Path=DataContext.DriveLettersList}" />
+										</Style>
+									</DataGridComboBoxColumn.ElementStyle>
+									<DataGridComboBoxColumn.EditingElementStyle>
+										<Style BasedOn="{StaticResource MahApps.Styles.ComboBox.DataGrid.Editing}" TargetType="ComboBox">
+											<Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Path=DataContext.DriveLettersList}" />
+										</Style>
+									</DataGridComboBoxColumn.EditingElementStyle>
+								</DataGridComboBoxColumn>-->
+
+								<!--<DataGridTextColumn
 									Width="100"
-									Binding="{Binding Info.Letter}"
+									Binding="{Binding Drive.Info.Letter}"
 									CanUserReorder="False" CanUserResize="False"
-									Header="Letter" />
-								<DataGridTextColumn Width="*" Binding="{Binding Info.HostName}" Header="Server" />
-								<DataGridTextColumn Width="*" Binding="{Binding Info.Share}" Header="Share" />
-								<DataGridCheckBoxColumn Binding="{Binding Options.AutoConnectIfAvailable}" Header="Auto: if available" />
-								<DataGridCheckBoxColumn Binding="{Binding Options.AutoConnectLanOnly}" Header="Auto: LAN only" />
+									Header="Letter" />-->
+								<DataGridTextColumn
+									Width="*"
+									Binding="{Binding Drive.Info.HostName}"
+									Header="Server" />
+								<DataGridTextColumn
+									Width="*"
+									Binding="{Binding Drive.Info.Share}"
+									Header="Share" />
+								<DataGridCheckBoxColumn
+									Binding="{Binding Drive.Options.AutoConnectIfAvailable}"
+									Header="Auto: if available" />
+								<DataGridCheckBoxColumn
+									Binding="{Binding Drive.Options.AutoConnectLanOnly}"
+									Header="Auto: LAN only" />
 
 							</DataGrid.Columns>
 						</DataGrid>
 					</Grid>
 
 					<!--  Add new drive  -->
-					<Grid Grid.Row="1" VerticalAlignment="Center">
+					<Grid
+						Grid.Row="1"
+						VerticalAlignment="Center"
+						Visibility="Collapsed">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
@@ -211,60 +276,102 @@
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
 
-						<StackPanel Grid.Row="0" HorizontalAlignment="Center" Orientation="Horizontal">
+						<StackPanel
+							Grid.Row="0"
+							HorizontalAlignment="Center"
+							Orientation="Horizontal">
 
 							<!--  Letter  -->
-							<StackPanel Grid.Column="0" Width="100">
-								<TextBlock FontSize="18" Text="Drive Letter" />
-								<ComboBox
+							<StackPanel
+								Grid.Column="0"
+								Width="100">
+								<TextBlock Text="Drive Letter"
+									FontSize="18" />
+								<ComboBox Text="{Binding NewDriveLetter, Mode=OneWay}"
 									materialDesign:HintAssist.HelperText="Choose a Letter"
 									materialDesign:HintAssist.Hint="Click"
 									materialDesign:HintAssist.IsFloating="False"
 									FontSize="14"
-									ItemsSource="{Binding DriveLettersList}"
+									ItemsSource="{Binding SelectedRow.AvailableLetters, Mode=OneWay}"
+									SelectedItem="{Binding SelectedRow.Drive.Info.Letter}"
 									Style="{StaticResource MaterialDesignComboBox}" />
 							</StackPanel>
 
 							<!--  HostName  -->
-							<StackPanel Grid.Column="1" Width="200" Margin="20,0,20,0">
-								<TextBlock FontSize="18" Text="Server" />
-								<TextBox
+							<StackPanel
+								Grid.Column="1"
+								Width="200"
+								Margin="20,0,20,0">
+								<TextBlock Text="Server"
+									FontSize="18" />
+								<TextBox x:Name="DriveHostName"
 									materialDesign:HintAssist.HelperText="OK"
 									materialDesign:HintAssist.Hint="Server"
 									FontSize="14"
 									Style="{StaticResource MahApps.MaterialDesignTextBox}">
+
 									<TextBox.Text>
-										<Binding Path="NewDriveHostName" UpdateSourceTrigger="PropertyChanged">
+										<Binding
+											Path="NewDriveHostName"
+											UpdateSourceTrigger="PropertyChanged">
 											<Binding.ValidationRules>
 												<validation:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
 											</Binding.ValidationRules>
 										</Binding>
 									</TextBox.Text>
+
 								</TextBox>
 							</StackPanel>
 
 							<!--  Share  -->
-							<StackPanel Grid.Column="2" Width="200" Margin="20,0,20,0">
-								<TextBlock FontSize="18" Text="Share" />
+							<StackPanel
+								Grid.Column="2"
+								Width="200"
+								Margin="20,0,20,0">
+								<TextBlock Text="Share"
+									FontSize="18" />
 								<TextBox
 									materialDesign:HintAssist.HelperText="OK"
 									materialDesign:HintAssist.Hint="Share"
 									FontSize="14"
 									Style="{StaticResource MahApps.MaterialDesignTextBox}">
+
 									<TextBox.Text>
-										<Binding Path="NewDriveHostName" UpdateSourceTrigger="PropertyChanged">
+										<Binding
+											Path="NewDriveShare"
+											UpdateSourceTrigger="PropertyChanged">
 											<Binding.ValidationRules>
 												<validation:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
 											</Binding.ValidationRules>
 										</Binding>
 									</TextBox.Text>
+
+									<!--<TextBox.Text>
+
+										<Binding Source="{Binding NewDriveShare}" UpdateSourceTrigger="PropertyChanged">
+											<Binding.ValidationRules>
+												<validation:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+											</Binding.ValidationRules>
+										</Binding>
+									</TextBox.Text>-->
 								</TextBox>
 							</StackPanel>
 
 						</StackPanel>
 
-						<StackPanel Grid.Row="1" Margin="0,30,0,0">
-							<Button x:Name="adf" Width="100" Content="Add drive" />
+						<StackPanel
+							Grid.Row="1"
+							Margin="0,30,0,0">
+							<Button Content="Add drive"
+								Width="100"
+								Command="{Binding AddDriveCommand}">
+
+								<!--<Button.CommandParameter>
+									<MultiBinding Converter="{StaticResource NetDriveConverter}">
+										<Binding ElementName="DriveHostName" Path="Text" />
+									</MultiBinding>
+								</Button.CommandParameter>-->
+							</Button>
 						</StackPanel>
 
 					</Grid>
@@ -273,12 +380,22 @@
 			</Border>
 		</Grid>
 
-		<!--  Stats  -->
-		<Grid Grid.Row="2" Margin="0,0,0,16" Visibility="Visible">
-			<StackPanel Orientation="Horizontal">
+		<!--  Debug  -->
+		<Grid
+			Grid.Row="2"
+			Margin="0,0,0,16"
+			Visibility="Visible">
+			<StackPanel Orientation="Vertical">
+				<TextBlock Text="DEBUG INFOS" />
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Foreground="White" Text="Selected Drive = " />
-					<TextBlock Foreground="White" Text="{Binding SelectedDrive.Info.Letter}" />
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Selected Drive = "
+							Foreground="White" />
+						<TextBlock Text="{Binding SelectedRow.Drive.Info.Letter}"
+							Foreground="White" />
+					</StackPanel>
+
 				</StackPanel>
 			</StackPanel>
 		</Grid>

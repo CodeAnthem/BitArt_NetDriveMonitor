@@ -71,6 +71,11 @@ namespace NetDriveManager.Monitor.components.NetDriveMounter
 			throw new NotImplementedException();
 		}
 
+		public bool Remove(char letter)
+		{
+			throw new NotImplementedException();
+		}
+
 		public bool RemoveAll()
 		{
 			throw new NotImplementedException();

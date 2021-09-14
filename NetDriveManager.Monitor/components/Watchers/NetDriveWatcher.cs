@@ -38,8 +38,8 @@ namespace NetDriveManager.Monitor.components.Watchers
 		{
 			foreach (var localDriveLetter in connectedLocalDrives)
 			{
-				string localLetter = localDriveLetter.Substring(0, 1);
-				if (string.Equals(localLetter, drive.Info.Letter, StringComparison.OrdinalIgnoreCase))
+				char localLetter = localDriveLetter[0];
+				if (char.Equals(char.ToUpper(localLetter), char.ToUpper(drive.Info.Letter)))
 					return true;
 			}
 			return false;
@@ -56,8 +56,6 @@ namespace NetDriveManager.Monitor.components.Watchers
 					drive.Status.IsConnected = isConnected;
 					Log.Information("Drive: {drive} Status IsConnected Updated to: {status}", drive, isConnected);
 				}
-
-
 			}
 		}
 

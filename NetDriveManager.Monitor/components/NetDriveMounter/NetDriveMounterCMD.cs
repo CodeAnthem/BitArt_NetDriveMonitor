@@ -10,22 +10,12 @@ namespace NetDriveManager.Monitor.components.NetDriveMounter
 {
 	public class NetDriveMounterCMD : NetDriveMounterBase, INetDriveMounter<NetDriveMounterCMD>
 	{
-		#region Private Fields
-
 		private readonly INetDriveFactory _factory;
-
-		#endregion
-
-		#region Public Constructors
 
 		public NetDriveMounterCMD(INetDriveFactory factory)
 		{
 			_factory = factory;
 		}
-
-		#endregion
-
-		#region Public Methods
 
 		public bool Add(INetDrive drive)
 		{
@@ -47,7 +37,7 @@ namespace NetDriveManager.Monitor.components.NetDriveMounter
 
 		public IEnumerable<INetDrive> GetAll() // bad method, cause it depends on the OS language
 		{
-			var driveList = new List<NetDriveModel>();
+			var driveList = new List<INetDrive>();
 
 			var output = NetWithOutput("use");
 
@@ -95,6 +85,24 @@ namespace NetDriveManager.Monitor.components.NetDriveMounter
 			return false;
 		}
 
+		public bool Remove(char letter)
+		{
+			if (IsLetterUsed(letter))
+			{
+				string arguments = $"use /delete {letter}:";
+				int exitCode = NetWithExitCode(arguments);
+				if (exitCode == 0)
+				{
+					Log.Debug("Successfully disconnected network drive with letter: {letter}", letter);
+					return true;
+				}
+				Log.Debug("Failed to disconnected network drive with letter: {letter}", letter);
+				return false;
+			}
+			Log.Debug("Failed to disconnected network drive with letter: {letter} (not found)", letter);
+			return false;
+		}
+
 		public bool RemoveAll()
 		{
 			const string arguments = "use /delete * /y";
@@ -107,10 +115,6 @@ namespace NetDriveManager.Monitor.components.NetDriveMounter
 			Log.Error("Failed to removed all network drives");
 			return false;
 		}
-
-		#endregion
-
-		#region Private Methods
 
 		private int NetWithExitCode(string arguments, int timeoutInMiliseconds = 0)
 		{
@@ -156,7 +160,5 @@ namespace NetDriveManager.Monitor.components.NetDriveMounter
 				StringSplitOptions.None
 			);
 		}
-
-		#endregion
 	}
 }

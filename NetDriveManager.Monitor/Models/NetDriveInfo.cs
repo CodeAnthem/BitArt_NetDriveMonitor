@@ -10,16 +10,23 @@ namespace NetDriveManager.Monitor.Models
 		#region Public Properties
 
 		public string HostName { get; set; }
-		public string Letter { get; set; }
+		public char Letter { get; set; }
 		public string Share { get; set; }
 
 		#endregion
 
 		#region Public Constructors
 
-		public NetDriveInfo(string letter, string hostName, string share)
+		public NetDriveInfo(char letter, string hostName, string share)
 		{
 			Letter = letter;
+			HostName = hostName;
+			Share = share;
+		}
+
+		public NetDriveInfo(string letter, string hostName, string share)
+		{
+			Letter = char.ToUpper(letter[0]);
 			HostName = hostName;
 			Share = share;
 		}

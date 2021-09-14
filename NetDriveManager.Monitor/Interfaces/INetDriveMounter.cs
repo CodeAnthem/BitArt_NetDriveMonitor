@@ -12,6 +12,8 @@ namespace NetDriveManager.Monitor.Interfaces
 
 		bool Remove(string letter);
 
+		bool Remove(char letter);
+
 		bool RemoveAll();
 
 		#endregion

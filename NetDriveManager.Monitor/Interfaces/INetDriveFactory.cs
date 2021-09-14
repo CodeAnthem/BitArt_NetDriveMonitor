@@ -8,7 +8,9 @@ namespace NetDriveManager.Monitor.Interfaces
 
 		INetDrive Create(NetDriveInfo info, NetDriveOptions options, NetDriveStatus status);
 
-		NetDriveModel Create(string letter, string hostName, string share, bool acIfAvailable = false, bool acIfAccessed = false, bool acLanOnly = false);
+		INetDrive Create(string letter, string hostName, string share, bool acIfAvailable = false, bool acLanOnly = false);
+
+		INetDrive Create(NetDriveInfo info);
 
 		NetDriveInfo CreateDriveInfo(string letter, string hostName, string share);
 

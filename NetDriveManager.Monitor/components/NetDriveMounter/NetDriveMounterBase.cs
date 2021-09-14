@@ -27,12 +27,17 @@ namespace NetDriveManager.Monitor.components.NetDriveMounter
 			return false;
 		}
 
-		public bool IsLetterValid(string letter)
+		public bool IsLetterUsed(char letter)
 		{
-			char c = letter[0];
+			return IsLetterUsed(letter.ToString());
+		}
 
+		public bool IsLetterValid(string letter) => IsLetterValid(letter[0]);
+
+		public bool IsLetterValid(char letter)
+		{
 			// the only valid drive letters are a-z && A-Z.
-			return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+			return (letter >= 'a' && letter <= 'z') || (letter >= 'A' && letter <= 'Z');
 		}
 
 		#endregion

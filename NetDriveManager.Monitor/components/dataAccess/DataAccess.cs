@@ -52,8 +52,8 @@ namespace NetDriveManager.Monitor.components.dataAccess
 		{
 			List<INetDrive> dummyDrives = new List<INetDrive>();
 			dummyDrives.Add(_factory.Create("H:", "dp-nas10", "home", true));
-			dummyDrives.Add(_factory.Create("L:", "dp-nas10", "soft"));
-			dummyDrives.Add(_factory.Create("V:", "dp-nas10", "video"));
+			dummyDrives.Add(_factory.Create("L:", "dp-nas10", "anotherShare"));
+			dummyDrives.Add(_factory.Create("M:", "dp-nas10", "music"));
 			return dummyDrives;
 		}
 

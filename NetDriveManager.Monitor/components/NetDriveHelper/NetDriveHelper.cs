@@ -68,7 +68,11 @@ namespace NetDriveManager.Monitor.components.NetDriveHelper
 
 		private bool IsAlreadyConnectedAction(string letter) => IsLetterUsed(letter);
 
+		private bool IsAlreadyConnectedAction(char letter) => IsLetterUsed(letter);
+
 		private bool RemoveAction(string letter) => _cmdMounter.Remove(letter);
+
+		private bool RemoveAction(char letter) => _cmdMounter.Remove(letter);
 
 		#endregion
 	}

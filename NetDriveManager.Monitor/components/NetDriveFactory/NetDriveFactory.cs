@@ -9,8 +9,8 @@ namespace NetDriveManager.Monitor.components.NetDriveFactory
 	{
 		#region Public Methods
 
-		public NetDriveModel Create(string letter, string hostName, string share,
-							bool acIfAvailable = false, bool acIfAccessed = false, bool acLanOnly = false)
+		public INetDrive Create(string letter, string hostName, string share,
+							bool acIfAvailable = false, bool acLanOnly = false)
 		{
 			var driveInfo = CreateDriveInfo(letter, hostName, share);
 			var driveOptions = new NetDriveOptions(acIfAvailable, acLanOnly);
@@ -25,6 +25,11 @@ namespace NetDriveManager.Monitor.components.NetDriveFactory
 			return new NetDriveModel(info, options, status);
 		}
 
+		public INetDrive Create(NetDriveInfo info)
+		{
+			return new NetDriveModel(info, new NetDriveOptions(), new NetDriveStatus());
+		}
+
 		public NetDriveInfo CreateDriveInfo(string letter, string hostName, string share)
 		{
 			if (string.IsNullOrEmpty(hostName))
@@ -34,11 +39,25 @@ namespace NetDriveManager.Monitor.components.NetDriveFactory
 				throw new Exception($"Share can't be empty: '{share}'");
 
 			if (string.IsNullOrEmpty(letter))
-				throw new Exception($"Share can't be empty: '{letter}'");
+				throw new Exception($"Letter can't be empty: '{letter}'");
 
 			string fixedLetter = FixDriveLetter(letter);
 
 			return new NetDriveInfo(fixedLetter, hostName, share);
+		}
+
+		public NetDriveInfo CreateDriveInfo(char letter, string hostName, string share)
+		{
+			if (string.IsNullOrEmpty(hostName))
+				throw new Exception($"Hostname can't be empty: '{hostName}'");
+
+			if (string.IsNullOrEmpty(share))
+				throw new Exception($"Share can't be empty: '{share}'");
+
+			if (!char.IsLetter(letter))
+				throw new Exception($"Letter is not a letter: '{letter}'");
+
+			return new NetDriveInfo(letter, hostName, share);
 		}
 
 		#endregion

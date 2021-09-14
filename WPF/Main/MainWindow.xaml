@@ -10,7 +10,7 @@
 	Title="{Binding WindowTitle}"
 	Width="{local:WindowSettingsBinding Width}"
 	Height="{local:WindowSettingsBinding Height}"
-	MinWidth="650" MinHeight="500"
+	MinWidth="650" MinHeight="800"
 	d:DataContext="{d:DesignInstance Type=local:MainWindowModel,
 	                                 IsDesignTimeCreatable=False}"
 	Background="#444" BorderThickness="0"
