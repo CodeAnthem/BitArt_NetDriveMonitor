@@ -9,11 +9,14 @@
 	d:DataContext="{d:DesignInstance Type=local:FooterViewModel}"
 	mc:Ignorable="d">
 
-	<Grid>
+	<Grid Focusable="False">
 
-		<materialDesign:Card Margin="0,8,0,16">
+		<materialDesign:Card
+			Margin="0,8,0,16"
+			Focusable="False">
 			<StackPanel HorizontalAlignment="Center">
-				<TextBlock FontFamily="/assets/fonts/#TarponMotel" Text="{Binding FooterText}" />
+				<TextBlock Text="{Binding FooterText}"
+					FontFamily="/assets/fonts/#TarponMotel" />
 			</StackPanel>
 		</materialDesign:Card>
 

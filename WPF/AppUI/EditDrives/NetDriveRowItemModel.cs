@@ -10,6 +10,7 @@ namespace WPF.AppUI.EditDrives
 	public class NetDriveRowItemModel : ObservableObject
 	{
 		private List<char> _availableLetters;
+		private INetDrive drive;
 
 		public List<char> AvailableLetters
 		{
@@ -17,7 +18,11 @@ namespace WPF.AppUI.EditDrives
 			set { SetProperty(ref _availableLetters, value); }
 		}
 
-		public INetDrive Drive { get; }
+		public INetDrive Drive
+		{
+			get { return drive; }
+			set { SetProperty(ref drive, value); }
+		}
 
 		public NetDriveRowItemModel(INetDrive drive)
 		{

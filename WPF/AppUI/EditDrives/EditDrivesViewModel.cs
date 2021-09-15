@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.Input;
 using NetDriveManager.Monitor.Interfaces;
+using NetDriveManager.Monitor.Models;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,7 @@ namespace WPF.AppUI.EditDrives
 
 			_mainContent = mainContent;
 			_cc = cc;
+			_factory = factory;
 
 			NavigateCancelCommand = new RelayCommand(NavigateBack);
 			NavigateSaveCommand = new RelayCommand(Save);
@@ -46,29 +48,31 @@ namespace WPF.AppUI.EditDrives
 			AddDriveCommand = new RelayCommand(AddDrive);
 
 			GetAndCreateRowItems();
-			UpdateDriveLetters();
-
-			//ConfiguredDrivesDict.
-			//ConfiguredDrives.CollectionChanged += OnCollectionChanged;
 			//UpdateLetters();
 
 			_core.Deactivate();
-			_factory = factory;
+		}
+
+		private void UpdateLetters()
+		{
+			//UpdateRowItemsDriveLetters();
+			//UpdateGlobalDriveLetters();
 		}
 
 		#endregion
 
 		#region Public Properties
 
-		public ObservableCollection<Char> AvailableDriveLettersCol { get; set; } = new ObservableCollection<char>();
+		//public ObservableCollection<Char> AvailableDriveLettersCol { get; set; } = new ObservableCollection<char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 		public ObservableCollection<NetDriveRowItemModel> RowItems { get; set; } = new ObservableCollection<NetDriveRowItemModel>();
+
 		public NetDriveRowItemModel SelectedRow
 		{
 			get { return selectedRow; }
 			set
 			{
 				SetProperty(ref selectedRow, value);
-				UpdateDriveLetters();
+				UpdateLetters();
 			}
 		}
 
@@ -90,7 +94,6 @@ namespace WPF.AppUI.EditDrives
 			set
 			{
 				SetProperty(ref _newDriveLetter, value);
-				//UpdateDriveLetters();
 			}
 		}
 
@@ -124,11 +127,22 @@ namespace WPF.AppUI.EditDrives
 				return;
 			}
 
-			var newDriveInfo = _factory.CreateDriveInfo(NewDriveLetter.ToString(), NewDriveHostName, NewDriveShare);
-			var newDrive = _factory.Create(newDriveInfo);
-			//ConfiguredDrives.Add(newDrive);
-			//UpdateLetters();
+			bool isUpdatingExistingDrive = NewDriveLetter == SelectedRow.Drive.Info.Letter;
+			if (isUpdatingExistingDrive)
+			{
+				SelectedRow.Drive.Info.Letter = NewDriveLetter;
+				SelectedRow.Drive.Info.HostName = NewDriveHostName;
+				SelectedRow.Drive.Info.Share = NewDriveShare;
+			}
+			else
+			{
+				NetDriveInfo newDriveInfo = _factory.CreateDriveInfo(NewDriveLetter.ToString(), NewDriveHostName, NewDriveShare);
+				INetDrive newDrive = _factory.Create(newDriveInfo);
+				RowItems.Add(new NetDriveRowItemModel(newDrive));
+			}
 
+			UpdateLetters();
+			//NewDriveLetter = AvailableDriveLettersCol[0];
 			NewDriveHostName = "";
 			NewDriveShare = "";
 		}
@@ -137,7 +151,7 @@ namespace WPF.AppUI.EditDrives
 		{
 			if (SelectedRow != null)
 			{
-				var driveToDelete = SelectedRow;
+				NetDriveRowItemModel driveToDelete = SelectedRow;
 				RowItems.Remove(driveToDelete);
 				Log.Debug("Removed drive {driveInfo}", driveToDelete.Drive);
 			}
@@ -146,7 +160,6 @@ namespace WPF.AppUI.EditDrives
 		private void GetAndCreateRowItems()
 		{
 			RowItems.Clear();
-
 			var configuredDrives = _core.DataAccess.GetDrives0REmptyList();
 			foreach (var drive in configuredDrives)
 			{
@@ -155,86 +168,65 @@ namespace WPF.AppUI.EditDrives
 				Log.Debug("UI drive added: {drive}", drive);
 			}
 			Log.Debug($"Loaded {RowItems.Count} drives of DataAccess");
-
-			//_core.DataAccess.GetDrives0REmptyList().ForEach(d => ConfiguredDrives.Add(d));
 		}
 
-		private void UpdateDriveLetters()
-		{
-			var usedLetters = new List<char>();
-			foreach (var row in RowItems)
-			{
-				char localDriveLetter = row.Drive.Info.Letter;
-				usedLetters.Add(localDriveLetter);
-				Log.Debug("Ignore letter used by configured drive: {driveLetter}", localDriveLetter);
-			}
+		//private void UpdateRowItemsDriveLetters()
+		//{
+		//	var usedLetters = new List<char>();
+		//	usedLetters.AddRange(GetConfiguredDriveLetters());
+		//	usedLetters.AddRange(GetLocalDriveLetters());
 
-			foreach (var drive in DriveInfo.GetDrives())
-			{
-				if (drive.DriveType == DriveType.Fixed)
-				{
-					char localDriveLetter = drive.Name[0];
-					usedLetters.Add(localDriveLetter);
-					Log.Debug("Ignore letter used by local drive: {driveLetter}", localDriveLetter);
-				}
-			}
+		// foreach (var currentRow in RowItems) { var freshLetters = new List<char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-			foreach (var currentRow in RowItems)
-			{
-				var freshLetters = new List<char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+		// foreach (char letter in usedLetters) { if (currentRow.Drive.Info.Letter != letter)
+		// freshLetters.Remove(letter); }
 
-				foreach (char letter in usedLetters)
-				{
-					if (currentRow.Drive.Info.Letter != letter)
-						freshLetters.Remove(letter);
-				}
+		//		currentRow.AvailableLetters = freshLetters;
+		//	}
+		//}
 
-				currentRow.AvailableLetters = freshLetters;
+		//private static List<char> GetLocalDriveLetters()
+		//{
+		//	var localDriveLettersInUse = new List<char>();
+		//	foreach (var drive in DriveInfo.GetDrives())
+		//	{
+		//		if (drive.DriveType == DriveType.Fixed)
+		//		{
+		//			char dDriveLetter = drive.Name[0];
+		//			localDriveLettersInUse.Add(dDriveLetter);
+		//			Log.Debug("Ignore letter used by local drive: {driveLetter}", dDriveLetter);
+		//		}
+		//	}
+		//	return localDriveLettersInUse;
+		//}
 
-				//foreach (var rowItem in RowItems)
-				//{
-				//	if (currentRow.Drive.Info.Letter != rowItem.Drive.Info.Letter)
-				//	{
-				//		freshLetters.Remove(rowItem.Drive.Info.Letter);
-				//		Log.Debug("Removed letter: {letter} for drive {drive}", rowItem.Drive.Info.Letter, currentRow.Drive);
-				//	}
-				//}
+		//private List<char> GetConfiguredDriveLetters()
+		//{
+		//	var configuredDriveLettersInUse = new List<char>();
+		//	foreach (var row in RowItems)
+		//	{
+		//		char driveLetter = row.Drive.Info.Letter;
+		//		configuredDriveLettersInUse.Add(driveLetter);
+		//		Log.Debug("Ignore letter used by configured drive: {driveLetter}", driveLetter);
+		//	}
+		//	return configuredDriveLettersInUse;
+		//}
 
-				//currentRow.AvailableLetters = freshLetters;
-				//Log.Debug("Drive Letters for drive: {driveletter} - '{letters}'", currentRow.Drive.Info.Letter, currentRow.AvailableLetters);
+		//private void UpdateGlobalDriveLetters()
+		//{
+		//	var usedLetters = new List<char>();
+		//	usedLetters.AddRange(GetConfiguredDriveLetters());
+		//	usedLetters.AddRange(GetLocalDriveLetters());
 
-				//foreach (char letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-				//{
-				//	if (!currentRow.AvailableLetters.Contains(letter))
-				//		currentRow.AvailableLetters.Add(letter);
-				//}
-
-				////driveEntry.Key = new ObservableCollection<char>("ABC"); //driveEntry.Key =
-				//var sortedLetters = currentRow.AvailableLetters.OrderBy(x => x).ToList();
-				//currentRow.AvailableLetters = new ObservableCollection<char>(sortedLetters);
-
-				//foreach (var otherDrives in RowItems)
-				//{
-				//	if (currentRow.Drive.Info.Letter != otherDrives.Drive.Info.Letter)
-				//		currentRow.AvailableLetters.Remove(otherDrives.Drive.Info.Letter);
-				//}
-			}
-		}
-
-		private void GridCellChanged()
-		{
-			UpdateDriveLetters();
-		}
+		//	var freshLetters = new List<char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+		//	usedLetters.ForEach(x => freshLetters.Remove(x));
+		//	AvailableDriveLettersCol = new ObservableCollection<char>(freshLetters);
+		//}
 
 		private void NavigateBack()
 		{
 			_core.Activate();
 			_mainContent.Control = _cc.GetUserControl(nameof(HomeView));
-		}
-
-		private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-			//UpdateLetters();
 		}
 
 		private void OnEnabledStatusChanged() => OnPropertyChanged(nameof(IsCoreEnabled));

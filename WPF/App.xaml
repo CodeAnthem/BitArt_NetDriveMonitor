@@ -8,7 +8,10 @@
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<materialDesign:MahAppsBundledTheme BaseTheme="Inherit" PrimaryColor="DeepOrange" SecondaryColor="Orange" />
+				<materialDesign:MahAppsBundledTheme
+					BaseTheme="Inherit"
+					PrimaryColor="DeepOrange"
+					SecondaryColor="Orange" />
 
 				<!--  My Styles  -->
 				<ResourceDictionary Source="/Styles/ToggleSwitch.xaml" />

@@ -10,7 +10,8 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:system="clr-namespace:System;assembly=mscorlib"
 	d:DataContext="{d:DesignInstance Type=home:HomeViewModel}"
-	d:DesignHeight="450" d:DesignWidth="800"
+	d:DesignHeight="450"
+	d:DesignWidth="800"
 	mc:Ignorable="d">
 	<Grid>
 
@@ -24,7 +25,9 @@
 		</Grid.ColumnDefinitions>
 
 		<!--  Header & Buttons  -->
-		<Grid Grid.Row="0" Margin="0,0,0,10">
+		<Grid
+			Grid.Row="0"
+			Margin="0,0,0,10">
 			<materialDesign:Card>
 				<Grid>
 					<Grid.RowDefinitions>
@@ -43,16 +46,24 @@
 					</Grid.Resources>
 
 					<Grid Grid.Column="0">
-						<StackPanel HorizontalAlignment="Left" Orientation="Vertical">
-							<TextBlock Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Text="OverView" />
+						<StackPanel
+							HorizontalAlignment="Left"
+							Orientation="Vertical">
+							<TextBlock Text="OverView"
+								Style="{DynamicResource MaterialDesignHeadline6TextBlock}" />
 
 							<StackPanel Orientation="Horizontal">
 								<StackPanel.Resources>
-									<Style x:Key="CoreStatus" BasedOn="{StaticResource MaterialDesignHelperTextBlock}" TargetType="TextBlock">
+									<Style
+										x:Key="CoreStatus"
+										BasedOn="{StaticResource MaterialDesignHelperTextBlock}"
+										TargetType="TextBlock">
 										<Setter Property="Foreground" Value="Red" />
 										<Setter Property="Text" Value="Not Ready" />
 										<Style.Triggers>
-											<DataTrigger Binding="{Binding IsCoreEnabled, Mode=OneWay}" Value="True">
+											<DataTrigger
+												Binding="{Binding IsCoreEnabled, Mode=OneWay}"
+												Value="True">
 												<Setter Property="Foreground" Value="Green" />
 												<Setter Property="Text" Value="Ready" />
 											</DataTrigger>
@@ -60,7 +71,8 @@
 									</Style>
 								</StackPanel.Resources>
 
-								<TextBlock Style="{DynamicResource MaterialDesignHelperTextBlock}" Text="Status" />
+								<TextBlock Text="Status"
+									Style="{DynamicResource MaterialDesignHelperTextBlock}" />
 								<Separator Margin="2" />
 								<TextBlock Style="{DynamicResource CoreStatus}" />
 							</StackPanel>
@@ -69,10 +81,13 @@
 					</Grid>
 
 					<Grid Grid.Column="1">
-						<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+						<StackPanel
+							HorizontalAlignment="Center"
+							Orientation="Horizontal">
 
 							<mah:ToggleSwitch
-								Margin="5" HorizontalContentAlignment="Center"
+								Margin="5"
+								HorizontalContentAlignment="Center"
 								CommandParameter="{Binding}"
 								ContentDirection="LeftToRight"
 								IsOn="{Binding Settings.IsAutoConnectIfAvailable, Mode=OneWay}"
@@ -85,7 +100,9 @@
 					</Grid>
 
 					<Grid Grid.Column="2">
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+						<StackPanel
+							HorizontalAlignment="Right"
+							Orientation="Horizontal">
 
 							<Button Content="Settings"
 								Width="auto"
@@ -110,24 +127,36 @@
 
 
 		<!--  Datagrid  -->
-		<Grid Grid.Row="1" Margin="0,0,0,16">
+		<Grid
+			Grid.Row="1"
+			Margin="0,0,0,16">
 			<Border
 				Padding="10"
 				Background="{DynamicResource MahApps.Brushes.Menu.Background}"
 				BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
-				BorderThickness="2" CornerRadius="20">
+				BorderThickness="2"
+				CornerRadius="20">
 
 				<Border.Resources>
-					<Style x:Key="DriveGridHeaderStyle" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader.Azure}" TargetType="DataGridColumnHeader">
+					<Style
+						x:Key="DriveGridHeaderStyle"
+						BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader.Azure}"
+						TargetType="DataGridColumnHeader">
 						<Setter Property="HorizontalContentAlignment" Value="Center" />
 					</Style>
 
-					<Style x:Key="DriveGridCellStyle" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}" TargetType="DataGridCell">
+					<Style
+						x:Key="DriveGridCellStyle"
+						BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}"
+						TargetType="DataGridCell">
 						<Setter Property="Focusable" Value="False" />
 						<Setter Property="HorizontalContentAlignment" Value="Center" />
 					</Style>
 
-					<Style x:Key="DriveGridButtonCellStyle" BasedOn="{StaticResource MahApps.Styles.DataGridCell}" TargetType="DataGridCell">
+					<Style
+						x:Key="DriveGridButtonCellStyle"
+						BasedOn="{StaticResource MahApps.Styles.DataGridCell}"
+						TargetType="DataGridCell">
 						<Setter Property="Width" Value="auto" />
 						<Setter Property="Margin" Value="10,0,0,0" />
 						<Setter Property="Visibility" Value="Visible" />
@@ -142,24 +171,31 @@
 					HorizontalAlignment="Stretch"
 					AutoGenerateColumns="False"
 					Background="{DynamicResource MahApps.Brushes.Menu.Background}"
-					CanUserAddRows="False" CanUserDeleteRows="False"
+					CanUserAddRows="False"
+					CanUserDeleteRows="False"
 					CellStyle="{StaticResource DriveGridCellStyle}"
 					ColumnHeaderStyle="{DynamicResource DriveGridHeaderStyle}"
-					FontSize="15" GridLinesVisibility="Horizontal"
+					FontSize="15"
+					GridLinesVisibility="Horizontal"
 					IsReadOnly="True"
 					ItemsSource="{Binding Core.Drives}"
 					SelectedItem="{Binding SelectedDrive}"
-					SelectionMode="Single" SelectionUnit="FullRow"
+					SelectionMode="Single"
+					SelectionUnit="FullRow"
 					Style="{DynamicResource MahApps.Styles.DataGrid.Azure}">
 
 					<DataGrid.Columns>
 						<DataGridTemplateColumn
-							CanUserReorder="False" CanUserResize="False"
+							CanUserReorder="False"
+							CanUserResize="False"
 							CellStyle="{StaticResource DriveGridButtonCellStyle}"
-							Header="Control" IsReadOnly="True">
+							Header="Control"
+							IsReadOnly="True">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<Grid Margin="8,4" Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
+									<Grid
+										Margin="8,4"
+										Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
 										<Button Content="Toggle"
 											Margin="4,4"
 											Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.ToggleDriveAsync}"
@@ -173,12 +209,25 @@
 						<DataGridTextColumn
 							Width="100"
 							Binding="{Binding Info.Letter}"
-							CanUserReorder="False" CanUserResize="False"
+							CanUserReorder="False"
+							CanUserResize="False"
 							Header="Letter" />
-						<DataGridTextColumn Width="*" Binding="{Binding Info.HostName}" Header="Server" />
-						<DataGridTextColumn Width="*" Binding="{Binding Info.Share}" Header="Share" />
-						<DataGridTextColumn Width="*" Binding="{Binding Status.IsConnected}" Header="Connected" />
-						<DataGridTextColumn Width="*" Binding="{Binding Status.IsHostAvailable}" Header="Available" />
+						<DataGridTextColumn
+							Width="*"
+							Binding="{Binding Info.HostName}"
+							Header="Server" />
+						<DataGridTextColumn
+							Width="*"
+							Binding="{Binding Info.Share}"
+							Header="Share" />
+						<DataGridTextColumn
+							Width="*"
+							Binding="{Binding Status.IsConnected}"
+							Header="Connected" />
+						<DataGridTextColumn
+							Width="*"
+							Binding="{Binding Status.IsHostAvailable}"
+							Header="Available" />
 					</DataGrid.Columns>
 
 				</DataGrid>
@@ -186,15 +235,21 @@
 		</Grid>
 
 		<!--  Stats  -->
-		<Grid Grid.Row="2" Margin="0,0,0,16">
+		<Grid
+			Grid.Row="2"
+			Margin="0,0,0,16">
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Foreground="White" Text="Selected Drive = " />
-					<TextBlock Foreground="White" Text="{Binding SelectedDrive.Info.Letter}" />
+					<TextBlock Text="Selected Drive = "
+						Foreground="White" />
+					<TextBlock Text="{Binding SelectedDrive.Info.Letter}"
+						Foreground="White" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Foreground="White" Text="Auto Connect = " />
-					<TextBlock Foreground="White" Text="{Binding Settings.IsAutoConnectIfAvailable}" />
+					<TextBlock Text="Auto Connect = "
+						Foreground="White" />
+					<TextBlock Text="{Binding Settings.IsAutoConnectIfAvailable}"
+						Foreground="White" />
 				</StackPanel>
 			</StackPanel>
 		</Grid>

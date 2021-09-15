@@ -10,10 +10,12 @@
 	Title="{Binding WindowTitle}"
 	Width="{local:WindowSettingsBinding Width}"
 	Height="{local:WindowSettingsBinding Height}"
-	MinWidth="650" MinHeight="800"
+	MinWidth="650"
+	MinHeight="800"
 	d:DataContext="{d:DesignInstance Type=local:MainWindowModel,
 	                                 IsDesignTimeCreatable=False}"
-	Background="#444" BorderThickness="0"
+	Background="#444"
+	BorderThickness="0"
 	GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
 	Icon="/Resources/Assets/Icons/DummyIcon.ico"
 	Left="{local:WindowSettingsBinding Left}"
@@ -25,7 +27,10 @@
 	<mah:MetroWindow.LeftWindowCommands>
 		<mah:WindowCommands>
 			<Button ToolTip="Open up the GitHub site">
-				<iconPacks:PackIconModern Width="22" Height="22" Kind="SocialGithubOctocat" />
+				<iconPacks:PackIconModern
+					Width="22"
+					Height="22"
+					Kind="SocialGithubOctocat" />
 			</Button>
 		</mah:WindowCommands>
 	</mah:MetroWindow.LeftWindowCommands>
@@ -37,11 +42,13 @@
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
 							<iconPacks:PackIconModern
-								Width="22" Height="22"
+								Width="22"
+								Height="22"
 								VerticalAlignment="Center"
 								Kind="FoodCupcake" />
 							<TextBlock Text="Donate a cupcake"
-								Margin="4,0,0,0" VerticalAlignment="Center"
+								Margin="4,0,0,0"
+								VerticalAlignment="Center"
 								DataContext="this" />
 						</StackPanel>
 					</DataTemplate>
@@ -50,7 +57,9 @@
 		</mah:WindowCommands>
 	</mah:MetroWindow.RightWindowCommands>
 
-	<Grid Margin="16,0" Background="#444">
+	<Grid
+		Margin="16,0"
+		Background="#444">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
@@ -60,8 +69,14 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<ContentControl Grid.Row="0" Content="{Binding CCHeader}" />
-		<ContentControl Grid.Row="1" Content="{Binding CCMain}" />
-		<ContentControl Grid.Row="2" Content="{Binding CCFooter}" />
+		<ContentControl Content="{Binding CCHeader}"
+			Grid.Row="0"
+			Focusable="False" />
+		<ContentControl Content="{Binding CCMain}"
+			Grid.Row="1"
+			Focusable="False" />
+		<ContentControl Content="{Binding CCFooter}"
+			Grid.Row="2"
+			Focusable="False" />
 	</Grid>
 </mah:MetroWindow>
