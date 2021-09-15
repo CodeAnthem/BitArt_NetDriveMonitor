@@ -262,12 +262,13 @@
 									<DataGridTemplateColumn.CellTemplate>
 										<DataTemplate>
 											<ComboBox
+											Name="RowLetterComboBox"
 												Width="100"
 												HorizontalAlignment="Center"
 												HorizontalContentAlignment="Center"
 												ItemsSource="{Binding AvailableLetters, UpdateSourceTrigger=LostFocus}"
 												SelectedItem="{Binding Drive.Info.Letter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-												SelectionChanged="ComboBox_SelectionChanged"
+												SelectionChanged="RowLetterComboBox_SelectionChanged"
 												Style="{StaticResource MaterialDesignDataGridComboBox}" />
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
@@ -422,7 +423,7 @@
 								<TextBlock Text="Drive Letter"
 									Margin="0,5"
 									Style="{DynamicResource MaterialDesignSubtitle1TextBlock}" />
-								<ComboBox x:Name="ComboBox_Letters"
+								<ComboBox x:Name="NewLetterComboBox"
 									Margin="1,0"
 									HorizontalAlignment="Stretch"
 									HorizontalContentAlignment="Left"
@@ -433,13 +434,12 @@
 									materialDesign:TextFieldAssist.UnderlineBrush="{DynamicResource MahApps.Brushes.Accent}"
 									Cursor="Hand"
 									ItemContainerStyle="{StaticResource MyDropdownStyle}"
-									Loaded="ComboBox_Letters_Loaded"
+									Loaded="NewLetterComboBox_Loaded"
 									MaxDropDownHeight="190"
 									OverridesDefaultStyle="False"
 									SelectedIndex="-1"
-									SelectionChanged="ComboBox_Letters_SelectionChanged"
+									SelectionChanged="NewLetterComboBox_SelectionChanged"
 									ToolTip="Choose an available drive letter">
-									<!--  ItemsSource="{Binding ElementName=RootElement, Path=AvailableDriveLettersCol}"  -->
 
 									<ComboBox.Text>
 										<Binding

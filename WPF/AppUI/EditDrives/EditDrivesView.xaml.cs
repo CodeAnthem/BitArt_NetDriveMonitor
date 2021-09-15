@@ -1,11 +1,9 @@
 ﻿using Serilog;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace WPF.AppUI.EditDrives
@@ -17,12 +15,12 @@ namespace WPF.AppUI.EditDrives
 	{
 		#region Private Fields
 
-		private const string _lettersAZ = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		private int _lastLetterIndex = -1;
+		private readonly List<char> _freshLetters = new List<char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-		private List<char> _occupiedLettersOfConfiguredDrives = new List<char>();
-		private List<char> _occupiedLettersOfLocalDrives = new List<char>();
-		private bool _updatedOnce;
+		private readonly List<char> _occupiedLettersOfConfiguredDrives = new List<char>();
+		private readonly List<char> _occupiedLettersOfLocalDrives = new List<char>();
+		private int _lastLetterIndex = -1;
+		private bool _isNotFirstTime;
 
 		#endregion
 
@@ -37,41 +35,112 @@ namespace WPF.AppUI.EditDrives
 
 		#region Private Methods
 
-		private void ComboBox_Letters_Loaded(object sender, System.Windows.RoutedEventArgs e)
+		private void NewLetterComboBox_Loaded(object sender, System.Windows.RoutedEventArgs e)
 		{
-			var sourceCollection = DataGrid.ItemsSource as ObservableCollection<NetDriveRowItemModel>;
-			if (sourceCollection == null)
-				return;
-			sourceCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(DataGrid_CollectionChanged);
+			Update_AllAvailableDriveLetters(true);
+		}
 
-			UpdateLetters();
-			_updatedOnce = true;
+		private void NewLetterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Store_NewLetterComboBox_AvailableDriveLetters();
+		}
+
+		private void RowLetterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Update_AllAvailableDriveLetters();
 		}
 
 		private void DataGrid_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			UpdateLetters();
+			Update_AllAvailableDriveLetters();
 		}
 
-		private void ComboBox_Letters_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private List<char> GetAvailableDriveLetters(IEnumerable<char> usedLetters, NetDriveRowItemModel row = null)
 		{
-			if (ComboBox_Letters.SelectedIndex != -1)
+			var freshLetters = new List<char>(_freshLetters);
+
+			foreach (char occupiedLetter in usedLetters)
 			{
-				_lastLetterIndex = ComboBox_Letters.SelectedIndex;
-				char letter = (char)ComboBox_Letters.Items[_lastLetterIndex];
-				Log.Debug("Stored global selection: {0}|{1}", letter, _lastLetterIndex);
+				if (row != null && (occupiedLetter == row.Drive.Info.Letter))
+					continue;
+				freshLetters.Remove(occupiedLetter);
+			}
+
+			if (row != null)
+				Log.Debug("Adjusted letters for Row: {letter}: {letters}", row.Drive.Info.Letter, freshLetters);
+			else
+				Log.Debug("Adjusted letters for NewComboBoxLetter: {letters}", freshLetters);
+
+			return freshLetters;
+		}
+
+		private void Reset_NewLetterComboBox_SelectedIndex()
+		{
+			if (NewLetterComboBox.SelectedIndex != -1)
 				return;
+
+			if (NewLetterComboBox.SelectedIndex == -1 && _lastLetterIndex == -1 && NewLetterComboBox.Items.Count > 0)
+			{
+				NewLetterComboBox.SelectedIndex = 0;
+				_lastLetterIndex = 0;
+				Log.Debug("Reseting NewComboBoxLetter index to: 0");
+				return;
+			}
+
+			int newLetterIndex = _lastLetterIndex + 1;
+			while (newLetterIndex >= NewLetterComboBox.Items.Count)
+			{
+				newLetterIndex--;
+			}
+
+			NewLetterComboBox.SelectedIndex = newLetterIndex;
+			_lastLetterIndex = newLetterIndex;
+			Log.Debug("Reseting NewComboBoxLetter index to: {0}", newLetterIndex);
+		}
+
+		private void Store_NewLetterComboBox_AvailableDriveLetters()
+		{
+			if (NewLetterComboBox.SelectedIndex != -1)
+			{
+				_lastLetterIndex = NewLetterComboBox.SelectedIndex;
+				char letter = (char)NewLetterComboBox.Items[_lastLetterIndex];
+				Log.Debug("Stored global selection: {0}|{1}", letter, _lastLetterIndex);
 			}
 		}
 
-		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void Update_AllAvailableDriveLetters(bool isFirstTime = false)
 		{
-			if (!_updatedOnce)
-				return;
-			UpdateLetters();
+			if (isFirstTime)
+			{
+				var sourceCollection = DataGrid.ItemsSource as ObservableCollection<NetDriveRowItemModel>;
+				if (sourceCollection == null)
+					return;
+				sourceCollection.CollectionChanged += DataGrid_CollectionChanged;
+				_isNotFirstTime = true;
+			}
+
+			if (_isNotFirstTime)
+			{
+				UpdateOccupiedLettersOfLocalDrives();
+				UpdateOccupiedLettersOfConfiguredDrives();
+				var usedLetters = _occupiedLettersOfConfiguredDrives.Concat(_occupiedLettersOfLocalDrives);
+
+				Update_RowLetterComboBox_AvailableLetters(usedLetters);
+				NewLetterComboBox.ItemsSource = GetAvailableDriveLetters(usedLetters);
+
+				Reset_NewLetterComboBox_SelectedIndex();
+			}
 		}
 
-		private void GetConfiguredDriveLetters()
+		private void Update_RowLetterComboBox_AvailableLetters(IEnumerable<char> usedLetters)
+		{
+			foreach (NetDriveRowItemModel currentRow in DataGrid.ItemsSource as ObservableCollection<NetDriveRowItemModel>)
+			{
+				currentRow.AvailableLetters = GetAvailableDriveLetters(usedLetters, currentRow);
+			}
+		}
+
+		private void UpdateOccupiedLettersOfConfiguredDrives()
 		{
 			_occupiedLettersOfConfiguredDrives.Clear();
 			foreach (var row in DataGrid.ItemsSource as ObservableCollection<NetDriveRowItemModel>)
@@ -81,7 +150,7 @@ namespace WPF.AppUI.EditDrives
 			}
 		}
 
-		private void GetLocalDriveLetters()
+		private void UpdateOccupiedLettersOfLocalDrives()
 		{
 			_occupiedLettersOfLocalDrives.Clear();
 			foreach (var drive in DriveInfo.GetDrives())
@@ -91,99 +160,6 @@ namespace WPF.AppUI.EditDrives
 					char dDriveLetter = drive.Name[0];
 					_occupiedLettersOfLocalDrives.Add(dDriveLetter);
 				}
-			}
-		}
-
-		private void RememberLastGlobalSelection()
-		{
-			if (ComboBox_Letters.SelectedIndex != -1)
-			{
-				Log.Debug("Nothing to change");
-				return;
-			}
-
-			if (ComboBox_Letters.SelectedIndex == -1 && _lastLetterIndex == -1 && ComboBox_Letters.Items.Count > 0)
-			{
-				ComboBox_Letters.SelectedIndex = 0;
-				_lastLetterIndex = 0;
-				Log.Debug("Reseting");
-				return;
-			}
-
-			int newLetterIndex = _lastLetterIndex + 1;
-
-			while (newLetterIndex >= ComboBox_Letters.Items.Count)
-			{
-				newLetterIndex--;
-			}
-
-			Log.Debug("Saved last index! old: {oldIndex} - new: {newIndex}", _lastLetterIndex, newLetterIndex);
-
-			ComboBox_Letters.SelectedIndex = newLetterIndex;
-			_lastLetterIndex = newLetterIndex;
-
-			//if (lastLetterIndex < ComboBox_Letters.Items.Count)
-			//{
-			//}
-
-			//int newLastLetterIndex = lastLetterIndex + 0;
-			//Log.Debug($"Compare ({newLastLetterIndex} < {ComboBox_Letters.Items.Count - 1})");
-			//if (newLastLetterIndex < ComboBox_Letters.Items.Count)
-			//{
-			//	ComboBox_Letters.SelectedIndex = newLastLetterIndex;
-			//	_currentLetterIndex = newLastLetterIndex;
-			//	Log.Debug("Setting new value {0}", newLastLetterIndex);
-			//}
-			//else
-			//{
-			//	ComboBox_Letters.SelectedIndex = 0;
-			//	_currentLetterIndex = 0;
-			//	Log.Debug("Reseting2");
-			//}
-		}
-
-		private void UpdateGlobalDriveLetters(IEnumerable<char> usedLetters)
-		{
-			var freshLetters = new List<char>(_lettersAZ);
-			foreach (char letter in usedLetters)
-			{
-				freshLetters.Remove(letter);
-			}
-			ComboBox_Letters.ItemsSource = freshLetters;
-			Log.Debug("Adjusted global letter list: {letters}", freshLetters);
-		}
-
-		private void UpdateLetters()
-		{
-			UpdateOccupiedLetters();
-
-			var usedLetters = _occupiedLettersOfConfiguredDrives.Concat(_occupiedLettersOfLocalDrives);
-			UpdateRowItemsDriveLetters(usedLetters);
-			UpdateGlobalDriveLetters(usedLetters);
-
-			RememberLastGlobalSelection();
-		}
-
-		private void UpdateOccupiedLetters()
-		{
-			GetLocalDriveLetters();
-			GetConfiguredDriveLetters();
-		}
-
-		private void UpdateRowItemsDriveLetters(IEnumerable<char> usedLetters)
-		{
-			foreach (NetDriveRowItemModel currentRow in DataGrid.ItemsSource as ObservableCollection<NetDriveRowItemModel>)
-			{
-				var freshLetters = new List<char>(_lettersAZ);
-
-				foreach (char letter in usedLetters)
-				{
-					if (currentRow.Drive.Info.Letter != letter)
-						freshLetters.Remove(letter);
-				}
-
-				currentRow.AvailableLetters = freshLetters;
-				Log.Debug("Adjusted letters, drive: {drive} list: {letters}", currentRow.Drive.ToString(), freshLetters);
 			}
 		}
 
