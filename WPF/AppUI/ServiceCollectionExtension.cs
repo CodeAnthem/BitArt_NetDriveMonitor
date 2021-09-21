@@ -23,10 +23,11 @@ namespace WPF.AppUI
 			services.AddSingleton<HomeViewModel>();
 
 			// Settings
-			services.AddTransient<EditDrivesView>();
-			services.AddTransient<EditDrivesViewModel>(); // force reload
 
 			// Edit Drives
+			services.AddTransient<EditDrivesView>();
+			services.AddTransient<EditDrivesViewModel>(); // force reload
+			services.AddSingleton<EditDrivesAvailableDriveLetterManager>();
 
 			return services;
 		}

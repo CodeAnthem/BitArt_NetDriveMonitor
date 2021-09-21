@@ -9,17 +9,49 @@
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DataContext="{d:DesignInstance Type=local:HeaderViewModel}"
-	d:DesignHeight="450" d:DesignWidth="800"
+	d:DesignHeight="450"
+	d:DesignWidth="800"
 	mc:Ignorable="d">
 	<Grid>
 
 		<materialDesign:Card Margin="0,16,0,8">
 			<DockPanel VerticalAlignment="Center">
-				<StackPanel DockPanel.Dock="Left">
-					<TextBlock Foreground="{DynamicResource MahApps.Brushes.Accent}" Style="{DynamicResource MaterialDesignHeadline4TextBlock}" Text="{Binding HeaderTitle}" />
-					<TextBlock Style="{DynamicResource MaterialDesignSubtitle1TextBlock}" Text="{Binding HeaderSubTitle}" />
+				<StackPanel
+					DockPanel.Dock="Left"
+					Style="{DynamicResource HeaderStyle}">
+					<TextBlock Text="{Binding HeaderTitle}">
+						<TextBlock.Resources>
+							<Style x:Name="HeaderStyle"
+								BasedOn="{StaticResource MaterialDesignHeadline4TextBlock}"
+								TargetType="{x:Type TextBlock}">
+
+								<Setter Property="Foreground">
+									<Setter.Value>
+										<!--<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+											<GradientStop Offset="0.0" Color="Yellow" />
+											<GradientStop Offset="0.25" Color="Red" />
+											<GradientStop Offset="0.75" Color="Blue" />
+											<GradientStop Offset="1.0" Color="LimeGreen" />
+										</LinearGradientBrush>-->
+
+										<LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+											<LinearGradientBrush.GradientStops>
+												<GradientStop Offset="0.0" Color="{DynamicResource MahApps.Colors.Accent}" />
+												<GradientStop Offset="1.0" Color="{DynamicResource MahApps.Colors.IdealForeground}" />
+											</LinearGradientBrush.GradientStops>
+										</LinearGradientBrush>
+									</Setter.Value>
+								</Setter>
+							</Style>
+						</TextBlock.Resources>
+					</TextBlock>
+					<TextBlock Text="{Binding HeaderSubTitle}"
+						Style="{DynamicResource MaterialDesignSubtitle1TextBlock}" />
 				</StackPanel>
-				<StackPanel Margin="4,0" HorizontalAlignment="Right" Orientation="Horizontal">
+				<StackPanel
+					Margin="4,0"
+					HorizontalAlignment="Right"
+					Orientation="Horizontal">
 					<StackPanel VerticalAlignment="Center">
 
 						<StackPanel.Resources />
@@ -36,7 +68,10 @@
 
 						<DockPanel>
 							<DockPanel.Resources>
-								<Style x:Key="DarkLightToggleStyle" BasedOn="{StaticResource MaterialDesignActionToggleButton}" TargetType="ToggleButton">
+								<Style
+									x:Key="DarkLightToggleStyle"
+									BasedOn="{StaticResource MaterialDesignActionToggleButton}"
+									TargetType="ToggleButton">
 									<Setter Property="Foreground" Value="Black" />
 									<Style.Triggers>
 										<Trigger x:Name="DarkLightToggleTrueTrigger" Property="IsChecked" Value="True">
@@ -45,11 +80,15 @@
 									</Style.Triggers>
 								</Style>
 
-								<Style x:Key="DarkLightTextStyle" TargetType="TextBlock">
+								<Style
+									x:Key="DarkLightTextStyle"
+									TargetType="TextBlock">
 									<Setter Property="Text" Value="Get Dark &gt;" />
 									<!--<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForeground}" />-->
 									<Style.Triggers>
-										<DataTrigger Binding="{Binding ElementName=LightDarkToggleButton, Path=IsChecked}" Value="True">
+										<DataTrigger
+											Binding="{Binding ElementName=LightDarkToggleButton, Path=IsChecked}"
+											Value="True">
 											<Setter Property="Text" Value="Get Light &gt;" />
 										</DataTrigger>
 									</Style.Triggers>
@@ -68,7 +107,8 @@
 								ToolTip="Toggle Theme" />
 
 							<TextBlock x:Name="LightDarkToggleText"
-								Padding="4" VerticalAlignment="Center"
+								Padding="4"
+								VerticalAlignment="Center"
 								Style="{DynamicResource DarkLightTextStyle}" />
 
 						</DockPanel>
@@ -76,7 +116,8 @@
 
 					</StackPanel>
 					<Image
-						Width="80" Height="80"
+						Width="80"
+						Height="80"
 						Source="/Resources/Assets/Logo/Logo.png"
 						Stretch="Fill" />
 				</StackPanel>

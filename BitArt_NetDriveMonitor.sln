@@ -42,6 +42,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{303EC9E0-9
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BitArt_WindowsHelpers", "..\averon420\BitArt_MyHelpers_Shared\BitArt_WindowsHelpers\BitArt_WindowsHelpers.shproj", "{1E726A61-E6C0-4399-952A-46D95E34A1EE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MaterialDesign", "MaterialDesign", "{3E932E0C-8AD3-4EE9-8BA7-76F0D42B404E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\averon420\BitArt_MyHelpers_Shared\BitArt_WindowsHelpers\BitArt_WindowsHelpers.projitems*{1e726a61-e6c0-4399-952a-46d95e34a1ee}*SharedItemsImports = 13
@@ -106,6 +108,7 @@ Global
 		{69C2C63E-8970-4DEB-90D7-8F4C1E2A0CD7} = {650F1EA3-6864-48B9-81BE-8636C8C1EC88}
 		{303EC9E0-9136-47EB-B899-909FF064B028} = {5E3D6BA0-CD93-4541-B51E-30DB73AB6C24}
 		{1E726A61-E6C0-4399-952A-46D95E34A1EE} = {623EEF13-C36D-4083-9BBB-02374F89D428}
+		{3E932E0C-8AD3-4EE9-8BA7-76F0D42B404E} = {E0605F78-F3CD-4FEE-A50D-BA3074D5989D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8971A2B6-0669-4408-9271-392B1F23495E}

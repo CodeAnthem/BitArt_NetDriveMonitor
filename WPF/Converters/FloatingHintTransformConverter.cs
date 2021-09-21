@@ -5,11 +5,11 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace MaterialDesignThemes.Wpf.Converters
+namespace WPF.Converters
 {
-	internal class FloatingHintTransformConverter : IMultiValueConverter
+	public class FloatingHintTransformConverter : IMultiValueConverter
 	{
-		public object? Convert(object?[]? values, Type targetType, object? parameter, CultureInfo culture)
+		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (values == null
 				|| values.Length != 4
@@ -38,7 +38,7 @@ namespace MaterialDesignThemes.Wpf.Converters
 			return transformGroup;
 		}
 
-		public object?[]? ConvertBack(object? value, Type[] targetTypes, object? parameter, CultureInfo culture)
+		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
 			=> throw new NotImplementedException();
 	}
 }

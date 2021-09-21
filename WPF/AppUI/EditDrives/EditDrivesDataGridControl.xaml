@@ -1,0 +1,786 @@
+﻿<UserControl
+	x:Class="WPF.AppUI.EditDrives.EditDrivesDataGridControl"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:WPF.AppUI.EditDrives"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:validation="clr-namespace:WPF.AppUI.Validation"
+	xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
+	Name="Root"
+	d:DesignHeight="450"
+	d:DesignWidth="800"
+	mc:Ignorable="d">
+
+	<Grid>
+		<Grid.Resources>
+			<ResourceDictionary>
+				<ResourceDictionary.MergedDictionaries>
+					<ResourceDictionary Source="/Styles/MyDataGrid.xaml" />
+					<ResourceDictionary Source="/Styles/MyDataGridElements.xaml" />
+				</ResourceDictionary.MergedDictionaries>
+				<!--<ResourceDictionary
+					x:Name="DataGridInAnimation">
+					-->
+				<!--<DoubleAnimation
+						DecelerationRatio="1"
+						SpeedRatio="0.1"
+						Storyboard.TargetProperty="RenderTransform.(TranslateTransform.X)"
+						From="-1000"
+						To="0"
+						Duration="00:00:0.3" />-->
+				<!--
+				</ResourceDictionary>-->
+				<!--<Style
+					BasedOn="{StaticResource MahApps.Styles.DataGridCell}"
+					TargetType="DataGridCell">
+					<Setter Property="Margin" Value="0" />
+					<Setter Property="HorizontalAlignment" Value="Stretch" />
+					<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+					<Setter Property="VerticalAlignment" Value="Stretch" />
+					<Setter Property="Background" Value="Red" />
+					<Setter Property="VerticalContentAlignment" Value="Stretch" />
+				</Style>-->
+			</ResourceDictionary>
+		</Grid.Resources>
+
+		<DataGrid x:Name="NetDriveDataGrid"
+			ItemsSource="{Binding RowItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+			SelectedItem="{Binding SelectedRow}">
+
+			<DataGrid.Style>
+				<Style
+					BasedOn="{StaticResource MahApps.Styles.DataGrid.Azure}"
+					TargetType="DataGrid">
+					<Setter Property="Width" Value="auto" />
+					<Setter Property="AutoGenerateColumns" Value="False" />
+					<Setter Property="HorizontalAlignment" Value="Stretch" />
+					<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+					<Setter Property="CanUserAddRows" Value="False" />
+					<Setter Property="CanUserDeleteRows" Value="False" />
+					<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Menu.Background}" />
+					<Setter Property="FontSize" Value="15" />
+					<!--<Setter Property="CellStyle" Value="{StaticResource MyGridCellStyle}" />-->
+					<Setter Property="GridLinesVisibility" Value="Horizontal" />
+					<Setter Property="SelectionMode" Value="Single" />
+					<Setter Property="SelectionUnit" Value="FullRow" />
+					<!--<Setter Property="RowStyleSelector" Value="{StaticResource HamburgerMenuItemOptionsStyleSelector}" />-->
+					<Setter Property="IsReadOnly" Value="False" />
+				</Style>
+			</DataGrid.Style>
+
+			<DataGrid.RowStyle>
+				<Style
+					BasedOn="{StaticResource MahApps.Styles.DataGridRow}"
+					TargetType="{x:Type DataGridRow}">
+					<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Idealforeground}" />
+					<Style.Triggers>
+						<Trigger Property="IsSelected" Value="True">
+							<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent3}" />
+							<Setter Property="Opacity" Value="0.8" />
+						</Trigger>
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent4}" />
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</DataGrid.RowStyle>
+
+
+			<DataGrid.Columns>
+
+				<!--  Delete Column  -->
+				<DataGridTemplateColumn
+					Width="80"
+					CanUserReorder="False"
+					CanUserResize="False"
+					Header="Delete"
+					HeaderStyle="{StaticResource MyGridFixedHeaderStyle}">
+					<DataGridTemplateColumn.CellStyle>
+						<Style
+							BasedOn="{StaticResource MyGridFlyInCell}"
+							TargetType="DataGridCell">
+							<Setter Property="RenderTransform">
+								<Setter.Value>
+									<TranslateTransform X="-3000" Y="0" />
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</DataGridTemplateColumn.CellStyle>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<DataTemplate.Resources>
+								<Style
+									BasedOn="{StaticResource MahApps.Styles.Button.Circle}"
+									TargetType="Button">
+									<Setter Property="Width" Value="40" />
+									<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Menu.Background}" />
+									<Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Accent3}" />
+									<!--<Setter Property="BorderBrush" Value="White" />-->
+									<Setter Property="Command" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.DeleteDriveCommand}" />
+									<Setter Property="Padding" Value="4" />
+									<Setter Property="ToolTip" Value="Delete this drive" />
+									<Setter Property="BorderThickness" Value="1.5" />
+									<Setter Property="BorderBrush" Value="DarkRed" />
+									<Setter Property="Opacity" Value="0.9" />
+
+									<Setter Property="Effect">
+										<Setter.Value>
+											<BlurEffect
+												KernelType="Box"
+												Radius="0.9" />
+										</Setter.Value>
+									</Setter>
+									<Style.Triggers>
+										<Trigger Property="IsMouseOver" Value="True">
+											<Setter Property="BorderThickness" Value="2" />
+											<Setter Property="Padding" Value="0" />
+											<Setter Property="ClickMode" Value="Release" />
+											<Setter Property="Cursor" Value="Hand" />
+											<Setter Property="Opacity" Value="1" />
+											<Setter Property="Effect">
+												<Setter.Value>
+													<BlurEffect
+														KernelType="Box"
+														Radius="0" />
+												</Setter.Value>
+											</Setter>
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+								<Style TargetType="Border">
+									<Setter Property="OverridesDefaultStyle" Value="False" />
+									<Setter Property="Effect">
+										<Setter.Value>
+											<BlurEffect
+												KernelType="Gaussian"
+												Radius="5" />
+										</Setter.Value>
+									</Setter>
+								</Style>
+								<Style TargetType="Image">
+									<Setter Property="Source" Value="/Resources/Assets/Icons/red-cross.png" />
+									<Setter Property="Effect" Value="{StaticResource DropShadowBrush}" />
+									<Setter Property="Margin" Value="4,6,6,0" />
+								</Style>
+							</DataTemplate.Resources>
+							<Button>
+								<Image />
+							</Button>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+
+				<!--  Letter Column  -->
+				<DataGridTemplateColumn
+					Width="130"
+					CanUserResize="False"
+					CanUserSort="True"
+					Header="Letter"
+					HeaderStyle="{StaticResource MyGridHeaderStyle}"
+					SortDirection="{x:Null}"
+					SortMemberPath="Drive.Info.Letter">
+					<DataGridTemplateColumn.CellStyle>
+						<Style
+							BasedOn="{StaticResource MyGridFlyInCell}"
+							TargetType="DataGridCell">
+							<Setter Property="Height" Value="Auto" />
+							<Setter Property="OverridesDefaultStyle" Value="False" />
+							<Setter Property="Focusable" Value="False" />
+							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+							<Setter Property="HorizontalAlignment" Value="Stretch" />
+							<Setter Property="VerticalAlignment" Value="Stretch" />
+							<Setter Property="VerticalContentAlignment" Value="Stretch" />
+							<Setter Property="Background" Value="Transparent" />
+							<Setter Property="Padding" Value="0" />
+							<Setter Property="Margin" Value="0" />
+							<Setter Property="RenderTransform">
+								<Setter.Value>
+									<TranslateTransform X="-2500" Y="0" />
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</DataGridTemplateColumn.CellStyle>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<DataTemplate.Resources>
+								<Style
+									BasedOn="{StaticResource MaterialDesignComboBox}"
+									TargetType="ComboBox">
+									<Setter Property="OverridesDefaultStyle" Value="True" />
+									<Setter Property="IsEditable" Value="False" />
+									<Setter Property="Height" Value="40" />
+									<Setter Property="Margin" Value="0" />
+									<Setter Property="Padding" Value="0" />
+									<Setter Property="Cursor" Value="Hand" />
+									<Setter Property="HorizontalAlignment" Value="Stretch" />
+									<Setter Property="HorizontalContentAlignment" Value="Center" />
+									<Setter Property="VerticalContentAlignment" Value="Center" />
+									<Setter Property="VerticalAlignment" Value="Stretch" />
+									<Setter Property="FlowDirection" Value="LeftToRight" />
+									<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+									<Setter Property="wpf:TransitionAssist.DisableTransitions" Value="True" />
+									<Setter Property="wpf:TextFieldAssist.NewSpecHighlightingEnabled" Value="True" />
+									<Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="{DynamicResource MahApps.Brushes.Accent}" />
+									<Setter Property="wpf:TextFieldAssist.TextFieldCornerRadius" Value="5" />
+									<Setter Property="wpf:HintAssist.FloatingScale" Value="0.5" />
+									<Setter Property="wpf:ComboBoxAssist.ClassicMode" Value="True" />
+									<Setter Property="wpf:ComboBoxAssist.ShowSelectedItem" Value="False" />
+									<Setter Property="ToolTip" Value="Choose drive letter" />
+									<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+									<Style.Triggers>
+										<Trigger Property="IsKeyboardFocused" Value="True">
+											<Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="{DynamicResource MahApps.Brushes.Accent3}" />
+										</Trigger>
+										<Trigger Property="IsMouseOver" Value="True">
+											<Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
+											<Setter Property="FontSize" Value="18" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+								<Style
+									x:Key="MyComboBoxItemStyle"
+									BasedOn="{StaticResource MahApps.Styles.ComboBoxItem}"
+									TargetType="{x:Type ComboBoxItem}">
+									<Setter Property="HorizontalAlignment" Value="Stretch" />
+									<Setter Property="HorizontalContentAlignment" Value="Center" />
+									<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForeground}" />
+									<Setter Property="Effect">
+										<Setter.Value>
+											<DropShadowEffect
+												BlurRadius="5"
+												Direction="0"
+												Opacity="1"
+												RenderingBias="Quality"
+												ShadowDepth="0.5"
+												Color="{DynamicResource MahApps.Colors.IdealForeground}" />
+										</Setter.Value>
+									</Setter>
+									<Style.Triggers>
+										<Trigger Property="IsHighlighted" Value="True">
+											<Setter Property="FontSize" Value="22" />
+											<Setter Property="FontStretch" Value="UltraExpanded" />
+											<Setter Property="FontWeight" Value="Black" />
+											<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent3}" />
+										</Trigger>
+										<Trigger Property="IsSelected" Value="True">
+											<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+							</DataTemplate.Resources>
+							<Border
+								Margin="0"
+								Padding="0"
+								BorderBrush="Transparent"
+								BorderThickness="1">
+								<Border.Effect>
+									<DropShadowEffect
+										BlurRadius="10"
+										Direction="0"
+										Opacity="1.0"
+										ShadowDepth="2"
+										Color="{DynamicResource MahApps.Colors.ThemeForeground}" />
+								</Border.Effect>
+								<ComboBox
+									ItemContainerStyle="{StaticResource MyComboBoxItemStyle}"
+									ItemsSource="{Binding AvailableLetters, UpdateSourceTrigger=LostFocus}"
+									SelectedItem="{Binding Drive.Info.Letter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+									SelectionChanged="RowLetterComboBox_SelectionChanged" />
+							</Border>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+
+				<!--  Host Column  -->
+				<DataGridTemplateColumn
+					Width="*"
+					CanUserResize="False"
+					Header="IP or Address"
+					HeaderStyle="{StaticResource MyGridHeaderStyle}"
+					SortMemberPath="Drive.Info.HostName">
+					<DataGridTemplateColumn.CellStyle>
+						<Style
+							BasedOn="{StaticResource MyGridFlyInCell}"
+							TargetType="DataGridCell">
+							<Setter Property="Focusable" Value="False" />
+							<Setter Property="VerticalContentAlignment" Value="Stretch" />
+							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+							<Setter Property="RenderTransform">
+								<Setter.Value>
+									<TranslateTransform X="-2000" Y="0" />
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</DataGridTemplateColumn.CellStyle>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<DataTemplate.Resources>
+								<Style
+									BasedOn="{StaticResource MahApps.MaterialDesignTextBox}"
+									TargetType="TextBox">
+									<Setter Property="HorizontalContentAlignment" Value="Center" />
+									<Setter Property="HorizontalAlignment" Value="Stretch" />
+									<Setter Property="VerticalContentAlignment" Value="Center" />
+									<Setter Property="VerticalAlignment" Value="Stretch" />
+									<Setter Property="wpf:HintAssist.FloatingOffset" Value="1,0.5" />
+									<Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="White" />
+									<Setter Property="BorderThickness" Value="1" />
+									<Setter Property="BorderBrush" Value="Transparent" />
+									<Style.Triggers>
+										<Trigger Property="IsKeyboardFocused" Value="True">
+											<Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="{DynamicResource MahApps.Brushes.Accent3}" />
+										</Trigger>
+										<Trigger Property="IsMouseOver" Value="True">
+											<Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
+											<Setter Property="FontSize" Value="18" />
+											<Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Accent}" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+							</DataTemplate.Resources>
+							<Border
+								Margin="0"
+								Padding="0"
+								BorderBrush="Transparent"
+								BorderThickness="1">
+								<Border.Effect>
+									<DropShadowEffect
+										BlurRadius="10"
+										Direction="0"
+										Opacity="1.0"
+										ShadowDepth="2"
+										Color="{DynamicResource MahApps.Colors.ThemeForeground}" />
+								</Border.Effect>
+								<TextBox Text="{Binding Drive.Info.HostName}"
+									Padding="5,0" />
+							</Border>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+
+				<!--  Share Column  -->
+				<DataGridTemplateColumn
+					Width="*"
+					CanUserResize="False"
+					Header="Share"
+					HeaderStyle="{StaticResource MyGridHeaderStyle}"
+					SortMemberPath="Drive.Info.Share">
+					<DataGridTemplateColumn.CellStyle>
+						<Style
+							BasedOn="{StaticResource MyGridFlyInCell}"
+							TargetType="DataGridCell">
+							<Setter Property="Focusable" Value="False" />
+							<Setter Property="VerticalContentAlignment" Value="Stretch" />
+							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+							<Setter Property="RenderTransform">
+								<Setter.Value>
+									<TranslateTransform X="-2000" Y="0" />
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</DataGridTemplateColumn.CellStyle>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<DataTemplate.Resources>
+								<Style
+									BasedOn="{StaticResource MahApps.MaterialDesignTextBox}"
+									TargetType="TextBox">
+									<Setter Property="HorizontalContentAlignment" Value="Center" />
+									<Setter Property="HorizontalAlignment" Value="Stretch" />
+									<Setter Property="VerticalContentAlignment" Value="Center" />
+									<Setter Property="VerticalAlignment" Value="Stretch" />
+									<Setter Property="wpf:HintAssist.FloatingOffset" Value="1,0.5" />
+									<Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="White" />
+									<Setter Property="BorderThickness" Value="1" />
+									<Setter Property="BorderBrush" Value="Transparent" />
+									<Style.Triggers>
+										<Trigger Property="IsKeyboardFocused" Value="True">
+											<Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="{DynamicResource MahApps.Brushes.Accent3}" />
+										</Trigger>
+										<Trigger Property="IsMouseOver" Value="True">
+											<Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}" />
+											<Setter Property="FontSize" Value="18" />
+											<Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Accent}" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+							</DataTemplate.Resources>
+							<Border
+								Margin="0"
+								Padding="0"
+								BorderBrush="Transparent"
+								BorderThickness="1">
+								<Border.Effect>
+									<DropShadowEffect
+										BlurRadius="10"
+										Direction="0"
+										Opacity="1.0"
+										ShadowDepth="2"
+										Color="{DynamicResource MahApps.Colors.ThemeForeground}" />
+								</Border.Effect>
+								<TextBox Text="{Binding Drive.Info.Share}"
+									Padding="5,0" />
+							</Border>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+
+				<!--  Auto:IfAvailable Column  -->
+				<DataGridTemplateColumn
+					Width="auto"
+					CanUserResize="False"
+					Header="Auto: If available"
+					HeaderStyle="{StaticResource MyGridHeaderStyle}"
+					SortMemberPath="Drive.Options.AutoConnectIfAvailable">
+					<DataGridTemplateColumn.CellStyle>
+						<Style
+							BasedOn="{StaticResource MyGridFlyInCell}"
+							TargetType="DataGridCell">
+							<Setter Property="Focusable" Value="False" />
+							<Setter Property="HorizontalContentAlignment" Value="Center" />
+							<Setter Property="RenderTransform">
+								<Setter.Value>
+									<TranslateTransform X="-1500" Y="0" />
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</DataGridTemplateColumn.CellStyle>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<DataTemplate.Resources>
+								<Style
+									BasedOn="{StaticResource MaterialDesignAccentCheckBox}"
+									TargetType="CheckBox">
+									<Setter Property="Focusable" Value="True" />
+									<Setter Property="wpf:CheckBoxAssist.CheckBoxSize" Value="30" />
+									<Setter Property="HorizontalAlignment" Value="Stretch" />
+									<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+									<Setter Property="VerticalAlignment" Value="Stretch" />
+									<Setter Property="VerticalContentAlignment" Value="Stretch" />
+									<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+									<Style.Triggers>
+										<Trigger Property="IsMouseOver" Value="True">
+											<Setter Property="wpf:CheckBoxAssist.CheckBoxSize" Value="35" />
+											<Setter Property="Opacity" Value="1.0" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+							</DataTemplate.Resources>
+							<Border
+								Margin="0"
+								Padding="0"
+								BorderBrush="Transparent"
+								BorderThickness="1">
+								<Border.Effect>
+									<DropShadowEffect
+										BlurRadius="10"
+										Direction="0"
+										Opacity="1.0"
+										ShadowDepth="2"
+										Color="{DynamicResource MahApps.Colors.ThemeForeground}" />
+								</Border.Effect>
+								<CheckBox IsChecked="{Binding Drive.Options.AutoConnectIfAvailable}" />
+							</Border>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+
+				<!--  Auto:LANonly Column  -->
+				<DataGridTemplateColumn
+					Width="auto"
+					CanUserResize="False"
+					Header="Auto: LAN only"
+					HeaderStyle="{StaticResource MyGridHeaderStyle}"
+					SortMemberPath="Drive.Options.AutoConnectLanOnly">
+					<DataGridTemplateColumn.CellStyle>
+						<Style
+							BasedOn="{StaticResource MyGridFlyInCell}"
+							TargetType="DataGridCell">
+							<Setter Property="Focusable" Value="False" />
+							<Setter Property="HorizontalContentAlignment" Value="Center" />
+							<Setter Property="RenderTransform">
+								<Setter.Value>
+									<TranslateTransform X="-1000" Y="0" />
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</DataGridTemplateColumn.CellStyle>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<DataTemplate.Resources>
+								<Style
+									BasedOn="{StaticResource MaterialDesignAccentCheckBox}"
+									TargetType="CheckBox">
+									<Setter Property="Focusable" Value="True" />
+									<Setter Property="wpf:CheckBoxAssist.CheckBoxSize" Value="30" />
+									<Setter Property="HorizontalAlignment" Value="Stretch" />
+									<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+									<Setter Property="VerticalAlignment" Value="Stretch" />
+									<Setter Property="VerticalContentAlignment" Value="Stretch" />
+									<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+									<Style.Triggers>
+										<Trigger Property="IsMouseOver" Value="True">
+											<Setter Property="wpf:CheckBoxAssist.CheckBoxSize" Value="35" />
+											<Setter Property="Opacity" Value="1.0" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+							</DataTemplate.Resources>
+							<Border
+								Margin="0"
+								Padding="0"
+								BorderBrush="Transparent"
+								BorderThickness="1">
+								<Border.Effect>
+									<DropShadowEffect
+										BlurRadius="10"
+										Direction="0"
+										Opacity="1.0"
+										ShadowDepth="2"
+										Color="{DynamicResource MahApps.Colors.ThemeForeground}" />
+								</Border.Effect>
+								<CheckBox IsChecked="{Binding Drive.Options.AutoConnectLanOnly}" />
+							</Border>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+
+				<!--<Style TargetType="{x:Type TextBox}">
+										<Setter Property="BitmapEffect">
+											<Setter.Value>
+												<OuterGlowBitmapEffect
+													GlowColor="Red"
+													GlowSize="0" />
+											</Setter.Value>
+										</Setter>
+										<Style.Triggers>
+											<EventTrigger RoutedEvent="TextBox.GotFocus">
+												<BeginStoryboard>
+													<Storyboard>
+														<DoubleAnimation
+															Storyboard.TargetProperty="(UIElement.BitmapEffect).(OuterGlowBitmapEffect.GlowSize)"
+															To="8"
+															Duration="0:0:0.5" />
+													</Storyboard>
+												</BeginStoryboard>
+											</EventTrigger>
+
+										</Style.Triggers>
+									</Style>-->
+
+				<!--<Style
+										x:Key="MyLetterComboBox"
+										BasedOn="{StaticResource MaterialDesignOutlinedComboBox}"
+										TargetType="ComboBox">
+										<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Menu.Background}" />
+										<Setter Property="HorizontalAlignment" Value="Center" />
+										<Setter Property="HorizontalContentAlignment" Value="Center" />
+										<Setter Property="VerticalAlignment" Value="Center" />
+										<Setter Property="VerticalContentAlignment" Value="Center" />
+										<Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Accent}" />
+
+										<Setter Property="Foreground">
+											<Setter.Value>
+												<LinearGradientBrush StartPoint="0.0,0" EndPoint="1.0,1">
+													<LinearGradientBrush.GradientStops>
+														<GradientStop Offset="0.2" Color="{DynamicResource MahApps.Colors.Accent}" />
+														<GradientStop Offset="0.8" Color="{DynamicResource MahApps.Colors.IdealForeground}" />
+													</LinearGradientBrush.GradientStops>
+												</LinearGradientBrush>
+											</Setter.Value>
+										</Setter>
+										<Style.Triggers>
+											<Trigger Property="IsMouseOver" Value="True">
+												<Setter Property="FontSize" Value="20" />
+												<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Accent}" />
+												<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Menu.Background}" />
+												<Setter Property="FocusManager.FocusedElement" Value="{Binding ElementName=RowLetterComboBox}" />
+											</Trigger>
+
+										</Style.Triggers>
+
+									</Style>-->
+				<!--<Setter Property="Effect">
+											<Setter.Value>
+												<DropShadowEffect
+													BlurRadius="2"
+													ShadowDepth="2"
+													Color="Red" />
+											</Setter.Value>
+										</Setter>-->
+
+				<!--<EventTrigger RoutedEvent="TextBox.GotFocus">
+												<BeginStoryboard>
+													<Storyboard>
+														<DoubleAnimation
+															Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
+															To="8"
+															Duration="0:0:0.5" />
+													</Storyboard>
+												</BeginStoryboard>
+											</EventTrigger>-->
+
+
+
+				<!--<Trigger Property="IsSelected" Value="True">
+												<Setter
+													Property="ItemTemplate">
+
+													<Setter.Value >
+														<ControlTemplate
+															TargetType="ComboBoxItem">
+															<ControlTemplate.Triggers>
+															<Trigger Property="Sele"
+															</ControlTemplate.Triggers>
+															</ControlTemplate>
+													</Setter.Value>
+													</Setter>
+												<Setter Property="Background" Value="Red" />
+												<Setter Property="BorderBrush" Value="Red" />
+											</Trigger>-->
+
+
+
+				<!--<Style
+										BasedOn="{StaticResource MahApps.Styles.ComboBoxItem}"
+										TargetType="{x:Type ComboBoxItem}">
+
+										<Style.Triggers>
+											<Trigger Property="IsSelected" Value="True">
+												<Setter Property="Background" Value="Red" />
+											</Trigger>
+											<Trigger Property="IsMouseOver" Value="True">
+												<Setter Property="Background" Value="AliceBlue" />
+											</Trigger>
+										</Style.Triggers>
+
+										-->
+				<!--<Style.Triggers>
+											<Trigger Property="IsMouseOver" Value="True">
+												<Setter Property="Background" Value="Orange" />
+											</Trigger>
+
+											<Trigger Property="IsSelected" Value="True">
+
+												<Setter Property="Background" Value="Orange" />
+											</Trigger>
+										</Style.Triggers>-->
+				<!--
+
+
+
+										<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForeground}" />
+										<Setter Property="HorizontalAlignment" Value="Stretch" />
+										<Setter Property="HorizontalContentAlignment" Value="Center" />
+										<Setter Property="FocusVisualStyle" Value="{StaticResource DeleteButtonStyle}" />
+									</Style>-->
+
+
+
+
+
+				<!--  ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Path=DataContext.DriveLettersList}"  -->
+				<!--
+
+				<DataGridComboBoxColumn
+					Width="200"
+					DisplayMemberPath="{Binding DriveLettersList}"
+					Header="Letter"
+					SelectedItemBinding="{Binding Info.Letter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+					<DataGridComboBoxColumn.ElementStyle>
+						<Style
+							BasedOn="{StaticResource MahApps.Styles.ComboBox.DataGrid}"
+							TargetType="ComboBox">
+							<Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Path=DataContext.DriveLettersList}" />
+						</Style>
+					</DataGridComboBoxColumn.ElementStyle>
+					<DataGridComboBoxColumn.EditingElementStyle>
+						<Style
+							BasedOn="{StaticResource MahApps.Styles.ComboBox.DataGrid.Editing}"
+							TargetType="ComboBox">
+							<Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Path=DataContext.DriveLettersList}" />
+						</Style>
+					</DataGridComboBoxColumn.EditingElementStyle>
+				</DataGridComboBoxColumn>
+
+				<DataGridTextColumn
+					Width="100"
+					Binding="{Binding Drive.Info.Letter}"
+					CanUserReorder="False"
+					CanUserResize="False"
+					Header="Letter" />
+				<wpf:DataGridTextColumn
+					Width="*"
+					Binding="{Binding Drive.Info.HostName}"
+					EditingElementStyle="{StaticResource MyGridCellTextBoxStyle}"
+					Header="Server"
+					MaxLength="50" />
+
+				<DataGridTemplateColumn
+					CanUserReorder="False"
+					CanUserSort="True"
+					Header="IP || Address"
+					SortDirection="Ascending"
+					SortMemberPath="Drive.Info.Letter">
+
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+
+							<Grid
+								Height="auto"
+								Margin="10,20"
+								Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="*" />
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+
+								<TextBox
+									Grid.Row="0"
+									Width="200"
+									Height="auto"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center"
+									HorizontalContentAlignment="Left"
+									VerticalContentAlignment="Center"
+									wpf:HintAssist.HelperText="OK"
+									wpf:HintAssist.Hint="Hostname"
+									wpf:HintAssist.IsFloating="False"
+									wpf:TextFieldAssist.DecorationVisibility="Visible"
+									wpf:TextFieldAssist.HasClearButton="True"
+									wpf:TextFieldAssist.HasFilledTextField="True"
+									wpf:TextFieldAssist.RippleOnFocusEnabled="False"
+									wpf:TextFieldAssist.TextBoxViewMargin="0,0"
+									wpf:TextFieldAssist.UnderlineBrush="White"
+									MaxLength="50"
+									Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+									<TextBox.Resources>
+										<Style
+											x:Key="MySmartHintStyle2"
+											TargetType="TextBlock">
+											<Setter Property="FontSize" Value="20" />
+										</Style>
+									</TextBox.Resources>
+
+									<TextBox.Text>
+										<Binding
+											Path="Drive.Info.HostName"
+											UpdateSourceTrigger="PropertyChanged">
+											<Binding.ValidationRules>
+												<validation:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+											</Binding.ValidationRules>
+										</Binding>
+									</TextBox.Text>
+								</TextBox>
+							</Grid>
+
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>-->
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
+</UserControl>

@@ -5,6 +5,7 @@ using Serilog;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace NetDriveManager.Monitor.components.dataAccess
 {
@@ -33,7 +34,9 @@ namespace NetDriveManager.Monitor.components.dataAccess
 
 		public List<INetDrive> GetDrives0RNull()
 		{
-			if (_jsonFile.Exists)
+			//if (_jsonFile.Exists) // causes bugs by not refreshing
+			if (File.Exists(_jsonFile.FullName))
+
 			{
 				string jsonString = System.IO.File.ReadAllText(_jsonFile.FullName);
 				var list = JsonConvert.DeserializeObject<List<INetDrive>>(jsonString, new NetDriveConverter());
@@ -47,21 +50,23 @@ namespace NetDriveManager.Monitor.components.dataAccess
 
 		public bool SaveDrives(List<INetDrive> netdrivesList)
 		{
-			var anyDrives = netdrivesList.Count > 0;
-			if (anyDrives)
+			if (!netdrivesList.Any())
 			{
-				if (!Directory.Exists(_jsonFile.DirectoryName))
-				{
-					Directory.CreateDirectory(_jsonFile.DirectoryName);
-				}
-
-				string jsonString = JsonConvert.SerializeObject(netdrivesList, Formatting.Indented);
-				File.WriteAllText(_jsonFile.FullName, jsonString);
-				Log.Information("Successfully saved {amount} drives to JSON file", netdrivesList.Count);
+				if (File.Exists(_jsonFile.FullName))
+					File.Delete(_jsonFile.FullName);
+				Log.Information("Successfully deleted the JSON file, because 0 drives");
 				return true;
 			}
-			Log.Warning("Saving failed, no data?");
-			return false;
+
+			if (!Directory.Exists(_jsonFile.DirectoryName))
+			{
+				Directory.CreateDirectory(_jsonFile.DirectoryName);
+			}
+
+			string jsonString = JsonConvert.SerializeObject(netdrivesList, Formatting.Indented);
+			File.WriteAllText(_jsonFile.FullName, jsonString);
+			Log.Information("Successfully saved {amount} drives to JSON file", netdrivesList.Count);
+			return true;
 		}
 
 		#endregion

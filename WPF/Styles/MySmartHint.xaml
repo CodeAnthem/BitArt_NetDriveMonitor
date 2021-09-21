@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:myConverters="clr-namespace:WPF.Converters"
 	xmlns:system="clr-namespace:System;assembly=mscorlib"
 	xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
 
@@ -11,13 +11,15 @@
 		x:Key="InverseBoolToVisConverter"
 		FalseValue="Visible"
 		TrueValue="Collapsed" />
-	<converters:FloatingHintTransformConverter x:Key="FloatingHintTransformConverter" />
+	<myConverters:FloatingHintTransformConverter x:Key="FloatingHintTransformConverter" />
 	<system:Double x:Key="NoContentFloatingScale">1.0</system:Double>
 	<SineEase
 		x:Key="AnimationEasingFunction"
 		EasingMode="EaseOut" />
 
-	<Style TargetType="{x:Type wpf:SmartHint}" x:Key="MySmartHintStyle">
+	<Style
+		x:Key="MySmartHintStyle"
+		TargetType="{x:Type wpf:SmartHint}">
 		<Setter Property="HorizontalAlignment" Value="Left" />
 		<Setter Property="VerticalAlignment" Value="Top" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
