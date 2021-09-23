@@ -27,13 +27,14 @@ namespace WPF.AppUI.EditDrives
 		private string _newDriveHostName;
 		private char _newDriveLetter;
 		private string _newDriveShare;
-		private NetDriveRowItemModel selectedRow;
+		private NetDriveRowItemModel _selectedRow;
+		private EditDrivesAvailableDriveLetterManager _driveLetterManager;
 
 		#endregion
 
 		#region Public Constructors
 
-		public EditDrivesViewModel(INetDriveMonitor core, MainContentStore mainContent, IContentControllerService cc, INetDriveFactory factory)
+		public EditDrivesViewModel(INetDriveMonitor core, MainContentStore mainContent, IContentControllerService cc, INetDriveFactory factory, EditDrivesAvailableDriveLetterManager driveLetterManager)
 		{
 			_core = core;
 			_core.EnabledStatusChanged += OnEnabledStatusChanged;
@@ -41,6 +42,7 @@ namespace WPF.AppUI.EditDrives
 			_mainContent = mainContent;
 			_cc = cc;
 			_factory = factory;
+			_driveLetterManager = driveLetterManager;
 
 			NavigateCancelCommand = new RelayCommand(NavigateBack);
 			NavigateSaveCommand = new RelayCommand(Save);
@@ -68,11 +70,11 @@ namespace WPF.AppUI.EditDrives
 
 		public NetDriveRowItemModel SelectedRow
 		{
-			get { return selectedRow; }
+			get { return _selectedRow; }
 			set
 			{
-				SetProperty(ref selectedRow, value);
-				UpdateLetters();
+				SetProperty(ref _selectedRow, value);
+				_driveLetterManager.UpdateCurrentRow(value);
 			}
 		}
 

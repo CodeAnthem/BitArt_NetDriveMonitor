@@ -1,6 +1,8 @@
 ﻿using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,18 +21,31 @@ namespace WPF.AppUI.EditDrives
 	/// </summary>
 	public partial class EditDrivesDataGridControl : UserControl
 	{
-		public EditDrivesAvailableDriveLetterManager LetterManager { get; set; }
+		public EditDrivesAvailableDriveLetterManager LetterManager { get; set; } = Ioc.Default.GetService<EditDrivesAvailableDriveLetterManager>();
 
 		public EditDrivesDataGridControl()
 		{
-			LetterManager = Ioc.Default.GetService<EditDrivesAvailableDriveLetterManager>();
+			//LetterManager = Ioc.Default.GetService<EditDrivesAvailableDriveLetterManager>();
+
 			InitializeComponent();
+			SubscribeToCollectionSetup();
 		}
 
-		public string Test { get; set; } = "blablabla";
+		private void SubscribeToCollectionSetup()
+		{
+			var sourceCollection = NetDriveDataGrid.ItemsSource as ObservableCollection<NetDriveRowItemModel>;
+			if (sourceCollection == null)
+				return;
+			sourceCollection.CollectionChanged += NetDriveDataGrid_CollectionChanged;
+		}
+
+		private void NetDriveDataGrid_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+		}
 
 		private void RowLetterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			// Update this row letters Update new letters
 		}
 	}
 }

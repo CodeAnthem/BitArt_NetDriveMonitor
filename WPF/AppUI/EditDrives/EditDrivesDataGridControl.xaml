@@ -19,18 +19,6 @@
 					<ResourceDictionary Source="/Styles/MyDataGrid.xaml" />
 					<ResourceDictionary Source="/Styles/MyDataGridElements.xaml" />
 				</ResourceDictionary.MergedDictionaries>
-				<!--<ResourceDictionary
-					x:Name="DataGridInAnimation">
-					-->
-				<!--<DoubleAnimation
-						DecelerationRatio="1"
-						SpeedRatio="0.1"
-						Storyboard.TargetProperty="RenderTransform.(TranslateTransform.X)"
-						From="-1000"
-						To="0"
-						Duration="00:00:0.3" />-->
-				<!--
-				</ResourceDictionary>-->
 				<!--<Style
 					BasedOn="{StaticResource MahApps.Styles.DataGridCell}"
 					TargetType="DataGridCell">
@@ -326,6 +314,7 @@
 									<Setter Property="wpf:HintAssist.FloatingOffset" Value="1,0.5" />
 									<Setter Property="wpf:TextFieldAssist.UnderlineBrush" Value="White" />
 									<Setter Property="BorderThickness" Value="1" />
+									<Setter Property="ToolTip" Value="Enter IP or Hostname" />
 									<Setter Property="BorderBrush" Value="Transparent" />
 									<Style.Triggers>
 										<Trigger Property="IsKeyboardFocused" Value="True">
@@ -458,12 +447,18 @@
 									<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 									<Setter Property="VerticalAlignment" Value="Stretch" />
 									<Setter Property="VerticalContentAlignment" Value="Stretch" />
+									<Setter Property="ToolTip" Value="Auto connect drive if available: Disabled!" />
 									<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.ThemeForeground}" />
 									<Style.Triggers>
 										<Trigger Property="IsMouseOver" Value="True">
 											<Setter Property="wpf:CheckBoxAssist.CheckBoxSize" Value="35" />
 											<Setter Property="Opacity" Value="1.0" />
 										</Trigger>
+										<DataTrigger
+											Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}"
+											Value="True">
+											<Setter Property="ToolTip" Value="Auto connect drive if available: Enabled!" />
+										</DataTrigger>
 									</Style.Triggers>
 								</Style>
 							</DataTemplate.Resources>
@@ -517,6 +512,8 @@
 									<Setter Property="HorizontalAlignment" Value="Stretch" />
 									<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 									<Setter Property="VerticalAlignment" Value="Stretch" />
+									<Setter Property="ToolTip" Value="Auto connect only if same Lan: Disabled!" />
+
 									<Setter Property="VerticalContentAlignment" Value="Stretch" />
 									<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.ThemeForeground}" />
 									<Style.Triggers>
@@ -524,6 +521,11 @@
 											<Setter Property="wpf:CheckBoxAssist.CheckBoxSize" Value="35" />
 											<Setter Property="Opacity" Value="1.0" />
 										</Trigger>
+										<DataTrigger
+											Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}"
+											Value="True">
+											<Setter Property="ToolTip" Value="Auto connect only if same Lan: Enabled!" />
+										</DataTrigger>
 									</Style.Triggers>
 								</Style>
 							</DataTemplate.Resources>
