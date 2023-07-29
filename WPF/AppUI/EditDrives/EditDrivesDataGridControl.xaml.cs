@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF.Main;
 
 namespace WPF.AppUI.EditDrives
 {
@@ -29,6 +30,8 @@ namespace WPF.AppUI.EditDrives
 
 			InitializeComponent();
 			SubscribeToCollectionSetup();
+			EditDrivesViewModel vm = Root.DataContext as EditDrivesViewModel;
+			//vm.SelectedRow.AvailableLetters.
 		}
 
 		private void SubscribeToCollectionSetup()
